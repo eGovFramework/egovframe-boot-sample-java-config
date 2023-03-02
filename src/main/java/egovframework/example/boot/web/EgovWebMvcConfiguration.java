@@ -6,9 +6,12 @@ import java.util.Map;
 import java.util.Properties;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationRenderer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.filter.OrderedCharacterEncodingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -105,5 +108,16 @@ public class EgovWebMvcConfiguration extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     	registry.addResourceHandler("/**").addResourceLocations("/");
     }
+
+	@Bean
+	public FilterRegistrationBean encodingFilterBean() {
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setForceEncoding(true);
+		filter.setEncoding("UTF-8");
+		registrationBean.setFilter(filter);
+		registrationBean.addUrlPatterns("*.do");
+		return registrationBean;
+	}
 
 }
