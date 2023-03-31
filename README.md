@@ -44,7 +44,7 @@ __프로젝트 우클릭 > Run As > Spring Boot App__ 을 통해 구동한다.
 
 ## 변경 사항
 
-### 1. Java Config 변환
+### 1. [Java Config 변환](./Docs/java-config-convert.md)
 
 #### 1) Web.xml -> WebApplicationInitializer 구현체로 변환
 
