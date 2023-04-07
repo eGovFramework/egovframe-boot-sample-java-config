@@ -6,7 +6,7 @@
 ![maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)  
 ![workflow](https://github.com/eGovFramework/egovframe-boot-sample-java-config/actions/workflows/maven.yml/badge.svg)
 
-※ 본 프로젝트는 Spring boot 기반의 기본 게시판 예제 소스 코드입니다.  
+※ 본 프로젝트는 Spring boot 기반의 기본 게시판 CRUD 예제 소스 코드입니다.  
 
 ## 환경 설정
 
