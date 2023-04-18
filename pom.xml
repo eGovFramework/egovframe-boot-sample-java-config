@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>egov</groupId>
 	<artifactId>boot-example</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>1.0.0</version>
 	<name>boot-example</name>
 	<url>http://www.egovframe.go.kr</url>
@@ -60,6 +60,12 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>7.0</version>
+				<scope>provided</scope>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
