@@ -14,14 +14,15 @@
 | 프로그램 명 | 버전 명 |
 | :--------- | :------ |
 | java | 1.8 이상 |
-| maven | 3.8.4 |
+| maven | 3.8.4 ~ 3.8.8 |
 
 ## 프로젝트 실행
 
 ### CLI 구동 방법
 
 ```bash
-mvn spring-boot:run
+mvn clean package spring-boot:repackage
+java -jar target/boot-example-1.0.0.war
 ```
 
 ### IDE 구동 방법
