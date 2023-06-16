@@ -9,11 +9,28 @@ import org.springframework.util.AntPathMatcher;
 import egovframework.example.cmmn.EgovSampleExcepHndlr;
 import egovframework.example.cmmn.EgovSampleOthersExcepHndlr;
 import egovframework.example.cmmn.AopExceptionTransfer;
+
 import org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer;
 import org.egovframe.rte.fdl.cmmn.exception.handler.ExceptionHandler;
 import org.egovframe.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager;
 import org.egovframe.rte.fdl.cmmn.exception.manager.ExceptionHandlerService;
 
+/**
+ * @Class Name : EgovConfigAspect.java
+ * @Description : EgovConfigAspect Class
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2009.03.16           최초생성
+ *
+ * @author 개발프레임웍크 실행환경 개발팀
+ * @since 2009. 03.16
+ * @version 1.0
+ * @see
+ *
+ *  Copyright (C) by MOPAS All right reserved.
+ */
 @Configuration
 @EnableAspectJAutoProxy
 public class EgovConfigAspect {
