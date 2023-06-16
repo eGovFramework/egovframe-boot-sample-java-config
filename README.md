@@ -21,8 +21,7 @@
 ### CLI 구동 방법
 
 ```bash
-mvn clean package spring-boot:repackage
-java -jar target/boot-example-1.0.0.war
+mvn spring-boot:run
 ```
 
 ### IDE 구동 방법
