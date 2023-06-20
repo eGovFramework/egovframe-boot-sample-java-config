@@ -13,7 +13,7 @@
 
 스프링 프레임워크의 시동 방법 중 순수 자바 클래스만을 이용하여 시동 할 수 있는 방법은 아래와 같다.
 
-1. `javax.servlet.ServletContainerInitializer` 인터페이스를 구현한 클래스 만들고 
+1. `javax.servlet.ServletContainerInitializer` 인터페이스를 구현한 클래스 만들고
 2. 구현체의 클래스 이름을 `/META-INF/services/javax.servlet.ServletContainerInitializer` 에 준다.
 3. 이 구현 클래스에 WAS 시작 시 실행 될 클래스를 `@HandlesTypes` 어노테이션으로 달아준다.
 
@@ -36,10 +36,10 @@ package org.springframework.web;
 
 @HandlesTypes(WebApplicationInitializer.class)
 public class SpringServletContainerInitializer implements ServletContainerInitializer {
-    
+
     @Override
 	public void onStartup(Set<Class<?>> webAppInitializerClasses, ServletContext servletContext) throws ServletException {
-        
+
 		List<WebApplicationInitializer> initializers = new inkedList<WebApplicationInitializer>();
 		...
 		for (WebApplicationInitializer initializer : initializers) {
@@ -54,7 +54,7 @@ public class SpringServletContainerInitializer implements ServletContainerInitia
 
 WAS가 시작될 때 `org.springframework.web.WebApplicationInitializer` 인터페이스를 구현한 각 클래스들의 `onStartup()` 메소드가 실행되어 초기화 작업이 진행된다.
 
-이 인터페이스를 구현한 클래스를 만들어두면 웹 어플리케이션이 시작할 때 자동으로 `onStartup()` 메서드가 실행된다.
+이 인터페이스를 구현한 클래스를 만들어두면 웹 애플리케이션이 시작할 때 자동으로 `onStartup()` 메서드가 실행된다.
 
 
 
@@ -68,13 +68,13 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 public class EgovWebApplicationInitializer implements WebApplicationInitializer {
-	
+
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-	
+
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(ContextApp.class);	
-		servletContext.addListener(new ContextLoaderListener(rootContext));	
+		rootContext.register(ContextApp.class);
+		servletContext.addListener(new ContextLoaderListener(rootContext));
 	}
 }
 ```
@@ -83,7 +83,7 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 
 ## Context 설정
 
-### `@Configuration` 과  `@Bean` 
+### `@Configuration` 과  `@Bean`
 
 설정에 관련된 클래스는 클래스 상단에 `@Configuration` 을 달아주면 된다.
 
@@ -111,10 +111,10 @@ public class ContextApp {
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@Import({ContextAppCommon.class, ContextAppDatasource.class}) 
+@Import({ContextAppCommon.class, ContextAppDatasource.class})
 @ImportResource("classpath*:egovframework/spring/com/context-*.xml")
 public class ContextApp {
-   
+
 }
 ```
 
