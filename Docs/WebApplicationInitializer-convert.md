@@ -7,13 +7,13 @@
 > **리스너의 역할**
 > Listener는 Servlet Context가 생성하는 이벤트를 전달받는 역할을 한다.
 > Servlet Context가 생성하는 이벤트는 컨텍스트 초기화 이벤트와 종료 이벤트이다.
-> 즉 웹 어플리케이션이 시작과 종료 시점에 이벤트가 발생하고, 리스너를 등록해두면 이를 받을 수 있는 것이다.
+> 즉 웹 애플리케이션이 시작과 종료 시점에 이벤트가 발생하고, 리스너를 등록해두면 이를 받을 수 있는 것이다.
 
 <web.xml>
 
 ```xml
 <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>    
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 </listener>
 ```
 
@@ -28,7 +28,7 @@ servletContext.addListener(listener);
 
 여기서 한가지 궁금한 점이 생길 수 도 있을 것이다.
 
-`WebApplicationInitializer`의 `onStartup()`은 Servlet Context 초기화 시점에 실행되는데 굳이 리스너를 등록 해야 하나 생각 할 수 있다. 
+`WebApplicationInitializer`의 `onStartup()`은 Servlet Context 초기화 시점에 실행되는데 굳이 리스너를 등록 해야 하나 생각 할 수 있다.
 
 앞서 리스너는 Servlet Context가 생성하는 이벤트를 전달받는다고 했다. `onStartup()`은 초기화 시점은 정해졌지만, 종료 시점은 캐치할 수 없으므로 리스너를 등록해 놓은 것이다.
 
