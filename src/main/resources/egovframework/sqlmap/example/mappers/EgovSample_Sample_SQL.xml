@@ -69,7 +69,7 @@
 					</when>
 				</choose>
 			</if>
-			ORDER BY ID ASC
+			ORDER BY ID DESC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
