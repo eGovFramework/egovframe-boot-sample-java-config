@@ -1,70 +1,47 @@
 package egovframework.example.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import egovframework.example.exception.EgovAopExceptionTransfer;
+import egovframework.example.exception.EgovSampleExcepHndlr;
+import egovframework.example.exception.EgovSampleOthersExcepHndlr;
+import org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer;
+import org.egovframe.rte.fdl.cmmn.exception.handler.ExceptionHandler;
+import org.egovframe.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager;
+import org.egovframe.rte.fdl.cmmn.exception.manager.ExceptionHandlerService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.util.AntPathMatcher;
-import egovframework.example.cmmn.EgovSampleExcepHndlr;
-import egovframework.example.cmmn.EgovSampleOthersExcepHndlr;
-import egovframework.example.cmmn.AopExceptionTransfer;
 
-import org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer;
-import org.egovframe.rte.fdl.cmmn.exception.handler.ExceptionHandler;
-import org.egovframe.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager;
-import org.egovframe.rte.fdl.cmmn.exception.manager.ExceptionHandlerService;
-
-/**
- * @Class Name : EgovConfigAspect.java
- * @Description : EgovConfigAspect Class
- * @Modification Information
- * @
- * @  수정일      수정자              수정내용
- * @ ---------   ---------   -------------------------------
- * @ 2009.03.16           최초생성
- *
- * @author 개발프레임웍크 실행환경 개발팀
- * @since 2009. 03.16
- * @version 1.0
- * @see
- *
- *  Copyright (C) by MOPAS All right reserved.
- */
 @Configuration
 @EnableAspectJAutoProxy
 public class EgovConfigAspect {
 
-	@Autowired
-	AntPathMatcher antPathMatcher;
-
 	@Bean
 	public EgovSampleExcepHndlr egovHandler() {
-		EgovSampleExcepHndlr egovSampleExcepHndlr = new EgovSampleExcepHndlr();
-		return egovSampleExcepHndlr;
+		return new EgovSampleExcepHndlr();
 	}
 
 	@Bean
 	public EgovSampleOthersExcepHndlr otherHandler() {
-		EgovSampleOthersExcepHndlr egovSampleOthersExcepHndlr = new EgovSampleOthersExcepHndlr();
-		return egovSampleOthersExcepHndlr;
+		return new EgovSampleOthersExcepHndlr();
 	}
 
 	@Bean
-	public DefaultExceptionHandleManager defaultExceptionHandleManager(EgovSampleExcepHndlr egovHandler) {
+	public DefaultExceptionHandleManager defaultExceptionHandleManager(AntPathMatcher antPathMatcher, EgovSampleExcepHndlr egovHandler) {
 		DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
 		defaultExceptionHandleManager.setReqExpMatcher(antPathMatcher);
-		defaultExceptionHandleManager.setPatterns(new String[] {"**service.impl.*"});
-		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[] {egovHandler});
+		defaultExceptionHandleManager.setPatterns(new String[]{"**service.impl.*"});
+		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[]{egovHandler});
 		return defaultExceptionHandleManager;
 	}
 
 	@Bean
-	public DefaultExceptionHandleManager otherExceptionHandleManager() {
+	public DefaultExceptionHandleManager otherExceptionHandleManager(AntPathMatcher antPathMatcher, EgovSampleOthersExcepHndlr othersExcepHndlr) {
 		DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
 		defaultExceptionHandleManager.setReqExpMatcher(antPathMatcher);
-		defaultExceptionHandleManager.setPatterns(new String[] {"**service.impl.*"});
-		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[] {otherHandler()});
+		defaultExceptionHandleManager.setPatterns(new String[]{"**service.impl.*"});
+		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[]{othersExcepHndlr});
 		return defaultExceptionHandleManager;
 	}
 
@@ -80,10 +57,10 @@ public class EgovConfigAspect {
 	}
 
 	@Bean
-	public AopExceptionTransfer aopExceptionTransfer(ExceptionTransfer exceptionTransfer) {
-		AopExceptionTransfer aopExceptionTransfer = new AopExceptionTransfer();
-		aopExceptionTransfer.setExceptionTransfer(exceptionTransfer);
-		return aopExceptionTransfer;
+	public EgovAopExceptionTransfer aopExceptionTransfer(ExceptionTransfer exceptionTransfer) {
+		EgovAopExceptionTransfer egovAopExceptionTransfer = new EgovAopExceptionTransfer();
+		egovAopExceptionTransfer.setExceptionTransfer(exceptionTransfer);
+		return egovAopExceptionTransfer;
 	}
 
 }

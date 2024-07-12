@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+	<title th:if="${not #strings.isEmpty(sampleVO.id)}" th:text="|Sample #{button.modify}|"></title>
+	<title th:unless="${not #strings.isEmpty(sampleVO.id)}" th:text="|Sample #{button.create}|"></title>
+	<link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+	<link type="text/css" rel="stylesheet" th:href="@{/css/egovframework/sample.css}"/>
+	<script type="text/javascript" th:src="@{/js/egovframework/jquery-3.6.1.min.js}"></script>
+	<script th:inline="javascript">
+		document.addEventListener('keydown', function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+			};
+		}, true);
+
+		var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+		
+		function sampleList() {
+			$(location).attr('href', contextPath + '/');
+		}
+
+		function sampleAdd() {
+			if (confirm([[#{add.confirm}]])) {
+				$('#detailForm').attr('method', 'post').attr('action', contextPath + '/sample/add').submit();
+			}
+		}
+
+		function sampleUpdate() {
+			if (confirm([[#{modify.confirm}]])) {
+				$('#detailForm').attr('method', 'post').attr('action', contextPath + '/sample/update').submit();
+			}
+		}
+
+		function sampleDelete() {
+			if (confirm([[#{delete.confirm}]])) {
+				$('#detailForm').attr('method', 'post').attr('action', contextPath + '/sample/delete').submit();
+			}
+		}
+
+		function sampleReset() {
+			$('form').each(function() {
+				this.reset();
+			});
+		}
+	</script>
+
+</head>
+
+<body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
+
+<div id="content_pop">
+
+	<!-- Title -->
+	<div id="title">
+		<ul>
+			<li>
+				<img th:src="@{/images/egovframework/example/title_dot.gif}"/>
+				<span th:if="${not #strings.isEmpty(sampleVO.id)}" th:text="#{button.modify}"></span>
+				<span th:unless="${not #strings.isEmpty(sampleVO.id)}" th:text="#{button.create}"></span>
+			</li>
+		</ul>
+	</div>
+
+	<form id="detailForm" th:object="${sampleVO}">
+
+		<!-- Detail -->
+		<div id="table">
+			<table th:width="680px" th:border="1" th:cellpadding="0" th:cellspacing="0" style="bordercolor:#D3E2EC; bordercolordark:#FFFFFF; BORDER-TOP:#C2D0DB 2px solid; BORDER-LEFT:#ffffff 1px solid; BORDER-RIGHT:#ffffff 1px solid; BORDER-BOTTOM:#C2D0DB 1px solid; border-collapse: collapse;">
+				<colgroup>
+					<col width="150px"/>
+					<col width="530px"/>
+				</colgroup>
+				<tr th:if="${sampleVO.id != null}">
+					<td class="tbtd_caption">
+						<label for="id"><span th:text="#{title.sample.id}"></span></label></td>
+					<td class="tbtd_content">
+						<input type="text" id="id" name="id"
+							   th:value="${sampleVO.id}" maxlength="10" readonly="readonly" class="essentiality"/></td>
+				</tr>
+				<tr>
+					<td class="tbtd_caption">
+						<label for="name"><span th:text="#{title.sample.name}"></span></label></td>
+					<td class="tbtd_content">
+						<input type="text" id="name" name="name" th:field="*{name}"
+							   th:value="${sampleVO.name}" maxlength="30" class="txt"/>
+						<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span></td>
+				</tr>
+				<tr>
+					<td class="tbtd_caption">
+						<label for="useYn"><span th:text="#{title.sample.useYn}"></span></label></td>
+					<td class="tbtd_content">
+						<select id="useYn" name="useYn" class="use">
+							<option th:text="Yes" th:value="Y" th:selected="${sampleVO.useYn == 'Y'}"></option>
+							<option th:text="No" th:value="N" th:selected="${sampleVO.useYn == 'N'}"></option>
+						</select></td>
+				</tr>
+				<tr>
+					<td class="tbtd_caption">
+						<label for="description"><span th:text="#{title.sample.description}"></span></label></td>
+					<td class="tbtd_content">
+    					<textarea id="description" name="description"th:field="*{description}"
+								  th:value="${sampleVO.description}" rows="5" cols="58"></textarea><br/>
+						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span></td>
+				</tr>
+				<tr>
+					<td class="tbtd_caption">
+						<label for="regUser"><span th:text="#{title.sample.regUser}"/></span></label></td>
+					<td class="tbtd_content">
+						<input type="text" id="regUser" name="regUser" th:field="*{regUser}"
+							   th:value="${sampleVO.regUser}" maxLength="10"
+							   th:readonly="${not #strings.isEmpty(sampleVO.id) ? 'readonly' : false}"
+							   th:classappend="${not #strings.isEmpty(sampleVO.id) ? 'essentiality' : 'txt'}"/>
+						<span th:if="${#fields.hasErrors('regUser')}" th:errors="*{regUser}">User Error</span></td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- Update / Delete / List -->
+		<div id="sysbtn">
+			<ul>
+				<li>
+					<span class="btn_blue_l">
+					<span th:text="#{button.list}" th:onclick="sampleList()"></span>
+					<img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.list}"/></span>
+				</li>
+				<li th:if="${not #strings.isEmpty(sampleVO.id)}">
+					<span class="btn_blue_l">
+					<span th:text="#{button.modify}" th:onclick="sampleUpdate()"></span>
+					<img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.modify}"/></span>
+				</li>
+				<li th:unless="${not #strings.isEmpty(sampleVO.id)}">
+					<span class="btn_blue_l">
+					<span th:text="#{button.create}" th:onclick="sampleAdd()"></span>
+					<img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.create}"/></span>
+				</li>
+				<li th:if="${not #strings.isEmpty(sampleVO.id)}">
+					<span class="btn_blue_l">
+					<span th:text="#{button.delete}" th:onclick="sampleDelete()"></span>
+					<img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.delete}"/></span>
+				</li>
+				<li>
+					<span class="btn_blue_l">
+					<span th:text="#{button.reset}" th:onclick="sampleReset()"></span>
+					<img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.reset}"/></span>
+				</li>
+			</ul>
+		</div>
+
+	</form>
+
+</div>
+
+</body>
+
+</html>

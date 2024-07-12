@@ -30,8 +30,6 @@ import java.util.List;
  * @since 2009. 03.16
  * @version 1.0
  * @see
- *
- *  Copyright (C) by MOPAS All right reserved.
  */
 public interface EgovSampleService {
 
@@ -73,7 +71,7 @@ public interface EgovSampleService {
 	 * @return 글 목록
 	 * @exception Exception
 	 */
-	List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception;
+	List<?> selectSampleList(SampleVO searchVO) throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.

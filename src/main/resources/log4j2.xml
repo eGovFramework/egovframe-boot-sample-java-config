@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <Configuration>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
@@ -12,10 +13,10 @@
         <Logger name="egovframework" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-		<Logger name="org.egovframe" level="DEBUG" additivity="false">
+        <Logger name="org.egovframe" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        <!-- log SQL with timing information, post execution -->
+          <!-- log SQL with timing information, post execution -->
         <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>

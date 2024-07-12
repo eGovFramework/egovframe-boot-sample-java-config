@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title th:text="#{title.sample}"></title>
+    <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/egovframework/sample.css}">
+    <script type="text/javascript" th:src="@{/js/egovframework/jquery-3.6.1.min.js}"></script>
+    <script th:inline="javascript">
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+            };
+        }, true);
+
+        var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+        
+        function notNullCheck(value) {
+            return !(value === '' || value == null || (typeof value == 'object' && !Object.keys(value).length));
+        }
+
+        function sampleSearch() {
+            if (notNullCheck($('#searchKeyword').val())) {
+                $.ajax({
+                    url: contextPath + '/sample/list',
+                    type: 'post',
+                    data: {
+                        searchCondition: $('#searchCondition option:selected').val(),
+                        searchKeyword: $('#searchKeyword').val()
+                    }
+                }).done(function(fragment) {
+                    $('#content_pop').replaceWith(fragment);
+                });
+            } else {
+                const errorMessage = [[#{search.error}]];
+                alert(errorMessage);
+            }
+        }
+
+        function samplePagination(pageIndex) {
+            $.ajax({
+                url: contextPath + '/sample/list',
+                type: 'post',
+                data: {
+                    pageIndex: pageIndex
+                }
+            }).done(function(fragment) {
+                $('#content_pop').replaceWith(fragment);
+            });
+        }
+
+        function sampleCreate() {
+            $(location).attr('href', contextPath + '/sample/add');
+        }
+
+        function sampleDetail(id) {
+            $('#id').val(id);
+            $('#detailForm').attr('method', 'post').attr('action', contextPath + '/sample/detail').submit();
+        }
+    </script>
+</head>
+
+<body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
+
+    <div id="content_pop">
+
+        <!-- Title -->
+        <div id="title">
+            <ul>
+                <li>
+                    <img th:src="@{/images/egovframework/example/title_dot.gif}"/>
+                    <span th:text="#{list.sample}"></span>
+                </li>
+            </ul>
+        </div>
+
+        <form id="detailForm" th:object="${sampleVO}">
+            <input type="hidden" id="id" name="id"/>
+        </form>
+
+        <!-- Search -->
+        <div id="search">
+            <ul>
+                <li>
+                    <label for="searchCondition" style="visibility:hidden;" th:text="#{search.choose}"></label>
+                    <select id="searchCondition" name="searchCondition" class="use">
+                        <option th:text="Name" th:value="1" th:selected="${sampleVO.searchCondition} == 1"></option>
+                        <option th:text="ID" th:value="0" th:selected="${sampleVO.searchCondition} == 0"></option>
+                    </select>
+                </li>
+                <li>
+                    <label for="searchKeyword" style="visibility:hidden;display:none;" th:text="#{search.keyword}"></label>
+                    <input type="text" id="searchKeyword" name="searchKeyword" th:value="${sampleVO.searchKeyword}" class="txt"/>
+                </li>
+                <li>
+                    <span class="btn_blue_l">
+                    <span th:text="#{button.search}" th:onclick="sampleSearch()"></span>
+                    <img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.search}"/></span>
+                </li>
+                <li>
+                    <span th:class="btn_blue_l">
+                    <span th:text="#{button.create}" th:onclick="sampleCreate()"></span>
+                    <img th:src="@{/images/egovframework/example/btn_bg_r.gif}" style="margin-left:6px;" th:alt="#{button.create}"/></span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- List -->
+        <div id="table">
+            <table th:width="680px">
+            <caption style="visibility:hidden">카테고리ID, 카테고리명, 사용여부, Description, 등록자 표시하는 테이블</caption>
+                <tr>
+                    <th th:width="40px">No</th>
+                    <th th:width="100px"><span th:text="#{title.sample.id}"></span></th>
+                    <th th:width="200px"><span th:text="#{title.sample.name}"></span></th>
+                    <th th:width="200px"><span th:text="#{title.sample.description}"></span></th>
+                    <th th:width="80px"><span th:text="#{title.sample.useYn}"></span></th>
+                    <th th:width="60px"><span th:text="#{title.sample.regUser}"></span></th>
+                </tr>
+                <tr data-th-each="sample, status : ${resultList}">
+                    <td th:class="listtd" th:align="center">
+                        [[${(paginationInfo.getTotalRecordCount()+1)-((sampleVO.getPageIndex()-1)*paginationInfo.getPageSize()+status.count)}]]</td>
+                    <td th:class="listtd" th:align="center">
+                        <a th:onclick="sampleDetail([[${sample.id}]])">[[${sample.id}]]</a></td>
+                    <td th:class="listtd" th:align="left">[[${sample.name}]]</td>
+                    <td th:class="listtd" th:align="left">[[${sample.description}]]</td>
+                    <td th:class="listtd" th:align="center">[[${sample.useYn}]]</td>
+                    <td th:class="listtd" th:align="center">[[${sample.regUser}]]</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Paging -->
+        <div id="paging">
+
+            <span th:utext="${#egovPaginationFormat.paginationFormat(paginationInfo, 'samplePagination')}"></span>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
