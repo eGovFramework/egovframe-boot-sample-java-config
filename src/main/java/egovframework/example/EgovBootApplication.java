@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EgovBootApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EgovBootApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(EgovBootApplication.class);
+		springApplication.setAllowBeanDefinitionOverriding(true);
+		springApplication.run(args);
 	}
 
 }
