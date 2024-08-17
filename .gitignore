@@ -37,3 +37,5 @@ target/
 
 ### VS Code ###
 .vscode/
+.pmd
+reports/pmd-report.txt
