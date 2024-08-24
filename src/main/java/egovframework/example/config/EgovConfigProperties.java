@@ -27,9 +27,9 @@ public class EgovConfigProperties {
 		properties.put("pageUnit", "10");
 		properties.put("pageSize", "10");
 
-		final EgovPropertyServiceImpl egovPropertyServiceImpl = new EgovPropertyServiceImpl();
-		egovPropertyServiceImpl.setProperties(properties);
-		return egovPropertyServiceImpl;
+		final EgovPropertyServiceImpl impl = new EgovPropertyServiceImpl();
+		impl.setProperties(properties);
+		return impl;
 	}
 
 }

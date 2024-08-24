@@ -52,19 +52,19 @@ public class EgovPaginationFormat {
 		final StringBuffer stringBuffer = new StringBuffer();
 
 		final int firstPageNo = paginationInfo.getFirstPageNo();
-		final int firstPageNoOnPageList = paginationInfo.getFirstPageNoOnPageList();
+		final int fpnopl = paginationInfo.getFirstPageNoOnPageList();
 		final int totalPageCount = paginationInfo.getTotalPageCount();
 		final int pageSize = paginationInfo.getPageSize();
-		final int lastPageNoOnPageList = paginationInfo.getLastPageNoOnPageList();
+		final int lpnopl = paginationInfo.getLastPageNoOnPageList();
 		final int currentPageNo = paginationInfo.getCurrentPageNo();
 		final int lastPageNo = paginationInfo.getLastPageNo();
 
 		if (totalPageCount > pageSize) {
-			if (firstPageNoOnPageList > pageSize) {
+			if (fpnopl > pageSize) {
 				stringBuffer.append(MessageFormat.format(firstPageLabel,
 						new Object[] { jsFunction, Integer.toString(firstPageNo) }));
 				stringBuffer.append(MessageFormat.format(previousPageLabel,
-						new Object[] { jsFunction, Integer.toString(firstPageNoOnPageList - 1) }));
+						new Object[] { jsFunction, Integer.toString(fpnopl - 1) }));
 			} else {
 				stringBuffer.append(MessageFormat.format(firstPageLabel,
 						new Object[] { jsFunction, Integer.toString(firstPageNo) }));
@@ -73,7 +73,7 @@ public class EgovPaginationFormat {
 			}
 		}
 
-		for (int i = firstPageNoOnPageList; i <= lastPageNoOnPageList; i++) {
+		for (int i = fpnopl; i <= lpnopl; i++) {
 			if (i == currentPageNo) {
 				stringBuffer.append(MessageFormat.format(currentPageLabel, new Object[] { Integer.toString(i) }));
 			} else {
@@ -83,9 +83,9 @@ public class EgovPaginationFormat {
 		}
 
 		if (totalPageCount > pageSize) {
-			if (lastPageNoOnPageList < totalPageCount) {
+			if (lpnopl < totalPageCount) {
 				stringBuffer.append(MessageFormat.format(nextPageLabel,
-						new Object[] { jsFunction, Integer.toString(firstPageNoOnPageList + pageSize) }));
+						new Object[] { jsFunction, Integer.toString(fpnopl + pageSize) }));
 				stringBuffer.append(
 						MessageFormat.format(lastPageLabel, new Object[] { jsFunction, Integer.toString(lastPageNo) }));
 			} else {

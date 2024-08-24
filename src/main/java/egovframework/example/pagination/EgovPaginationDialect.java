@@ -29,12 +29,12 @@ public class EgovPaginationDialect extends AbstractDialect implements IExpressio
 			}
 
 			@Override
-			public Object buildObject(IExpressionContext context, String expressionObjectName) {
+			public Object buildObject(IExpressionContext context, String name) {
 				return new EgovPaginationFormat();
 			}
 
 			@Override
-			public boolean isCacheable(String expressionObjectName) {
+			public boolean isCacheable(String name) {
 				return true;
 			}
 		};

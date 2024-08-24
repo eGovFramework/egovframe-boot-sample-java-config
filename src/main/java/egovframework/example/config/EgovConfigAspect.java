@@ -53,11 +53,11 @@ public class EgovConfigAspect {
 	@Bean
 	public DefaultExceptionHandleManager defaultExceptionHandleManager(final AntPathMatcher antPathMatcher,
 			final EgovSampleExcepHndlr egovHandler) {
-		final DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
-		defaultExceptionHandleManager.setReqExpMatcher(antPathMatcher);
-		defaultExceptionHandleManager.setPatterns(new String[] { "**service.impl.*" });
-		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[] { egovHandler });
-		return defaultExceptionHandleManager;
+		final DefaultExceptionHandleManager manager = new DefaultExceptionHandleManager();
+		manager.setReqExpMatcher(antPathMatcher);
+		manager.setPatterns(new String[] { "**service.impl.*" });
+		manager.setHandlers(new ExceptionHandler[] { egovHandler });
+		return manager;
 	}
 
 	/**
@@ -70,27 +70,27 @@ public class EgovConfigAspect {
 	@Bean
 	public DefaultExceptionHandleManager otherExceptionHandleManager(final AntPathMatcher antPathMatcher,
 			final EgovSampleOthersExcepHndlr othersExcepHndlr) {
-		final DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
-		defaultExceptionHandleManager.setReqExpMatcher(antPathMatcher);
-		defaultExceptionHandleManager.setPatterns(new String[] { "**service.impl.*" });
-		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[] { othersExcepHndlr });
-		return defaultExceptionHandleManager;
+		final DefaultExceptionHandleManager handleManager = new DefaultExceptionHandleManager();
+		handleManager.setReqExpMatcher(antPathMatcher);
+		handleManager.setPatterns(new String[] { "**service.impl.*" });
+		handleManager.setHandlers(new ExceptionHandler[] { othersExcepHndlr });
+		return handleManager;
 	}
 
 	/**
 	 * 예외 이전
 	 * 
-	 * @param defaultExceptionHandleManager
-	 * @param otherExceptionHandleManager
+	 * @param defaultException
+	 * @param otherException
 	 * @return
 	 */
 	@Bean
 	public ExceptionTransfer exceptionTransfer(
-			final @Qualifier("defaultExceptionHandleManager") DefaultExceptionHandleManager defaultExceptionHandleManager,
-			final @Qualifier("otherExceptionHandleManager") DefaultExceptionHandleManager otherExceptionHandleManager) {
+			final @Qualifier("defaultExceptionHandleManager") DefaultExceptionHandleManager defaultException,
+			final @Qualifier("otherExceptionHandleManager") DefaultExceptionHandleManager otherException) {
 		final ExceptionTransfer exceptionTransfer = new ExceptionTransfer();
 		exceptionTransfer.setExceptionHandlerService(
-				new ExceptionHandlerService[] { defaultExceptionHandleManager, otherExceptionHandleManager });
+				new ExceptionHandlerService[] { defaultException, otherException });
 		return exceptionTransfer;
 	}
 
@@ -102,9 +102,9 @@ public class EgovConfigAspect {
 	 */
 	@Bean
 	public EgovAopExceptionTransfer aopExceptionTransfer(final ExceptionTransfer exceptionTransfer) {
-		final EgovAopExceptionTransfer egovAopExceptionTransfer = new EgovAopExceptionTransfer();
-		egovAopExceptionTransfer.setExceptionTransfer(exceptionTransfer);
-		return egovAopExceptionTransfer;
+		final EgovAopExceptionTransfer transfer = new EgovAopExceptionTransfer();
+		transfer.setExceptionTransfer(exceptionTransfer);
+		return transfer;
 	}
 
 }

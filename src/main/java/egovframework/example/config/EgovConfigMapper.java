@@ -34,13 +34,13 @@ public class EgovConfigMapper {
 	public SqlSessionFactoryBean sqlSessionFactory(final @Qualifier("dataSource") DataSource dataSource)
 			throws IOException {
 		final PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
-		final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-		sqlSessionFactoryBean.setDataSource(dataSource);
-		sqlSessionFactoryBean
+		final SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+		bean.setDataSource(dataSource);
+		bean
 				.setConfigLocation(pmrpr.getResource("classpath:/egovframework/sqlmap/example/sql-mapper-config.xml"));
-		sqlSessionFactoryBean
+		bean
 				.setMapperLocations(pmrpr.getResources("classpath:/egovframework/sqlmap/example/mappers/*.xml"));
-		return sqlSessionFactoryBean;
+		return bean;
 	}
 
 	/**

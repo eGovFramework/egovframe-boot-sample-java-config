@@ -35,11 +35,11 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	/**
 	 * 애플리케이션 컨텍스트
 	 */
-	private ApplicationContext applicationContext;
+	private ApplicationContext context;
 
 	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
+	public void setApplicationContext(final ApplicationContext context) {
+		this.context = context;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	@Bean
 	public SpringResourceTemplateResolver templateResolver() {
 		final SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-		templateResolver.setApplicationContext(this.applicationContext);
+		templateResolver.setApplicationContext(this.context);
 		templateResolver.setPrefix("classpath:/templates/thymeleaf/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode(TemplateMode.HTML);

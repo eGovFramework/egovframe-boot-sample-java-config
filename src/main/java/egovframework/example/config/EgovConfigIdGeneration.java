@@ -22,11 +22,11 @@ public class EgovConfigIdGeneration {
 	 */
 	@Bean
 	public EgovIdGnrStrategyImpl mixPrefixSample() {
-		final EgovIdGnrStrategyImpl egovIdGnrStrategyImpl = new EgovIdGnrStrategyImpl();
-		egovIdGnrStrategyImpl.setPrefix("SAMPLE-");
-		egovIdGnrStrategyImpl.setCipers(5);
-		egovIdGnrStrategyImpl.setFillChar('0');
-		return egovIdGnrStrategyImpl;
+		final EgovIdGnrStrategyImpl impl = new EgovIdGnrStrategyImpl();
+		impl.setPrefix("SAMPLE-");
+		impl.setCipers(5);
+		impl.setFillChar('0');
+		return impl;
 	}
 
 	/**
@@ -37,13 +37,13 @@ public class EgovConfigIdGeneration {
 	 */
 	@Bean(destroyMethod = "destroy")
 	public EgovTableIdGnrServiceImpl egovIdGnrService(final @Qualifier("dataSource") DataSource dataSource) {
-		final EgovTableIdGnrServiceImpl egovTableIdGnrServiceImpl = new EgovTableIdGnrServiceImpl();
-		egovTableIdGnrServiceImpl.setDataSource(dataSource);
-		egovTableIdGnrServiceImpl.setStrategy(mixPrefixSample());
-		egovTableIdGnrServiceImpl.setBlockSize(10);
-		egovTableIdGnrServiceImpl.setTable("IDS");
-		egovTableIdGnrServiceImpl.setTableName("SAMPLE");
-		return egovTableIdGnrServiceImpl;
+		final EgovTableIdGnrServiceImpl impl = new EgovTableIdGnrServiceImpl();
+		impl.setDataSource(dataSource);
+		impl.setStrategy(mixPrefixSample());
+		impl.setBlockSize(10);
+		impl.setTable("IDS");
+		impl.setTableName("SAMPLE");
+		return impl;
 	}
 
 }

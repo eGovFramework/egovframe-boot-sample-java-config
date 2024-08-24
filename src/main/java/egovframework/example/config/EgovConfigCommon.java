@@ -47,13 +47,13 @@ public class EgovConfigCommon {
 	 */
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
-		final ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
-		reloadableResourceBundleMessageSource.setBasenames("classpath:/egovframework/message/message-common",
+		final ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+		source.setBasenames("classpath:/egovframework/message/message-common",
 				"classpath:/org/egovframe/rte/fdl/idgnr/messages/idgnr",
 				"classpath:/org/egovframe/rte/fdl/property/messages/properties");
-		reloadableResourceBundleMessageSource.setDefaultEncoding("UTF-8");
-		reloadableResourceBundleMessageSource.setCacheSeconds(60);
-		return reloadableResourceBundleMessageSource;
+		source.setDefaultEncoding("UTF-8");
+		source.setCacheSeconds(60);
+		return source;
 	}
 
 	/**
@@ -73,11 +73,11 @@ public class EgovConfigCommon {
 	 */
 	@Bean
 	public DefaultTraceHandleManager traceHandlerService() {
-		final DefaultTraceHandleManager defaultTraceHandleManager = new DefaultTraceHandleManager();
-		defaultTraceHandleManager.setReqExpMatcher(antPathMatcher());
-		defaultTraceHandleManager.setPatterns(new String[] { "*" });
-		defaultTraceHandleManager.setHandlers(new TraceHandler[] { defaultTraceHandler() });
-		return defaultTraceHandleManager;
+		final DefaultTraceHandleManager manager = new DefaultTraceHandleManager();
+		manager.setReqExpMatcher(antPathMatcher());
+		manager.setPatterns(new String[] { "*" });
+		manager.setHandlers(new TraceHandler[] { defaultTraceHandler() });
+		return manager;
 	}
 
 	/**

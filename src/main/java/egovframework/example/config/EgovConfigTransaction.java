@@ -36,9 +36,9 @@ public class EgovConfigTransaction {
 	 */
 	@Bean(name = "txManager")
 	public DataSourceTransactionManager txManager(final @Qualifier("dataSource") DataSource dataSource) {
-		final DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-		dataSourceTransactionManager.setDataSource(dataSource);
-		return dataSourceTransactionManager;
+		final DataSourceTransactionManager manager = new DataSourceTransactionManager();
+		manager.setDataSource(dataSource);
+		return manager;
 	}
 
 	/**
