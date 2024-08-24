@@ -15,72 +15,76 @@
  */
 package egovframework.example.sample.service.impl;
 
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import java.util.List;
+
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import java.util.List;
+import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.example.sample.service.SampleVO;
 
 /**
  * sample에 관한 데이터처리 매퍼 클래스
  *
- * @author  표준프레임워크센터
+ * @author 표준프레임워크센터
  * @since 2014.01.24
  * @version 1.0
- * @see <pre>
+ * @see
+ * 
+ *      <pre>
  *  == 개정이력(Modification Information) ==
  *
  *          수정일          수정자           수정내용
  *  ----------------    ------------    ---------------------------
  *   2014.01.24        표준프레임워크센터          최초 생성
  *
- * </pre>
+ *      </pre>
  */
 @Mapper("sampleMapper")
 public interface SampleMapper {
 
 	/**
 	 * 글을 등록한다.
+	 * 
 	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
-	 * @exception Exception
 	 */
-	void insertSample(SampleVO sampleVO) throws Exception;
+	void insertSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 수정한다.
+	 * 
 	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
 	 * @return void형
-	 * @exception Exception
 	 */
-	void updateSample(SampleVO sampleVO) throws Exception;
+	void updateSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 삭제한다.
+	 * 
 	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
 	 * @return void형
-	 * @exception Exception
 	 */
-	void deleteSample(SampleVO sampleVO) throws Exception;
+	void deleteSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 조회한다.
+	 * 
 	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
-	 * @exception Exception
 	 */
-	SampleVO selectSample(SampleVO sampleVO) throws Exception;
+	SampleVO selectSample(SampleVO sampleVO);
 
 	/**
 	 * 글 목록을 조회한다.
+	 * 
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 글 목록
-	 * @exception Exception
 	 */
-	List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception;
+	List<?> selectSampleList(SampleDefaultVO searchVO);
 
 	/**
 	 * 글 총 갯수를 조회한다.
+	 * 
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 글 총 갯수
 	 * @exception

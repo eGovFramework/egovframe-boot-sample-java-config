@@ -44,10 +44,9 @@ public class EgovSampleController {
 	 * @param sampleVO
 	 * @param model
 	 * @return
-	 * @throws Exception
 	 */
 	@GetMapping("/")
-	public String search(final @ModelAttribute SampleVO sampleVO, final Model model) throws Exception {
+	public String search(final @ModelAttribute SampleVO sampleVO, final Model model) {
 		return this.list(sampleVO, model);
 	}
 
@@ -57,10 +56,9 @@ public class EgovSampleController {
 	 * @param sampleVO
 	 * @param model
 	 * @return
-	 * @throws Exception
 	 */
 	@PostMapping("/sample/list")
-	public String list(final @ModelAttribute SampleVO sampleVO, final Model model) throws Exception {
+	public String list(final @ModelAttribute SampleVO sampleVO, final Model model) {
 		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		sampleVO.setPageSize(propertiesService.getInt("pageSize"));
 
@@ -137,11 +135,9 @@ public class EgovSampleController {
 	 * @param sampleVO
 	 * @param bindingResult
 	 * @return
-	 * @throws Exception
 	 */
 	@PostMapping("/sample/update")
-	public String update(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
-			throws Exception {
+	public String update(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return EGOV_SAMPLE_REGISTER;
 		}
@@ -154,10 +150,9 @@ public class EgovSampleController {
 	 * 
 	 * @param sampleVO
 	 * @return
-	 * @throws Exception
 	 */
 	@PostMapping("/sample/delete")
-	public String delete(final @ModelAttribute SampleVO sampleVO) throws Exception {
+	public String delete(final @ModelAttribute SampleVO sampleVO) {
 		this.sampleService.deleteSample(sampleVO);
 		return "redirect:/";
 	}

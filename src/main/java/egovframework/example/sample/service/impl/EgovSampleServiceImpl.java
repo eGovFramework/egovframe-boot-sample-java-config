@@ -3,6 +3,7 @@ package egovframework.example.sample.service.impl;
 import java.util.List;
 
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import org.egovframe.rte.fdl.cmmn.exception.FdlException;
 import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * 
 	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
-	 * @exception Exception
+	 * @throws Exception
 	 */
 	@Override
 	public String insertSample(final SampleVO sampleVO) throws Exception {
@@ -49,7 +50,12 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 		}
 
 		/** ID Generation Service */
-		final String id = egovIdGnrService.getNextStringId();
+		String id;
+		try {
+			id = egovIdGnrService.getNextStringId();
+		} catch (FdlException e) {
+			throw processException("fail.common.msg", e);
+		}
 		sampleVO.setId(id);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug(sampleVO.toString());
@@ -64,10 +70,9 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * 
 	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
 	 * @return void형
-	 * @exception Exception
 	 */
 	@Override
-	public void updateSample(final SampleVO sampleVO) throws Exception {
+	public void updateSample(final SampleVO sampleVO) {
 		sampleDAO.updateSample(sampleVO);
 	}
 
@@ -76,10 +81,9 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * 
 	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
 	 * @return void형
-	 * @exception Exception
 	 */
 	@Override
-	public void deleteSample(final SampleVO sampleVO) throws Exception {
+	public void deleteSample(final SampleVO sampleVO) {
 		sampleDAO.deleteSample(sampleVO);
 	}
 
@@ -88,7 +92,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * 
 	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
-	 * @exception Exception
+	 * @throws Exception
 	 */
 	@Override
 	public SampleVO selectSample(final SampleVO sampleVO) throws Exception {
@@ -103,10 +107,9 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * 
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 글 목록
-	 * @exception Exception
 	 */
 	@Override
-	public List<?> selectSampleList(final SampleVO searchVO) throws Exception {
+	public List<?> selectSampleList(final SampleVO searchVO) {
 		return sampleDAO.selectSampleList(searchVO);
 	}
 
