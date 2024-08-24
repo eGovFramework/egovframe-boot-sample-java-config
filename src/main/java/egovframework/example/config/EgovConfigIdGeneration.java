@@ -1,12 +1,12 @@
 package egovframework.example.config;
 
+import javax.sql.DataSource;
+
 import org.egovframe.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl;
 import org.egovframe.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class EgovConfigIdGeneration {
@@ -20,15 +20,15 @@ public class EgovConfigIdGeneration {
 		return egovIdGnrStrategyImpl;
 	}
 
-	@Bean(destroyMethod="destroy")
-	public EgovTableIdGnrServiceImpl egovIdGnrService(@Qualifier("dataSource") DataSource dataSource) {
+	@Bean(destroyMethod = "destroy")
+	public EgovTableIdGnrServiceImpl egovIdGnrService(final @Qualifier("dataSource") DataSource dataSource) {
 		EgovTableIdGnrServiceImpl egovTableIdGnrServiceImpl = new EgovTableIdGnrServiceImpl();
 		egovTableIdGnrServiceImpl.setDataSource(dataSource);
 		egovTableIdGnrServiceImpl.setStrategy(mixPrefixSample());
 		egovTableIdGnrServiceImpl.setBlockSize(10);
 		egovTableIdGnrServiceImpl.setTable("IDS");
 		egovTableIdGnrServiceImpl.setTableName("SAMPLE");
-		return egovTableIdGnrServiceImpl;	
+		return egovTableIdGnrServiceImpl;
 	}
 
 }

@@ -1,6 +1,8 @@
 package egovframework.example.config;
 
-import egovframework.example.pagination.EgovPaginationDialect;
+import java.util.List;
+import java.util.Properties;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -18,24 +20,16 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import java.util.List;
-import java.util.Properties;
+import egovframework.example.pagination.EgovPaginationDialect;
 
 @Configuration
-@Import({
-		EgovConfigAspect.class,
-		EgovConfigCommon.class,
-		EgovConfigDatasource.class,
-		EgovConfigIdGeneration.class,
-		EgovConfigMapper.class,
-		EgovConfigProperties.class,
-		EgovConfigTransaction.class,
-		EgovConfigValidation.class
-})
+@Import({ EgovConfigAspect.class, EgovConfigCommon.class, EgovConfigDatasource.class, EgovConfigIdGeneration.class,
+		EgovConfigMapper.class, EgovConfigProperties.class, EgovConfigTransaction.class, EgovConfigValidation.class })
 public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 
+	@Override
 	public void setApplicationContext(final ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
@@ -70,10 +64,10 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	}
 
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
-        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+		registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
+		registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
 	}
 
 	@Bean
@@ -89,12 +83,12 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	}
 
 	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
+	public void addInterceptors(final InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 
 	@Override
-	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+	public void configureHandlerExceptionResolvers(final List<HandlerExceptionResolver> resolvers) {
 		Properties prop = new Properties();
 		prop.setProperty("org.springframework.dao.DataAccessException", "egovSampleError");
 		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EgovBootApplication {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(EgovBootApplication.class, args);
 	}
 

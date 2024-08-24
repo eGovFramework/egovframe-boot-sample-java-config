@@ -1,15 +1,15 @@
 package egovframework.example.validation;
 
-import org.springframework.util.ObjectUtils;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.util.ObjectUtils;
+
 public class EgovValidation implements ConstraintValidator<EgovNotNull, String> {
 
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        return !ObjectUtils.isEmpty(value);
-    }
+	@Override
+	public boolean isValid(final String value, final ConstraintValidatorContext context) {
+		return !ObjectUtils.isEmpty(value);
+	}
 
 }

@@ -11,15 +11,17 @@ public class EgovAopExceptionTransfer {
 
 	private ExceptionTransfer exceptionTransfer;
 
-	public void setExceptionTransfer(ExceptionTransfer exceptionTransfer) {
+	public void setExceptionTransfer(final ExceptionTransfer exceptionTransfer) {
 		this.exceptionTransfer = exceptionTransfer;
 	}
 
 	@Pointcut("execution(* egovframework.example..impl.*Impl.*(..))")
-	private void exceptionTransferService() {}
+	private void exceptionTransferService() {
+	}
 
-	@AfterThrowing(pointcut="exceptionTransferService()", throwing="ex")
-	public void doAfterThrowingExceptionTransferService(JoinPoint thisJoinPoint, Exception ex) throws Exception {
+	@AfterThrowing(pointcut = "exceptionTransferService()", throwing = "ex")
+	public void doAfterThrowingExceptionTransferService(final JoinPoint thisJoinPoint, final Exception ex)
+			throws Exception {
 		exceptionTransfer.transfer(thisJoinPoint, ex);
 	}
 

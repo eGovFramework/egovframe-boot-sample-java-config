@@ -1,7 +1,8 @@
 package egovframework.example.sample.web;
 
-import egovframework.example.sample.service.EgovSampleService;
-import egovframework.example.sample.service.SampleVO;
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
+import egovframework.example.sample.service.EgovSampleService;
+import egovframework.example.sample.service.SampleVO;
 
 @Controller
 public class EgovSampleController {
@@ -27,12 +28,12 @@ public class EgovSampleController {
 	protected EgovPropertyService propertiesService;
 
 	@GetMapping("/")
-	public String search(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {
+	public String search(final @ModelAttribute SampleVO sampleVO, final Model model) throws Exception {
 		return this.list(sampleVO, model);
 	}
 
 	@PostMapping("/sample/list")
-	public String list(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {
+	public String list(final @ModelAttribute SampleVO sampleVO, final Model model) throws Exception {
 		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		sampleVO.setPageSize(propertiesService.getInt("pageSize"));
 
@@ -57,7 +58,8 @@ public class EgovSampleController {
 	}
 
 	@PostMapping("/sample/detail")
-	public String detail(@ModelAttribute SampleVO sampleVO, @RequestParam String id, Model model) throws Exception {
+	public String detail(final @ModelAttribute SampleVO sampleVO, final @RequestParam String id, final Model model)
+			throws Exception {
 		sampleVO.setId(id);
 		SampleVO detail = this.sampleService.selectSample(sampleVO);
 		model.addAttribute("sampleVO", detail);
@@ -65,12 +67,13 @@ public class EgovSampleController {
 	}
 
 	@GetMapping("/sample/add")
-	public String form(@ModelAttribute SampleVO sampleVO) {
+	public String form(final @ModelAttribute SampleVO sampleVO) {
 		return "egovSampleRegister";
 	}
 
 	@PostMapping("/sample/add")
-	public String add(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult) throws Exception {
+	public String add(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
+			throws Exception {
 		if (bindingResult.hasErrors()) {
 			return "egovSampleRegister";
 		}
@@ -79,7 +82,8 @@ public class EgovSampleController {
 	}
 
 	@PostMapping("/sample/update")
-	public String update(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult) throws Exception {
+	public String update(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
+			throws Exception {
 		if (bindingResult.hasErrors()) {
 			return "egovSampleRegister";
 		}
@@ -88,7 +92,7 @@ public class EgovSampleController {
 	}
 
 	@PostMapping("/sample/delete")
-	public String delete(@ModelAttribute SampleVO sampleVO) throws Exception {
+	public String delete(final @ModelAttribute SampleVO sampleVO) throws Exception {
 		this.sampleService.deleteSample(sampleVO);
 		return "redirect:/";
 	}
