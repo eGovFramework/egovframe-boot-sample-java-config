@@ -37,6 +37,11 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	 */
 	private ApplicationContext context;
 
+	/**
+	 * 
+	 */
+	private static final String EGOV_SAMPLE_ERROR = "egovSampleError";
+
 	@Override
 	public void setApplicationContext(final ApplicationContext context) {
 		this.context = context;
@@ -132,18 +137,18 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	@Override
 	public void configureHandlerExceptionResolvers(final List<HandlerExceptionResolver> resolvers) {
 		final Properties prop = new Properties();
-		prop.setProperty("org.springframework.dao.DataAccessException", "egovSampleError");
-		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");
-		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "egovSampleError");
-		prop.setProperty("org.springframework.security.AccessDeniedException", "egovSampleError");
-		prop.setProperty("java.lang.Throwable", "egovSampleError");
+		prop.setProperty("org.springframework.dao.DataAccessException", EGOV_SAMPLE_ERROR);
+		prop.setProperty("org.springframework.transaction.TransactionException", EGOV_SAMPLE_ERROR);
+		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", EGOV_SAMPLE_ERROR);
+		prop.setProperty("org.springframework.security.AccessDeniedException", EGOV_SAMPLE_ERROR);
+		prop.setProperty("java.lang.Throwable", EGOV_SAMPLE_ERROR);
 
 		final Properties statusCode = new Properties();
-		statusCode.setProperty("egovSampleError", "400");
-		statusCode.setProperty("egovSampleError", "500");
+		statusCode.setProperty(EGOV_SAMPLE_ERROR, "400");
+		statusCode.setProperty(EGOV_SAMPLE_ERROR, "500");
 
 		final SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
-		smer.setDefaultErrorView("egovSampleError");
+		smer.setDefaultErrorView(EGOV_SAMPLE_ERROR);
 		smer.setExceptionMappings(prop);
 		smer.setStatusCodes(statusCode);
 		resolvers.add(smer);

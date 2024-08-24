@@ -34,6 +34,11 @@ public class EgovSampleController {
 	protected final EgovPropertyService propertiesService;
 
 	/**
+	 * 
+	 */
+	private static final String EGOV_SAMPLE_REGISTER = "egovSampleRegister";
+
+	/**
 	 * 검색
 	 * 
 	 * @param sampleVO
@@ -94,7 +99,7 @@ public class EgovSampleController {
 		sampleVO.setId(id);
 		final SampleVO detail = this.sampleService.selectSample(sampleVO);
 		model.addAttribute("sampleVO", detail);
-		return "egovSampleRegister";
+		return EGOV_SAMPLE_REGISTER;
 	}
 
 	/**
@@ -105,7 +110,7 @@ public class EgovSampleController {
 	 */
 	@GetMapping("/sample/add")
 	public String form(final @ModelAttribute SampleVO sampleVO) {
-		return "egovSampleRegister";
+		return EGOV_SAMPLE_REGISTER;
 	}
 
 	/**
@@ -120,7 +125,7 @@ public class EgovSampleController {
 	public String add(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
 			throws Exception {
 		if (bindingResult.hasErrors()) {
-			return "egovSampleRegister";
+			return EGOV_SAMPLE_REGISTER;
 		}
 		this.sampleService.insertSample(sampleVO);
 		return "redirect:/";
@@ -138,7 +143,7 @@ public class EgovSampleController {
 	public String update(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
 			throws Exception {
 		if (bindingResult.hasErrors()) {
-			return "egovSampleRegister";
+			return EGOV_SAMPLE_REGISTER;
 		}
 		this.sampleService.updateSample(sampleVO);
 		return "redirect:/";
