@@ -1,7 +1,7 @@
 package egovframework.example.config;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.egovframe.rte.fdl.property.impl.EgovPropertyServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class EgovConfigProperties {
 	 */
 	@Bean(destroyMethod = "destroy")
 	public EgovPropertyServiceImpl propertiesService() {
-		final Map<String, String> properties = new HashMap<>();
+		final Map<String, String> properties = new ConcurrentHashMap<>();
 		properties.put("pageUnit", "10");
 		properties.put("pageSize", "10");
 
