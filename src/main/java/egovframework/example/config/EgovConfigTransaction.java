@@ -2,6 +2,7 @@ package egovframework.example.config;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -53,7 +54,7 @@ public class EgovConfigTransaction {
 		txAttribute.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		txAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
 
-		final HashMap<String, TransactionAttribute> txMethods = new HashMap<String, TransactionAttribute>();
+		final Map<String, TransactionAttribute> txMethods = new HashMap<String, TransactionAttribute>();
 		txMethods.put("*", txAttribute);
 
 		final NameMatchTransactionAttributeSource txAttributeSource = new NameMatchTransactionAttributeSource();
