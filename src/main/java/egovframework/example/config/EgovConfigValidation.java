@@ -24,7 +24,7 @@ public class EgovConfigValidation {
 	 */
 	@Bean
 	public Validator getValidator(final @Qualifier("messageSource") MessageSource messageSource) {
-		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
+		final LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.setValidationMessageSource(messageSource);
 		return localValidatorFactoryBean;
 	}

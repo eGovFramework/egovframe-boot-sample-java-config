@@ -60,7 +60,7 @@ public class EgovSampleController {
 		sampleVO.setPageSize(propertiesService.getInt("pageSize"));
 
 		// pagination setting
-		PaginationInfo paginationInfo = new PaginationInfo();
+		final PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(sampleVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(sampleVO.getPageUnit());
 		paginationInfo.setPageSize(sampleVO.getPageSize());
@@ -92,7 +92,7 @@ public class EgovSampleController {
 	public String detail(final @ModelAttribute SampleVO sampleVO, final @RequestParam String id, final Model model)
 			throws Exception {
 		sampleVO.setId(id);
-		SampleVO detail = this.sampleService.selectSample(sampleVO);
+		final SampleVO detail = this.sampleService.selectSample(sampleVO);
 		model.addAttribute("sampleVO", detail);
 		return "egovSampleRegister";
 	}

@@ -23,11 +23,11 @@ public class EgovConfigProperties {
 	 */
 	@Bean(destroyMethod = "destroy")
 	public EgovPropertyServiceImpl propertiesService() {
-		Map<String, String> properties = new HashMap<>();
+		final Map<String, String> properties = new HashMap<>();
 		properties.put("pageUnit", "10");
 		properties.put("pageSize", "10");
 
-		EgovPropertyServiceImpl egovPropertyServiceImpl = new EgovPropertyServiceImpl();
+		final EgovPropertyServiceImpl egovPropertyServiceImpl = new EgovPropertyServiceImpl();
 		egovPropertyServiceImpl.setProperties(properties);
 		return egovPropertyServiceImpl;
 	}

@@ -49,15 +49,15 @@ public class EgovPaginationFormat {
 	 * @return
 	 */
 	public String paginationFormat(final PaginationInfo paginationInfo, final String jsFunction) {
-		StringBuffer stringBuffer = new StringBuffer();
+		final StringBuffer stringBuffer = new StringBuffer();
 
-		int firstPageNo = paginationInfo.getFirstPageNo();
-		int firstPageNoOnPageList = paginationInfo.getFirstPageNoOnPageList();
-		int totalPageCount = paginationInfo.getTotalPageCount();
-		int pageSize = paginationInfo.getPageSize();
-		int lastPageNoOnPageList = paginationInfo.getLastPageNoOnPageList();
-		int currentPageNo = paginationInfo.getCurrentPageNo();
-		int lastPageNo = paginationInfo.getLastPageNo();
+		final int firstPageNo = paginationInfo.getFirstPageNo();
+		final int firstPageNoOnPageList = paginationInfo.getFirstPageNoOnPageList();
+		final int totalPageCount = paginationInfo.getTotalPageCount();
+		final int pageSize = paginationInfo.getPageSize();
+		final int lastPageNoOnPageList = paginationInfo.getLastPageNoOnPageList();
+		final int currentPageNo = paginationInfo.getCurrentPageNo();
+		final int lastPageNo = paginationInfo.getLastPageNo();
 
 		if (totalPageCount > pageSize) {
 			if (firstPageNoOnPageList > pageSize) {

@@ -49,7 +49,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 		}
 
 		/** ID Generation Service */
-		String id = egovIdGnrService.getNextStringId();
+		final String id = egovIdGnrService.getNextStringId();
 		vo.setId(id);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug(vo.toString());
@@ -92,7 +92,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 */
 	@Override
 	public SampleVO selectSample(final SampleVO vo) throws Exception {
-		SampleVO resultVO = sampleDAO.selectSample(vo);
+		final SampleVO resultVO = sampleDAO.selectSample(vo);
 		if (resultVO == null)
 			throw processException("info.nodata.msg");
 		return resultVO;

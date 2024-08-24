@@ -47,7 +47,7 @@ public class EgovConfigCommon {
 	 */
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
-		ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
+		final ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
 		reloadableResourceBundleMessageSource.setBasenames("classpath:/egovframework/message/message-common",
 				"classpath:/org/egovframe/rte/fdl/idgnr/messages/idgnr",
 				"classpath:/org/egovframe/rte/fdl/property/messages/properties");
@@ -73,7 +73,7 @@ public class EgovConfigCommon {
 	 */
 	@Bean
 	public DefaultTraceHandleManager traceHandlerService() {
-		DefaultTraceHandleManager defaultTraceHandleManager = new DefaultTraceHandleManager();
+		final DefaultTraceHandleManager defaultTraceHandleManager = new DefaultTraceHandleManager();
 		defaultTraceHandleManager.setReqExpMatcher(antPathMatcher());
 		defaultTraceHandleManager.setPatterns(new String[] { "*" });
 		defaultTraceHandleManager.setHandlers(new TraceHandler[] { defaultTraceHandler() });
@@ -87,7 +87,7 @@ public class EgovConfigCommon {
 	 */
 	@Bean
 	public LeaveaTrace leaveaTrace() {
-		LeaveaTrace leaveaTrace = new LeaveaTrace();
+		final LeaveaTrace leaveaTrace = new LeaveaTrace();
 		leaveaTrace.setTraceHandlerServices(new TraceHandlerService[] { traceHandlerService() });
 		return leaveaTrace;
 	}

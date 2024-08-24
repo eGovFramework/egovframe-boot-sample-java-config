@@ -36,7 +36,7 @@ public class EgovConfigTransaction {
 	 */
 	@Bean(name = "txManager")
 	public DataSourceTransactionManager txManager(final @Qualifier("dataSource") DataSource dataSource) {
-		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
+		final DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
 		dataSourceTransactionManager.setDataSource(dataSource);
 		return dataSourceTransactionManager;
 	}
@@ -49,17 +49,17 @@ public class EgovConfigTransaction {
 	 */
 	@Bean
 	public TransactionInterceptor txAdvice(final DataSourceTransactionManager txManager) {
-		RuleBasedTransactionAttribute txAttribute = new RuleBasedTransactionAttribute();
+		final RuleBasedTransactionAttribute txAttribute = new RuleBasedTransactionAttribute();
 		txAttribute.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		txAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
 
-		HashMap<String, TransactionAttribute> txMethods = new HashMap<String, TransactionAttribute>();
+		final HashMap<String, TransactionAttribute> txMethods = new HashMap<String, TransactionAttribute>();
 		txMethods.put("*", txAttribute);
 
-		NameMatchTransactionAttributeSource txAttributeSource = new NameMatchTransactionAttributeSource();
+		final NameMatchTransactionAttributeSource txAttributeSource = new NameMatchTransactionAttributeSource();
 		txAttributeSource.setNameMap(txMethods);
 
-		TransactionInterceptor txAdvice = new TransactionInterceptor();
+		final TransactionInterceptor txAdvice = new TransactionInterceptor();
 		txAdvice.setTransactionAttributeSource(txAttributeSource);
 		txAdvice.setTransactionManager(txManager);
 
@@ -74,7 +74,7 @@ public class EgovConfigTransaction {
 	 */
 	@Bean
 	public Advisor txAdvisor(final @Qualifier("txManager") DataSourceTransactionManager txManager) {
-		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+		final AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
 		pointcut.setExpression("execution(* egovframework.example.sample..impl.*Impl.*(..))");
 		return new DefaultPointcutAdvisor(pointcut, txAdvice(txManager));
 	}

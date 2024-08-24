@@ -53,7 +53,7 @@ public class EgovConfigAspect {
 	@Bean
 	public DefaultExceptionHandleManager defaultExceptionHandleManager(final AntPathMatcher antPathMatcher,
 			final EgovSampleExcepHndlr egovHandler) {
-		DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
+		final DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
 		defaultExceptionHandleManager.setReqExpMatcher(antPathMatcher);
 		defaultExceptionHandleManager.setPatterns(new String[] { "**service.impl.*" });
 		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[] { egovHandler });
@@ -70,7 +70,7 @@ public class EgovConfigAspect {
 	@Bean
 	public DefaultExceptionHandleManager otherExceptionHandleManager(final AntPathMatcher antPathMatcher,
 			final EgovSampleOthersExcepHndlr othersExcepHndlr) {
-		DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
+		final DefaultExceptionHandleManager defaultExceptionHandleManager = new DefaultExceptionHandleManager();
 		defaultExceptionHandleManager.setReqExpMatcher(antPathMatcher);
 		defaultExceptionHandleManager.setPatterns(new String[] { "**service.impl.*" });
 		defaultExceptionHandleManager.setHandlers(new ExceptionHandler[] { othersExcepHndlr });
@@ -88,7 +88,7 @@ public class EgovConfigAspect {
 	public ExceptionTransfer exceptionTransfer(
 			final @Qualifier("defaultExceptionHandleManager") DefaultExceptionHandleManager defaultExceptionHandleManager,
 			final @Qualifier("otherExceptionHandleManager") DefaultExceptionHandleManager otherExceptionHandleManager) {
-		ExceptionTransfer exceptionTransfer = new ExceptionTransfer();
+		final ExceptionTransfer exceptionTransfer = new ExceptionTransfer();
 		exceptionTransfer.setExceptionHandlerService(
 				new ExceptionHandlerService[] { defaultExceptionHandleManager, otherExceptionHandleManager });
 		return exceptionTransfer;
@@ -102,7 +102,7 @@ public class EgovConfigAspect {
 	 */
 	@Bean
 	public EgovAopExceptionTransfer aopExceptionTransfer(final ExceptionTransfer exceptionTransfer) {
-		EgovAopExceptionTransfer egovAopExceptionTransfer = new EgovAopExceptionTransfer();
+		final EgovAopExceptionTransfer egovAopExceptionTransfer = new EgovAopExceptionTransfer();
 		egovAopExceptionTransfer.setExceptionTransfer(exceptionTransfer);
 		return egovAopExceptionTransfer;
 	}

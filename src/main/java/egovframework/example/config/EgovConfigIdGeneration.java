@@ -22,7 +22,7 @@ public class EgovConfigIdGeneration {
 	 */
 	@Bean
 	public EgovIdGnrStrategyImpl mixPrefixSample() {
-		EgovIdGnrStrategyImpl egovIdGnrStrategyImpl = new EgovIdGnrStrategyImpl();
+		final EgovIdGnrStrategyImpl egovIdGnrStrategyImpl = new EgovIdGnrStrategyImpl();
 		egovIdGnrStrategyImpl.setPrefix("SAMPLE-");
 		egovIdGnrStrategyImpl.setCipers(5);
 		egovIdGnrStrategyImpl.setFillChar('0');
@@ -37,7 +37,7 @@ public class EgovConfigIdGeneration {
 	 */
 	@Bean(destroyMethod = "destroy")
 	public EgovTableIdGnrServiceImpl egovIdGnrService(final @Qualifier("dataSource") DataSource dataSource) {
-		EgovTableIdGnrServiceImpl egovTableIdGnrServiceImpl = new EgovTableIdGnrServiceImpl();
+		final EgovTableIdGnrServiceImpl egovTableIdGnrServiceImpl = new EgovTableIdGnrServiceImpl();
 		egovTableIdGnrServiceImpl.setDataSource(dataSource);
 		egovTableIdGnrServiceImpl.setStrategy(mixPrefixSample());
 		egovTableIdGnrServiceImpl.setBlockSize(10);

@@ -49,7 +49,7 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	 */
 	@Bean
 	public SpringResourceTemplateResolver templateResolver() {
-		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+		final SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 		templateResolver.setApplicationContext(this.applicationContext);
 		templateResolver.setPrefix("classpath:/templates/thymeleaf/");
 		templateResolver.setSuffix(".html");
@@ -65,7 +65,7 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	 */
 	@Bean
 	public SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+		final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setEnableSpringELCompiler(true);
 		// add custom tag
@@ -80,7 +80,7 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	 */
 	@Bean
 	public ThymeleafViewResolver thymeleafViewResolver() {
-		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+		final ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setCharacterEncoding("UTF-8");
 		viewResolver.setTemplateEngine(templateEngine());
 		return viewResolver;
@@ -113,7 +113,7 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	 */
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+		final LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 		interceptor.setParamName("language");
 		return interceptor;
 	}
@@ -131,18 +131,18 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	 */
 	@Override
 	public void configureHandlerExceptionResolvers(final List<HandlerExceptionResolver> resolvers) {
-		Properties prop = new Properties();
+		final Properties prop = new Properties();
 		prop.setProperty("org.springframework.dao.DataAccessException", "egovSampleError");
 		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");
 		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "egovSampleError");
 		prop.setProperty("org.springframework.security.AccessDeniedException", "egovSampleError");
 		prop.setProperty("java.lang.Throwable", "egovSampleError");
 
-		Properties statusCode = new Properties();
+		final Properties statusCode = new Properties();
 		statusCode.setProperty("egovSampleError", "400");
 		statusCode.setProperty("egovSampleError", "500");
 
-		SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
+		final SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
 		smer.setDefaultErrorView("egovSampleError");
 		smer.setExceptionMappings(prop);
 		smer.setStatusCodes(statusCode);
