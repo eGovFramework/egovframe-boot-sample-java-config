@@ -5,6 +5,9 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.util.ObjectUtils;
 
+/**
+ * Egov 검증
+ */
 public class EgovValidation implements ConstraintValidator<EgovNotNull, String> {
 
 	@Override

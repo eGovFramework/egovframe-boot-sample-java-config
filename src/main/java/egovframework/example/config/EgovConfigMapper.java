@@ -13,10 +13,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+/**
+ * Mapper 구성
+ */
 @Configuration
 @MapperScan(basePackages = "egovframework.example.sample.service.impl")
 public class EgovConfigMapper {
 
+	/**
+	 * SQL 세션 팩토리
+	 * 
+	 * @param dataSource
+	 * @return
+	 * @throws IOException
+	 */
 	@Bean
 	public SqlSessionFactoryBean sqlSessionFactory(final @Qualifier("dataSource") DataSource dataSource)
 			throws IOException {
@@ -30,6 +40,12 @@ public class EgovConfigMapper {
 		return sqlSessionFactoryBean;
 	}
 
+	/**
+	 * SQL 세션
+	 * 
+	 * @param sqlSessionFactory
+	 * @return
+	 */
 	@Bean
 	public SqlSessionTemplate sqlSession(final SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);

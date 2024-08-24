@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
 
+/**
+ * 샘플 Controller
+ */
 @Controller
 public class EgovSampleController {
 
@@ -27,11 +30,27 @@ public class EgovSampleController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
+	/**
+	 * 검색
+	 * 
+	 * @param sampleVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/")
 	public String search(final @ModelAttribute SampleVO sampleVO, final Model model) throws Exception {
 		return this.list(sampleVO, model);
 	}
 
+	/**
+	 * 샘플 목록화면
+	 * 
+	 * @param sampleVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/sample/list")
 	public String list(final @ModelAttribute SampleVO sampleVO, final Model model) throws Exception {
 		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -57,6 +76,15 @@ public class EgovSampleController {
 		return "egovSampleList";
 	}
 
+	/**
+	 * 샘플 상세화면
+	 * 
+	 * @param sampleVO
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/sample/detail")
 	public String detail(final @ModelAttribute SampleVO sampleVO, final @RequestParam String id, final Model model)
 			throws Exception {
@@ -66,11 +94,25 @@ public class EgovSampleController {
 		return "egovSampleRegister";
 	}
 
+	/**
+	 * 샘플 등록화면
+	 * 
+	 * @param sampleVO
+	 * @return
+	 */
 	@GetMapping("/sample/add")
 	public String form(final @ModelAttribute SampleVO sampleVO) {
 		return "egovSampleRegister";
 	}
 
+	/**
+	 * 샘플 등록처리
+	 * 
+	 * @param sampleVO
+	 * @param bindingResult
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/sample/add")
 	public String add(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
 			throws Exception {
@@ -81,6 +123,14 @@ public class EgovSampleController {
 		return "redirect:/";
 	}
 
+	/**
+	 * 샘플 수정처리
+	 * 
+	 * @param sampleVO
+	 * @param bindingResult
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/sample/update")
 	public String update(final @Valid @ModelAttribute SampleVO sampleVO, final BindingResult bindingResult)
 			throws Exception {
@@ -91,6 +141,13 @@ public class EgovSampleController {
 		return "redirect:/";
 	}
 
+	/**
+	 * 샘플 삭제처리
+	 * 
+	 * @param sampleVO
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/sample/delete")
 	public String delete(final @ModelAttribute SampleVO sampleVO) throws Exception {
 		this.sampleService.deleteSample(sampleVO);

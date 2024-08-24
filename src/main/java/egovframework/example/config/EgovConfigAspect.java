@@ -14,20 +14,40 @@ import egovframework.example.exception.EgovAopExceptionTransfer;
 import egovframework.example.exception.EgovSampleExcepHndlr;
 import egovframework.example.exception.EgovSampleOthersExcepHndlr;
 
+/**
+ * Aspect 구성
+ */
 @Configuration
 @EnableAspectJAutoProxy
 public class EgovConfigAspect {
 
+	/**
+	 * Egov 샘플 ExcepHndlr
+	 * 
+	 * @return
+	 */
 	@Bean
 	public EgovSampleExcepHndlr egovHandler() {
 		return new EgovSampleExcepHndlr();
 	}
 
+	/**
+	 * Egov 샘플 OthersExcepHndlr
+	 * 
+	 * @return
+	 */
 	@Bean
 	public EgovSampleOthersExcepHndlr otherHandler() {
 		return new EgovSampleOthersExcepHndlr();
 	}
 
+	/**
+	 * 기본 예외 처리 관리자
+	 * 
+	 * @param antPathMatcher
+	 * @param egovHandler
+	 * @return
+	 */
 	@Bean
 	public DefaultExceptionHandleManager defaultExceptionHandleManager(final AntPathMatcher antPathMatcher,
 			final EgovSampleExcepHndlr egovHandler) {
@@ -38,6 +58,13 @@ public class EgovConfigAspect {
 		return defaultExceptionHandleManager;
 	}
 
+	/**
+	 * 기타 예외 처리 관리자
+	 * 
+	 * @param antPathMatcher
+	 * @param othersExcepHndlr
+	 * @return
+	 */
 	@Bean
 	public DefaultExceptionHandleManager otherExceptionHandleManager(final AntPathMatcher antPathMatcher,
 			final EgovSampleOthersExcepHndlr othersExcepHndlr) {
@@ -48,6 +75,13 @@ public class EgovConfigAspect {
 		return defaultExceptionHandleManager;
 	}
 
+	/**
+	 * 예외 이전
+	 * 
+	 * @param defaultExceptionHandleManager
+	 * @param otherExceptionHandleManager
+	 * @return
+	 */
 	@Bean
 	public ExceptionTransfer exceptionTransfer(
 			final @Qualifier("defaultExceptionHandleManager") DefaultExceptionHandleManager defaultExceptionHandleManager,
@@ -58,6 +92,12 @@ public class EgovConfigAspect {
 		return exceptionTransfer;
 	}
 
+	/**
+	 * Egov Aop 예외 전송
+	 * 
+	 * @param exceptionTransfer
+	 * @return
+	 */
 	@Bean
 	public EgovAopExceptionTransfer aopExceptionTransfer(final ExceptionTransfer exceptionTransfer) {
 		EgovAopExceptionTransfer egovAopExceptionTransfer = new EgovAopExceptionTransfer();

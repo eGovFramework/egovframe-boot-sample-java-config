@@ -1,8 +1,12 @@
 package egovframework.example.exception;
 
-import lombok.extern.slf4j.Slf4j;
 import org.egovframe.rte.fdl.cmmn.exception.handler.ExceptionHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Egov 샘플 ExcepHndlr
+ */
 @Slf4j
 public class EgovSampleExcepHndlr implements ExceptionHandler {
 

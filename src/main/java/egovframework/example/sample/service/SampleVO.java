@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 샘플 VO
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,18 +21,18 @@ public class SampleVO extends SampleDefaultVO {
 	private String id;
 
 	/** 이름 */
-	@EgovNotNull(message="{confirm.required.name}")
+	@EgovNotNull(message = "{confirm.required.name}")
 	private String name;
 
 	/** 내용 */
-	@EgovNotNull(message="{confirm.required.description}")
+	@EgovNotNull(message = "{confirm.required.description}")
 	private String description;
 
 	/** 사용여부 */
 	private String useYn;
 
 	/** 등록자 */
-	@EgovNotNull(message="{confirm.required.user}")
+	@EgovNotNull(message = "{confirm.required.user}")
 	private String regUser;
 
 }

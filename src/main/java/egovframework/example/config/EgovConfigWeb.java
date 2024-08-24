@@ -22,11 +22,17 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 import egovframework.example.pagination.EgovPaginationDialect;
 
+/**
+ * Web 구성
+ */
 @Configuration
 @Import({ EgovConfigAspect.class, EgovConfigCommon.class, EgovConfigDatasource.class, EgovConfigIdGeneration.class,
 		EgovConfigMapper.class, EgovConfigProperties.class, EgovConfigTransaction.class, EgovConfigValidation.class })
 public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware {
 
+	/**
+	 * 애플리케이션 컨텍스트
+	 */
 	private ApplicationContext applicationContext;
 
 	@Override
@@ -34,6 +40,11 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		this.applicationContext = applicationContext;
 	}
 
+	/**
+	 * 템플릿 해석기
+	 * 
+	 * @return
+	 */
 	@Bean
 	public SpringResourceTemplateResolver templateResolver() {
 		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -45,6 +56,11 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		return templateResolver;
 	}
 
+	/**
+	 * 템플릿 엔진
+	 * 
+	 * @return
+	 */
 	@Bean
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -55,6 +71,11 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		return templateEngine;
 	}
 
+	/**
+	 * thymeleaf 뷰 리졸버
+	 * 
+	 * @return
+	 */
 	@Bean
 	public ThymeleafViewResolver thymeleafViewResolver() {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -63,6 +84,9 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		return viewResolver;
 	}
 
+	/**
+	 * 리소스 핸들러 추가
+	 */
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
@@ -70,11 +94,21 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
 	}
 
+	/**
+	 * 로케일 확인자
+	 * 
+	 * @return
+	 */
 	@Bean
 	public SessionLocaleResolver localeResolver() {
 		return new SessionLocaleResolver();
 	}
 
+	/**
+	 * 로케일 변경 인터셉터
+	 * 
+	 * @return
+	 */
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -82,11 +116,17 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		return interceptor;
 	}
 
+	/**
+	 * 인터셉터 추가
+	 */
 	@Override
 	public void addInterceptors(final InterceptorRegistry registry) {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 
+	/**
+	 * 처리기 예외 확인자 구성
+	 */
 	@Override
 	public void configureHandlerExceptionResolvers(final List<HandlerExceptionResolver> resolvers) {
 		Properties prop = new Properties();

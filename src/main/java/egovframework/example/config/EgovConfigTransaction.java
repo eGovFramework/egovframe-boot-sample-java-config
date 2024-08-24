@@ -19,9 +19,18 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+/**
+ * Transaction 구성
+ */
 @Configuration
 public class EgovConfigTransaction {
 
+	/**
+	 * 트랜잭션 관리자
+	 * 
+	 * @param dataSource
+	 * @return
+	 */
 	@Bean(name = "txManager")
 	public DataSourceTransactionManager txManager(final @Qualifier("dataSource") DataSource dataSource) {
 		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
@@ -29,6 +38,12 @@ public class EgovConfigTransaction {
 		return dataSourceTransactionManager;
 	}
 
+	/**
+	 * 트랜잭션 조언
+	 * 
+	 * @param txManager
+	 * @return
+	 */
 	@Bean
 	public TransactionInterceptor txAdvice(final DataSourceTransactionManager txManager) {
 		RuleBasedTransactionAttribute txAttribute = new RuleBasedTransactionAttribute();
@@ -48,6 +63,12 @@ public class EgovConfigTransaction {
 		return txAdvice;
 	}
 
+	/**
+	 * 트랜잭션 조언
+	 * 
+	 * @param txManager
+	 * @return
+	 */
 	@Bean
 	public Advisor txAdvisor(final @Qualifier("txManager") DataSourceTransactionManager txManager) {
 		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();

@@ -7,9 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * Validation 구성
+ */
 @Configuration
 public class EgovConfigValidation {
 
+	/**
+	 * 유효성 검사기 받기
+	 * 
+	 * @param messageSource
+	 * @return
+	 */
 	@Bean
 	public Validator getValidator(final @Qualifier("messageSource") MessageSource messageSource) {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
