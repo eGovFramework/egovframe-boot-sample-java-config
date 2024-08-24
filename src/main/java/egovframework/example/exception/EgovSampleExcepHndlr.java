@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EgovSampleExcepHndlr implements ExceptionHandler {
 
 	@Override
-	public void occur(Exception ex, String packageName) {
+	public void occur(Exception exception, String packageName) {
 		log.debug("##### EgovServiceExceptionHandler Run...");
 	}
 

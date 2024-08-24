@@ -35,35 +35,35 @@ public interface EgovSampleService {
 
 	/**
 	 * 글을 등록한다.
-	 * @param vo - 등록할 정보가 담긴 SampleVO
+	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-	String insertSample(SampleVO vo) throws Exception;
+	String insertSample(SampleVO sampleVO) throws Exception;
 
 	/**
 	 * 글을 수정한다.
-	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
 	 * @return void형
 	 * @exception Exception
 	 */
-	void updateSample(SampleVO vo) throws Exception;
+	void updateSample(SampleVO sampleVO) throws Exception;
 
 	/**
 	 * 글을 삭제한다.
-	 * @param vo - 삭제할 정보가 담긴 SampleVO
+	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
 	 * @return void형
 	 * @exception Exception
 	 */
-	void deleteSample(SampleVO vo) throws Exception;
+	void deleteSample(SampleVO sampleVO) throws Exception;
 
 	/**
 	 * 글을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 SampleVO
+	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
 	 * @exception Exception
 	 */
-	SampleVO selectSample(SampleVO vo) throws Exception;
+	SampleVO selectSample(SampleVO sampleVO) throws Exception;
 
 	/**
 	 * 글 목록을 조회한다.

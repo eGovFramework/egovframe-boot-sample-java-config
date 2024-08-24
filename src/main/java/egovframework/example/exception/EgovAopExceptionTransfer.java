@@ -32,13 +32,13 @@ public class EgovAopExceptionTransfer {
 	 * 예외 전송 서비스 발생 후 수행
 	 * 
 	 * @param thisJoinPoint
-	 * @param ex
+	 * @param exception
 	 * @throws Exception
 	 */
 	@AfterThrowing(pointcut = "exceptionTransferService()", throwing = "ex")
-	public void doAfterThrowingExceptionTransferService(final JoinPoint thisJoinPoint, final Exception ex)
+	public void doAfterThrowingExceptionTransferService(final JoinPoint thisJoinPoint, final Exception exception)
 			throws Exception {
-		exceptionTransfer.transfer(thisJoinPoint, ex);
+		exceptionTransfer.transfer(thisJoinPoint, exception);
 	}
 
 }
