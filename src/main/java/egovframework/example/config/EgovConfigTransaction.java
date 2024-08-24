@@ -19,10 +19,13 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Transaction 구성
  */
 @Configuration
+@NoArgsConstructor
 public class EgovConfigTransaction {
 
 	/**

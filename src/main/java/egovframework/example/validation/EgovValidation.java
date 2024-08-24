@@ -5,9 +5,12 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.util.ObjectUtils;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Egov 검증
  */
+@NoArgsConstructor
 public class EgovValidation implements ConstraintValidator<EgovNotNull, String> {
 
 	@Override

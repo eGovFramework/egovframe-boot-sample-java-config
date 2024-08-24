@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @SpringBootApplication
 @Slf4j
+@NoArgsConstructor
 public class EgovBootApplication {
 
 	/**

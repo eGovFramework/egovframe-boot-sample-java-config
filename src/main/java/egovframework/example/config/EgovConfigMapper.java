@@ -13,11 +13,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Mapper 구성
  */
 @Configuration
 @MapperScan(basePackages = "egovframework.example.sample.service.impl")
+@NoArgsConstructor
 public class EgovConfigMapper {
 
 	/**

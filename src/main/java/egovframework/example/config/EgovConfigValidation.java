@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Validation 구성
  */
 @Configuration
+@NoArgsConstructor
 public class EgovConfigValidation {
 
 	/**

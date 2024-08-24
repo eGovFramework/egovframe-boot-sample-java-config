@@ -13,12 +13,14 @@ import org.springframework.util.AntPathMatcher;
 import egovframework.example.exception.EgovAopExceptionTransfer;
 import egovframework.example.exception.EgovSampleExcepHndlr;
 import egovframework.example.exception.EgovSampleOthersExcepHndlr;
+import lombok.NoArgsConstructor;
 
 /**
  * Aspect 구성
  */
 @Configuration
 @EnableAspectJAutoProxy
+@NoArgsConstructor
 public class EgovConfigAspect {
 
 	/**

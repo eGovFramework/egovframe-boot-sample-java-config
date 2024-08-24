@@ -1,6 +1,5 @@
 package egovframework.example.sample.web;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.egovframe.rte.fdl.property.EgovPropertyService;
@@ -15,20 +14,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 샘플 Controller
  */
 @Controller
+@RequiredArgsConstructor
 public class EgovSampleController {
 
 	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+//	@Resource(name = "sampleService")
+//	private EgovSampleService sampleService;
+	private final EgovSampleService sampleService;
 
 	/** EgovPropertyService */
-	@Resource(name = "propertiesService")
-	protected EgovPropertyService propertiesService;
+//	@Resource(name = "propertiesService")
+//	protected EgovPropertyService propertiesService;
+	protected final EgovPropertyService propertiesService;
 
 	/**
 	 * 검색

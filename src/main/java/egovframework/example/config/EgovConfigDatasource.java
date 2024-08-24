@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Datasource 구성
  */
 @Configuration
+@NoArgsConstructor
 public class EgovConfigDatasource {
 
 	/**

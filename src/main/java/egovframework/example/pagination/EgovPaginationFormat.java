@@ -4,9 +4,12 @@ import java.text.MessageFormat;
 
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Egov 페이징 형식
  */
+@NoArgsConstructor
 public class EgovPaginationFormat {
 
 	/**

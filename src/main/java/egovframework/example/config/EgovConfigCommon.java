@@ -11,10 +11,13 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.util.AntPathMatcher;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Common 구성
  */
 @Configuration
+@NoArgsConstructor
 public class EgovConfigCommon {
 
 	/**

@@ -6,10 +6,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer;
 
+import lombok.NoArgsConstructor;
+
 /**
  * Egov Aop 예외 전송
  */
 @Aspect
+@NoArgsConstructor
 public class EgovAopExceptionTransfer {
 
 	/**

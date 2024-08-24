@@ -21,6 +21,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
 import egovframework.example.pagination.EgovPaginationDialect;
+import lombok.NoArgsConstructor;
 
 /**
  * Web 구성
@@ -28,6 +29,7 @@ import egovframework.example.pagination.EgovPaginationDialect;
 @Configuration
 @Import({ EgovConfigAspect.class, EgovConfigCommon.class, EgovConfigDatasource.class, EgovConfigIdGeneration.class,
 		EgovConfigMapper.class, EgovConfigProperties.class, EgovConfigTransaction.class, EgovConfigValidation.class })
+@NoArgsConstructor
 public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware {
 
 	/**
