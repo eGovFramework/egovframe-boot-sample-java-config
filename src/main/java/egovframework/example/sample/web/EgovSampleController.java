@@ -90,5 +90,4 @@ public class EgovSampleController {
 		this.sampleService.deleteSample(sampleVO);
 		return "redirect:/";
 	}
-
 }
