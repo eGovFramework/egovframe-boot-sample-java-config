@@ -18,11 +18,9 @@ import javax.validation.Valid;
 @Controller
 public class EgovSampleController {
 
-	/** EgovSampleService */
 	@Resource(name = "sampleService")
 	private EgovSampleService sampleService;
 
-	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
