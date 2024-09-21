@@ -1,7 +1,8 @@
 package egovframework.example.sample.web;
 
-import egovframework.example.sample.service.EgovSampleService;
-import egovframework.example.sample.service.SampleVO;
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
+import egovframework.example.sample.service.EgovSampleService;
+import egovframework.example.sample.service.SampleVO;
 
 @Controller
 public class EgovSampleController {
