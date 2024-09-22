@@ -2,8 +2,6 @@ package egovframework.example.sample.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
 import org.slf4j.Logger;
@@ -13,19 +11,37 @@ import org.springframework.stereotype.Service;
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
+import lombok.RequiredArgsConstructor;
 
-@Service("sampleService")
+/**
+ * sample에 관한 비지니스 클래스
+ *
+ * @author 표준프레임워크센터
+ * @since 2014.01.24
+ * @version 1.0
+ * @see
+ *
+ *      <pre>
+ *  == 개정이력(Modification Information) ==
+ *
+ *   수정일      수정자           수정내용
+ *  -------    --------    ---------------------------
+ *   2014.01.24  관리자          최초 생성
+ *   2024.09.21  안단희          롬복 생성자 기반 종속성 주입
+ *      </pre>
+ */
+
+@Service
+@RequiredArgsConstructor
 public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements EgovSampleService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovSampleServiceImpl.class);
 
 	/** SampleDAO */
-	@Resource(name = "sampleMapper")
-	private SampleMapper sampleDAO;
+	private final SampleMapper sampleDAO;
 
 	/** ID Generation */
-	@Resource(name = "egovIdGnrService")
-	private EgovIdGnrService egovIdGnrService;
+	private final EgovIdGnrService egovIdGnrService;
 
 	/**
 	 * 글을 등록한다.

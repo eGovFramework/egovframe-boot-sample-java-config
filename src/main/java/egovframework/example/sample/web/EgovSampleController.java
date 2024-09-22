@@ -1,6 +1,5 @@
 package egovframework.example.sample.web;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.egovframe.rte.fdl.property.EgovPropertyService;
@@ -15,17 +14,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
+import lombok.RequiredArgsConstructor;
+
+/**
+ * sample에 관한 컨트롤러 클래스
+ *
+ * @author 표준프레임워크센터
+ * @since 2014.01.24
+ * @version 1.0
+ * @see
+ *
+ *      <pre>
+ *  == 개정이력(Modification Information) ==
+ *
+ *   수정일      수정자           수정내용
+ *  -------    --------    ---------------------------
+ *   2014.01.24  관리자          최초 생성
+ *   2024.09.21  안단희          롬복 생성자 기반 종속성 주입
+ *      </pre>
+ */
 
 @Controller
+@RequiredArgsConstructor
 public class EgovSampleController {
 
 	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+	private final EgovSampleService sampleService;
 
 	/** EgovPropertyService */
-	@Resource(name = "propertiesService")
-	protected EgovPropertyService propertiesService;
+	private final EgovPropertyService propertiesService;
 
 	@GetMapping("/")
 	public String search(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {
