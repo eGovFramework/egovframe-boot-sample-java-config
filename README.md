@@ -41,7 +41,7 @@ __프로젝트 우클릭 > Run As > Spring Boot App__ 을 통해 구동한다.
 
 ### 게시글 등록 화면
 
-![4th_new_web5](https://github.com/user-attachments/assets/343ddc22-c72b-4053-938d-12b9f6788412)
+![4th_new_web5](https://github.com/user-attachments/assets/91c1b668-cb59-45ea-8b13-0e3f34ea9078)
 
 ## 변경 사항
 
