@@ -16,24 +16,6 @@ import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
 import lombok.RequiredArgsConstructor;
 
-/**
- * sample에 관한 컨트롤러 클래스
- *
- * @author 표준프레임워크센터
- * @since 2014.01.24
- * @version 1.0
- * @see
- *
- *      <pre>
- *  == 개정이력(Modification Information) ==
- *
- *   수정일      수정자           수정내용
- *  -------    --------    ---------------------------
- *   2014.01.24  관리자          최초 생성
- *   2024.09.21  안단희          롬복 생성자 기반 종속성 주입
- *      </pre>
- */
-
 @Controller
 @RequiredArgsConstructor
 public class EgovSampleController {
