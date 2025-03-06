@@ -36,7 +36,7 @@ import java.util.List;
  *
  * </pre>
  */
-@Mapper("sampleMapper")
+@Mapper
 public interface SampleMapper {
 
 	/**

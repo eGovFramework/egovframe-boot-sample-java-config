@@ -1,7 +1,7 @@
 package egovframework.example.sample.web;
 
-import egovframework.example.sample.service.EgovSampleService;
-import egovframework.example.sample.service.SampleVO;
+import javax.validation.Valid;
+
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
+import egovframework.example.sample.service.EgovSampleService;
+import egovframework.example.sample.service.SampleVO;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class EgovSampleController {
 
 	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+	private final EgovSampleService sampleService;
 
 	/** EgovPropertyService */
-	@Resource(name = "propertiesService")
-	protected EgovPropertyService propertiesService;
+	private final EgovPropertyService propertiesService;
 
 	@GetMapping("/")
 	public String search(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {

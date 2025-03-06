@@ -31,17 +31,17 @@ __프로젝트 우클릭 > Run As > Spring Boot App__ 을 통해 구동한다.
 ### 구동 후 확인
 
 구동 후, 브라우저에서 `http://localhost:포트번호/` 로 확인이 가능하다.  
-초기 포트번호는 8080이며 `src/main/resources/application.yml` 파일의 port 항목에서 변경 가능하다.
+초기 포트번호는 8080이며 `src/main/resources/application.properties` 파일의 `server.port` 항목에서 변경 가능하다.
 
 ## 참조 화면
 
 ### 목록 화면
 
-![4th_new_web4](https://user-images.githubusercontent.com/3771788/229034000-be8e116b-01ec-4a13-ab17-4c8e85956f8a.jpg)
+![4th_new_web4](https://github.com/user-attachments/assets/199c6964-1aa1-42bc-a3d2-0234d037057a)
 
 ### 게시글 등록 화면
 
-![4th_new_web5](https://user-images.githubusercontent.com/3771788/229034017-68edf6c3-aeee-441c-bff8-9405626a277c.jpg)
+![4th_new_web5](https://github.com/user-attachments/assets/91c1b668-cb59-45ea-8b13-0e3f34ea9078)
 
 ## 변경 사항
 
