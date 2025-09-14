@@ -50,7 +50,7 @@ servletContext.addListener(listener);
 <EgovWebApplicationInitializer.class>
 
 ```java
-servletContext.setInitParameter("contextConfigLoaction", "classpath*:egovframework/spring/com/context-*.xml");
+servletContext.setInitParameter("contextConfigLocation", "classpath*:egovframework/spring/com/context-*.xml");
 ```
 
 이때 기본 Root WebApplication의 contextClass는 [`XmlWebApplicationContext`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/context/support/XmlWebApplicationContext.html)이고 기본 설정 파일 위치인 `contextConfigLoaction`은 `/WEB-INF/applicationContext.xml` 이다.
