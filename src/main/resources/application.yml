@@ -1,0 +1,25 @@
+# 전자정부 표준프레임워크 Spring Boot 설정
+# eGovFrame Spring Boot Configuration
+
+server:
+  # 서버 포트 설정
+  # Server port configuration
+  port: 8080
+
+spring:
+  main:
+    # 수동 Bean이 자동 Bean을 오버라이딩하게 설정
+    # 개발 시 커스텀 Bean이 기본 Bean을 대체할 수 있도록 허용
+    # Allow manual beans to override automatic beans
+    # Enables custom beans to replace default beans during development
+    allow-bean-definition-overriding: true
+    
+  jpa:
+    # Open-in-View 패턴 설정 (OSIV)
+    # true(기본값): 사용자에게 응답 또는 view가 렌더링될 때까지 영속성 컨텍스트 유지
+    # false: 트랜잭션이 종료될 때 영속성 컨텍스트 종료 (성능상 권장)
+    #
+    # Open-in-View pattern configuration (OSIV)
+    # true(default): Keep persistence context until response or view rendering to user
+    # false: Close persistence context when transaction ends (recommended for performance)
+    open-in-view: false
