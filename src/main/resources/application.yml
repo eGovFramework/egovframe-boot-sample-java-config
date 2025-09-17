@@ -24,23 +24,48 @@ spring:
     # false: Close persistence context when transaction ends (recommended for performance)
     open-in-view: false
 
-# 전자정부 프레임워크 프로퍼티 설정
-# 주의: egov.* 프로퍼티는 자동으로 camelCase로 변환됩니다
-# 예시: egov.page-unit → pageUnit, egov.file-upload-size → fileUploadSize
-# 활용 : propertiesService.getInt("pageUnit")
+# 전자정부 프레임워크 글로벌 설정 (심플백엔드 호환)
+# 주의: Globals.* 프로퍼티는 자동으로 camelCase로 변환됩니다
+# 예시: Globals.page-unit → Globals.PageUnit, Globals.db-type → Globals.DbType
+# 활용: propertiesService.getString("Globals.PageUnit")
 #
-# eGovFrame Properties Configuration
-# Note: egov.* properties are automatically converted to camelCase
-# Example: egov.page-unit → pageUnit, egov.file-upload-size → fileUploadSize
-# Usage : propertiesService.getInt("pageUnit")
-egov:
+# eGovFrame Global Configuration (Simple-backend compatible)
+# Note: Globals.* properties are automatically converted to camelCase
+# Example: Globals.page-unit → Globals.PageUnit, Globals.db-type → Globals.DbType
+# Usage: propertiesService.getString("Globals.PageUnit")
+Globals:
   # 페이징 설정
   # Pagination settings
   page-unit: 15
   page-size: 5
-
+  
   # 파일 업로드 설정
   # File upload settings
   posbl-atch-file-size: 5242880
-  globals-file-store-path: "/user/file/sht/"
-  globals-added-options: false
+  file-store-path: "./files"
+  added-options: false
+  
+  # 데이터베이스 설정(hsql,mysql,oracle)
+  # Database settings
+  db-type: "mysql"
+
+  # HSQL 설정
+  # HSQL configuration
+  hsql:
+    script-location: "classpath:/db/sampledb.sql"
+
+  # MySQL 설정
+  # MySQL configuration
+  mysql:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://127.0.0.1:3306/egovframe"
+    user-name: "egovframe"
+    password: "egovframe"
+    
+  # Oracle 설정
+  # Oracle configuration
+  oracle:
+    driver-class-name: "oracle.jdbc.driver.OracleDriver"
+    url: "jdbc:oracle:thin:@127.0.0.1:1521:sampledb"
+    user-name: "sa"
+    password: ""

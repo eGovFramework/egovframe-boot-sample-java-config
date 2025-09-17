@@ -22,29 +22,51 @@
 </bean>
 ```
 
-## Java Config 설정 (자동화된 YAML 연동 방식)
+## Java Config 설정 (Globals 자동화 방식)
 
 <application.yml>
 
 ```yaml
-# 전자정부 프레임워크 프로퍼티 설정
-# eGovFrame Properties Configuration
-# 
-# 주의: egov.* 프로퍼티는 자동으로 camelCase로 변환됩니다
-# Note: egov.* properties are automatically converted to camelCase
-# 예시: egov.page-unit → pageUnit, egov.file-upload-size → fileUploadSize
-# Example: egov.page-unit → pageUnit, egov.file-upload-size → fileUploadSize
-egov:
+# 전자정부 프레임워크 글로벌 설정 (심플백엔드 호환)
+# 주의: Globals.* 프로퍼티는 자동으로 PascalCase로 변환됩니다
+# 예시: Globals.page-unit → Globals.PageUnit, Globals.db-type → Globals.DbType
+# 활용: propertiesService.getString("Globals.PageUnit")
+#
+# eGovFrame Global Configuration (Simple-backend compatible)
+# Note: Globals.* properties are automatically converted to PascalCase
+# Example: Globals.page-unit → Globals.PageUnit, Globals.db-type → Globals.DbType
+# Usage: propertiesService.getString("Globals.PageUnit")
+Globals:
   # 페이징 설정
   # Pagination settings
   page-unit: 10
   page-size: 10
   
-  # 파일 업로드 설정 (예시)
-  # File upload settings (example)
+  # 파일 업로드 설정
+  # File upload settings
   posbl-atch-file-size: 5242880
-  globals-file-store-path: "/user/file/sht/"
-  globals-added-options: false
+  file-store-path: "./files"
+  added-options: false
+  
+  # 데이터베이스 설정
+  # Database settings
+  db-type: "mysql"  # hsql, mysql, oracle
+  
+  # MySQL 설정
+  # MySQL configuration
+  mysql:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://127.0.0.1:3306/egovframe"
+    user-name: "egovframe"
+    password: "egovframe"
+    
+  # Oracle 설정
+  # Oracle configuration
+  oracle:
+    driver-class-name: "oracle.jdbc.driver.OracleDriver"
+    url: "jdbc:oracle:thin:@127.0.0.1:1521:XE"
+    user-name: "egovframe"
+    password: "egovframe"
 ```
 
 <EgovConfigProperties.class>
@@ -61,8 +83,8 @@ public class EgovConfigProperties {
         EgovPropertyServiceImpl egovPropertyServiceImpl = new EgovPropertyServiceImpl();
         Map<String, String> properties = new HashMap<>();
         
-        // 모든 프로퍼티 소스에서 egov.* 프로퍼티를 찾아서 자동 변환
-        // Find egov.* properties from all property sources and convert automatically
+        // 모든 프로퍼티 소스에서 Globals.* 프로퍼티를 찾아서 자동 변환
+        // Find Globals.* properties from all property sources and convert automatically
         MutablePropertySources propertySources = ((AbstractEnvironment) environment).getPropertySources();
         
         for (PropertySource<?> propertySource : propertySources) {
@@ -70,15 +92,10 @@ public class EgovConfigProperties {
                 String[] propertyNames = ((EnumerablePropertySource<?>) propertySource).getPropertyNames();
                 
                 for (String propertyName : propertyNames) {
-                    if (propertyName.startsWith("egov.")) {
+                    if (propertyName.startsWith("Globals.")) {
                         String value = environment.getProperty(propertyName);
-                        
-                        // egov. 접두사 제거 후 kebab-case를 camelCase로 변환
-                        // Remove egov. prefix and convert kebab-case to camelCase
-                        String key = propertyName.substring(5); // "egov." 제거 / Remove "egov."
-                        String camelCaseKey = CaseUtils.toCamelCase(key, false, '-');
-                        
-                        properties.put(camelCaseKey, value);
+                        String key = convertGlobalsProperty(propertyName);
+                        properties.put(key, value);
                     }
                 }
             }
@@ -87,25 +104,63 @@ public class EgovConfigProperties {
         egovPropertyServiceImpl.setProperties(properties);
         return egovPropertyServiceImpl;
     }
+    
+    // Globals.page-unit → Globals.PageUnit 변환
+    // Globals.mysql.driver-class-name → Globals.Mysql.DriverClassName 변환
+    private String convertGlobalsProperty(String propertyName) {
+        // CaseUtils.toCamelCase 활용한 변환 로직
+    }
 }
 ```
 
 ## 자동 변환 예시
 
-| YAML 설정 (kebab-case) | Java 프로퍼티 (camelCase) | 설명 |
+| YAML 설정 (kebab-case) | Java 프로퍼티 (PascalCase) | 설명 |
 |------------------------|---------------------------|------|
-| `egov.page-unit` | `pageUnit` | 페이지당 항목 수 |
-| `egov.page-size` | `pageSize` | 페이지 크기 |
-| `egov.posbl-atch-file-size` | `posblAtchFileSize` | 첨부파일 최대 크기 |
-| `egov.globals-file-store-path` | `globalsFileStorePath` | 파일 저장 경로 |
-| `egov.new-awesome-feature` | `newAwesomeFeature` | 새 기능 (자동 추가) |
+| `Globals.page-unit` | `Globals.PageUnit` | 페이지당 항목 수 |
+| `Globals.page-size` | `Globals.PageSize` | 페이지 크기 |
+| `Globals.db-type` | `Globals.DbType` | 데이터베이스 타입 |
+| `Globals.mysql.driver-class-name` | `Globals.Mysql.DriverClassName` | MySQL 드라이버 |
+| `Globals.mysql.url` | `Globals.Mysql.Url` | MySQL 접속 URL |
+| `Globals.oracle.user-name` | `Globals.Oracle.UserName` | Oracle 사용자명 |
+
+## 다중 데이터베이스 지원
+
+### HSQL (내장 DB)
+```yaml
+Globals:
+  db-type: "hsql"
+```
+
+### MySQL
+```yaml
+Globals:
+  db-type: "mysql"
+  mysql:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://localhost:3306/egovframe"
+    user-name: "egovframe"
+    password: "egovframe"
+```
+
+### Oracle
+```yaml
+Globals:
+  db-type: "oracle"
+  oracle:
+    driver-class-name: "oracle.jdbc.driver.OracleDriver"
+    url: "jdbc:oracle:thin:@localhost:1521:XE"
+    user-name: "egovframe"
+    password: "egovframe"
+```
 
 ## 개선 효과
 
-1. **완전 자동화**: YAML에 프로퍼티만 추가하면 Java 코드 수정 없이 자동 등록
-2. **네이밍 컨벤션**: YAML은 kebab-case, Java는 camelCase 자동 변환
-3. **확장성**: 새로운 프로퍼티 추가 시 개발자 개입 불필요
-4. **중앙 집중 관리**: 모든 설정값이 application.yml에서 관리
-5. **환경별 설정**: 개발/운영 환경별로 다른 설정 파일 사용 가능
-6. **국제화**: 한글-영문 병행 주석으로 글로벌 개발자 지원
-7. **Apache Commons Text 활용**: 검증된 라이브러리로 안정적인 변환
+1. **심플백엔드 호환성**: Globals.* 구조로 기존 전자정부 프로젝트와 일관성 확보
+2. **완전 자동화**: YAML에 프로퍼티만 추가하면 Java 코드 수정 없이 자동 등록
+3. **다중 DB 지원**: DB 타입에 따른 동적 데이터소스 생성
+4. **네이밍 컨벤션**: YAML은 kebab-case, Java는 PascalCase 자동 변환
+5. **중앙 집중 관리**: 모든 설정값이 application.yml에서 관리
+6. **환경별 설정**: 개발/운영 환경별로 다른 설정 파일 사용 가능
+7. **국제화**: 한글-영문 병행 주석으로 글로벌 개발자 지원
+8. **Apache Commons Text 활용**: 검증된 라이브러리로 안정적인 변환
