@@ -23,3 +23,24 @@ spring:
     # true(default): Keep persistence context until response or view rendering to user
     # false: Close persistence context when transaction ends (recommended for performance)
     open-in-view: false
+
+# 전자정부 프레임워크 프로퍼티 설정
+# 주의: egov.* 프로퍼티는 자동으로 camelCase로 변환됩니다
+# 예시: egov.page-unit → pageUnit, egov.file-upload-size → fileUploadSize
+# 활용 : propertiesService.getInt("pageUnit")
+#
+# eGovFrame Properties Configuration
+# Note: egov.* properties are automatically converted to camelCase
+# Example: egov.page-unit → pageUnit, egov.file-upload-size → fileUploadSize
+# Usage : propertiesService.getInt("pageUnit")
+egov:
+  # 페이징 설정
+  # Pagination settings
+  page-unit: 15
+  page-size: 5
+
+  # 파일 업로드 설정
+  # File upload settings
+  posbl-atch-file-size: 5242880
+  globals-file-store-path: "/user/file/sht/"
+  globals-added-options: false
