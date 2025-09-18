@@ -33,8 +33,8 @@ public class EgovSampleController {
 
 	@PostMapping("/sample/list")
 	public String list(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {
-		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		sampleVO.setPageSize(propertiesService.getInt("pageSize"));
+		sampleVO.setPageUnit(propertiesService.getInt("Globals.PageUnit"));
+		sampleVO.setPageSize(propertiesService.getInt("Globals.PageSize"));
 
 		// pagination setting
 		PaginationInfo paginationInfo = new PaginationInfo();
