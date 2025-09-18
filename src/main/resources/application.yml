@@ -36,8 +36,8 @@ spring:
 Globals:
   # 페이징 설정
   # Pagination settings
-  page-unit: 15
-  page-size: 5
+  page-unit: 10
+  page-size: 10
   
   # 파일 업로드 설정
   # File upload settings
@@ -47,7 +47,7 @@ Globals:
   
   # 데이터베이스 설정(hsql,mysql,oracle)
   # Database settings
-  db-type: "mysql"
+  db-type: "hsql"
 
   # HSQL 설정
   # HSQL configuration
