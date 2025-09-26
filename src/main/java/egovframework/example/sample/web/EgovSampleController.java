@@ -60,6 +60,10 @@ public class EgovSampleController {
 	public String detail(@ModelAttribute SampleVO sampleVO, @RequestParam String id, Model model) throws Exception {
 		sampleVO.setId(id);
 		SampleVO detail = this.sampleService.selectSample(sampleVO);
+		
+		// 현재 페이지 지정
+		detail.setPageIndex(sampleVO.getPageIndex());
+		
 		model.addAttribute("sampleVO", detail);
 		return "egovSampleRegister";
 	}
@@ -79,12 +83,12 @@ public class EgovSampleController {
 	}
 
 	@PostMapping("/sample/update")
-	public String update(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult) throws Exception {
+	public String update(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult, Model model) throws Exception {
 		if (bindingResult.hasErrors()) {
 			return "egovSampleRegister";
 		}
 		this.sampleService.updateSample(sampleVO);
-		return "redirect:/";
+		return this.list(sampleVO, model);
 	}
 
 	@PostMapping("/sample/delete")
