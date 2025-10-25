@@ -18,7 +18,7 @@
 		var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
 		
 		function sampleList() {
-			$(location).attr('href', contextPath + '/');
+			$('#detailForm').attr('method', 'post').attr('action', contextPath + '/sample/list').submit();
 		}
 
 		function sampleAdd() {
@@ -64,6 +64,7 @@
 	</div>
 
 	<form id="detailForm" th:object="${sampleVO}">
+		<input type="hidden" id="pageIndex" name="pageIndex" th:value="${sampleVO.getPageIndex()}"/>
 
 		<!-- Detail -->
 		<div id="table">
@@ -84,7 +85,7 @@
 						<label for="name"><span th:text="#{title.sample.name}"></span></label></td>
 					<td class="tbtd_content">
 						<input type="text" id="name" name="name" th:field="*{name}"
-							   th:value="${sampleVO.name}" maxlength="30" class="txt"/>
+							   th:value="${sampleVO.name}" maxlength="30" style="width:300px" class="txt"/>
 						<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span></td>
 				</tr>
 				<tr>
