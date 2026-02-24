@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:if="${not #strings.isEmpty(sampleVO.id)}" th:text="|Sample #{button.modify}|"></title>
+    <title th:unless="${not #strings.isEmpty(sampleVO.id)}" th:text="|Sample #{button.create}|"></title>
+    
+    <!-- KRDS CSS -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/component/output.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/egovframe.css}">
+	<script th:inline="javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script th:inline="javascript" th:src="@{/js/component/ui-script.js}" defer></script>
+	<script th:inline="javascript" th:src="@{/js/egovframework/common.js}" defer></script>
+
+	<!--For Custom Validation-->
+    <script th:inline="javascript" th:src="@{/js/egovframework/EgovValidation.js}" defer></script>
+
+    <script th:inline="javascript" defer>
+	    $(document).ready(function() {
+	    	// 초기 글자 수 설정
+	        $('#textCount').text($('#description').val().length);
+	    	
+	     	// 입력할 때마다 글자 수 갱신
+	    	$('#description').on('input', function() {
+	            $('#textCount').text($(this).val().length);
+	        });
+	    });
+    
+    	function sampleList() {
+            $('#detailForm').attr('method', 'get').attr('action', contextPath + '/egovSampleList.do').submit();
+        }
+
+        function sampleAdd() {
+            if (confirm(/*[[#{add.confirm}]]*/ '등록하시겠습니까?')) {
+                let frm = document.detailForm;
+                if (!validateSampleVO(frm)) {
+					return;
+				} else {
+					$('#detailForm').attr('method', 'post').attr('action', contextPath + '/addSample.do').submit();
+				}
+            }
+        }
+
+        function sampleUpdate() {
+            if (confirm(/*[[#{modify.confirm}]]*/ '수정하시겠습니까?')) {
+            	let frm = document.detailForm;
+                if (!validateSampleVO(frm)) {
+					return;
+				} else {
+            		$('#detailForm').attr('method', 'post').attr('action', contextPath + '/updateSample.do').submit();
+				}
+			}
+        }
+
+        function sampleDelete() {
+            if (confirm(/*[[#{delete.confirm}]]*/ '삭제하시겠습니까?')) {
+                $('#detailForm').attr('method', 'post').attr('action', contextPath + '/deleteSample.do').submit();
+            }
+        }
+
+        function sampleReset() {
+            $('form').each(function() {
+                this.reset();
+            });
+        }
+    </script>
+</head>
+
+<body>
+<div id="container" class="inner">
+
+	<!-- Page Title -->
+	<h2 class="heading-large">
+	    <span th:if="${not #strings.isEmpty(sampleVO.id)}" th:text="#{button.modify}"></span>
+	    <span th:unless="${not #strings.isEmpty(sampleVO.id)}" th:text="#{button.create}"></span>
+	</h2>
+
+	<form id="detailForm" name="detailForm" th:object="${sampleVO}">
+	<input type="hidden" th:id="searchCondition" th:name="searchCondition" th:value="${sampleVO.searchCondition}" />
+	<input type="hidden" th:id="searchKeyword" th:name="searchKeyword" th:value="${sampleVO.searchKeyword}" />
+	<input type="hidden" th:id="pageIndex" th:name="pageIndex" th:value="${sampleVO.pageIndex}" />
+
+		<div class="conts-wrap">
+	        <div class="fieldset input-form">
+                <div class="form-group" th:if="${not #strings.isEmpty(sampleVO.id)}">
+                    <div class="form-tit">
+                        <label for="id" th:text="#{title.sample.id}"></label>
+                    </div>
+                    <div class="form-conts">
+                        <input type="text"  id="id" name="id" class="krds-input" th:value="${sampleVO.id}" th:readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-tit">
+                        <label for="name" th:text="#{title.sample.name}"> <span class="required">*</span></label>
+                    </div>
+                    <div class="form-conts">
+                        <input type="text" id="name" name="name" class="krds-input" maxlength="60" th:value="${sampleVO.name}" th:placeholder="#{confirm.required.name}">
+                    </div>
+                </div>
+
+				<div class="form-group">
+                    <div class="form-tit">
+                        <label for="useYn" th:text="#{title.sample.useYn}"></label>
+                    </div>
+                    <div class="form-conts">
+                        <select class="krds-form-select" id="useYn" name="useYn" th:title="#{title.sample.useYn}">
+                            <option th:text="#{input.yes}" value="Y" th:selected="${sampleVO.useYn} == 'Y'"></option>
+				            <option th:text="#{input.no}" value="N" th:selected="${sampleVO.useYn} == 'N'"></option>
+						</select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-tit">
+                        <label for="description" th:text="#{title.sample.description}"> <span class="required">*</span></label>
+                    </div>
+                    <div class="form-conts">
+                        <div class="textarea-wrap">
+                            <textarea id="description" name="description" maxlength="200" class="krds-input"
+                            	th:placeholder="#{confirm.required.description}">[[${sampleVO.description}]]</textarea>
+                            <p class="textarea-count">
+                                <span id="textCount" class="text-primary">0</span>
+                                <span class="text-num">/200</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-tit">
+                        <label for="regUser" th:text="#{title.sample.regUser}"> <span class="required">*</span></label>
+                    </div>
+                    <div class="form-conts">
+                        <input type="text" id="regUser" name="regUser" class="krds-input" maxlength="60"
+                        	th:value="${sampleVO.regUser}"
+                        	th:placeholder="#{confirm.required.user}"
+                        	th:readonly="readonly"
+                        	th:if="${not #strings.isEmpty(sampleVO.id)}">
+                        <input type="text" id="regUser" name="regUser" class="krds-input" maxlength="60"
+                        	th:placeholder="#{confirm.required.user}"
+                        	th:if="${#strings.isEmpty(sampleVO.id)}">
+                    </div>
+                </div>                
+
+            </div>
+
+	        <!-- Action Buttons -->
+	        <div class="page-btn-wrap">
+                <div class="btn-wrap">
+	                <button type="button" class="krds-btn medium secondary" th:text="#{button.list}" th:onclick="sampleList()"></button>
+	                <button type="button" class="krds-btn medium tertiary" th:text="#{button.reset}" th:onclick="sampleReset()"></button>
+                </div>
+	            <div class="btn-wrap">
+					<button type="button" 
+	                        class="krds-btn medium" 
+	                        th:text="#{button.modify}" 
+	                        th:onclick="sampleUpdate()"
+	                        th:if="${not #strings.isEmpty(sampleVO.id)}"></button>
+	                <button type="button" 
+	                        class="krds-btn medium danger" 
+	                        th:text="#{button.delete}" 
+	                        th:onclick="sampleDelete()"
+	                        th:if="${not #strings.isEmpty(sampleVO.id)}"></button>
+	                <button type="button" 
+	                        class="krds-btn medium" 
+	                        th:text="#{button.create}" 
+	                        th:onclick="sampleAdd()"
+	                        th:unless="${not #strings.isEmpty(sampleVO.id)}"></button>
+	            </div>
+	        </div>
+		</div>
+
+	</form>
+
+</div>
+
+</body>
+</html>

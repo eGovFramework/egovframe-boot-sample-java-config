@@ -54,14 +54,13 @@ class EgovSampleServiceImplTestInsertSampleTest {
 		sampleVO.setRegUser("eGov");
 
 		// when
-		String id = egovSampleService.insertSample(sampleVO);
+		egovSampleService.insertSample(sampleVO);
 
 		// then
 		final SampleVO resultSampleVO = egovSampleService.selectSample(sampleVO);
 
 		if (log.isDebugEnabled()) {
 			log.debug("sampleVO={}", sampleVO);
-			log.debug("id={}", id);
 			log.debug("resultSampleVO={}", resultSampleVO);
 
 			log.debug("getId={}, {}", sampleVO.getId(), resultSampleVO.getId());

@@ -10,11 +10,13 @@
 
 ## 환경 설정
 
-프로젝트에서 사용된 환경 프로그램 정보는 다음과 같다.
-| 프로그램 명 | 버전 명 |
-| :--------- | :------ |
-| java | 1.8 이상 |
-| maven | 3.8.4 ~ 3.8.8 |
+| 항목 | 버전 |
+| :--- | :--- |
+| JDK | 17 |
+| Jakarta EE | 10 |
+| Servlet | 6.0 |
+| Spring Framework | 6.2.11 |
+| Spring Boot | 3.5.6 |
 
 ## 프로젝트 실행
 
@@ -37,11 +39,11 @@ __프로젝트 우클릭 > Run As > Spring Boot App__ 을 통해 구동한다.
 
 ### 목록 화면
 
-![4th_new_web4](https://github.com/user-attachments/assets/199c6964-1aa1-42bc-a3d2-0234d037057a)
+![4th_new_web4]()
 
 ### 게시글 등록 화면
 
-![4th_new_web5](https://github.com/user-attachments/assets/91c1b668-cb59-45ea-8b13-0e3f34ea9078)
+![4th_new_web5]()
 
 ## 변경 사항
 

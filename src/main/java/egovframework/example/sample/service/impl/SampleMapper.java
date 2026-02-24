@@ -15,11 +15,11 @@
  */
 package egovframework.example.sample.service.impl;
 
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
-import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
-
 import java.util.List;
+
+import org.egovframe.rte.psl.dataaccess.mapper.EgovMapper;
+
+import egovframework.example.sample.service.SampleVO;
 
 /**
  * sample에 관한 데이터처리 매퍼 클래스
@@ -36,7 +36,7 @@ import java.util.List;
  *
  * </pre>
  */
-@Mapper
+@EgovMapper("sampleMapper")
 public interface SampleMapper {
 
 	/**
@@ -73,18 +73,18 @@ public interface SampleMapper {
 
 	/**
 	 * 글 목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @param vo - 조회할 정보가 담긴 VO
 	 * @return 글 목록
 	 * @exception Exception
 	 */
-	List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception;
+	List<?> selectSampleList(SampleVO vo) throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @param vo - 조회할 정보가 담긴 VO
 	 * @return 글 총 갯수
 	 * @exception
 	 */
-	int selectSampleListTotCnt(SampleDefaultVO searchVO);
+	int selectSampleListTotCnt(SampleVO vo);
 
 }

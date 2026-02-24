@@ -1,8 +1,5 @@
 package egovframework.example.config;
 
-import egovframework.example.exception.EgovAopExceptionTransfer;
-import egovframework.example.exception.EgovSampleExcepHndlr;
-import egovframework.example.exception.EgovSampleOthersExcepHndlr;
 import org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer;
 import org.egovframe.rte.fdl.cmmn.exception.handler.ExceptionHandler;
 import org.egovframe.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager;
@@ -12,6 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.util.AntPathMatcher;
+
+import egovframework.example.exception.EgovAopExceptionTransfer;
+import egovframework.example.exception.EgovSampleExcepHndlr;
+import egovframework.example.exception.EgovSampleOthersExcepHndlr;
 
 @Configuration
 @EnableAspectJAutoProxy

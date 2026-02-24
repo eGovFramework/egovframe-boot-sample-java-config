@@ -1,6 +1,8 @@
 package egovframework.example.config;
 
-import egovframework.example.pagination.EgovPaginationDialect;
+import java.util.List;
+import java.util.Properties;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +15,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import java.util.List;
-import java.util.Properties;
+import egovframework.example.pagination.EgovKrdsPaginationRenderer;
+import egovframework.example.pagination.EgovPaginationDialect;
 
 @Configuration
 @Import({
@@ -52,20 +54,20 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	}
 
 	@Bean
-	public SpringTemplateEngine templateEngine() {
+	public SpringTemplateEngine templateEngine(EgovKrdsPaginationRenderer egovKrdsPaginationRenderer) {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setEnableSpringELCompiler(true);
 		// add custom tag
-		templateEngine.addDialect(new EgovPaginationDialect());
+		templateEngine.addDialect(new EgovPaginationDialect(egovKrdsPaginationRenderer));
 		return templateEngine;
 	}
 
 	@Bean
-	public ThymeleafViewResolver thymeleafViewResolver() {
+	public ThymeleafViewResolver thymeleafViewResolver(EgovKrdsPaginationRenderer egovKrdsPaginationRenderer) {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setCharacterEncoding("UTF-8");
-		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.setTemplateEngine(templateEngine(egovKrdsPaginationRenderer));
 		return viewResolver;
 	}
 
@@ -73,7 +75,17 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
+        registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/img/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+
+        // favicon.ico 처리를 위한 빈 핸들러 (404 오류 방지)
+        registry.addResourceHandler("/favicon.ico")
+        		.addResourceLocations("classpath:/static/")
+        		.setCachePeriod(3600);
+
+        // .well-known 경로도 처리 (Chrome DevTools 자동 요청)
+        registry.addResourceHandler("/.well-known/**")
+        		.addResourceLocations("classpath:/static/.well-known/");
 	}
 
 	@Bean
@@ -96,18 +108,18 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		Properties prop = new Properties();
-		prop.setProperty("org.springframework.dao.DataAccessException", "egovSampleError");
-		prop.setProperty("org.springframework.transaction.TransactionException", "egovSampleError");
-		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "egovSampleError");
-		prop.setProperty("org.springframework.security.AccessDeniedException", "egovSampleError");
-		prop.setProperty("java.lang.Throwable", "egovSampleError");
+		prop.setProperty("org.springframework.dao.DataAccessException", "sample/egovSampleError");
+		prop.setProperty("org.springframework.transaction.TransactionException", "sample/egovSampleError");
+		prop.setProperty("org.egovframe.rte.fdl.cmmn.exception.EgovBizException", "sample/egovSampleError");
+		prop.setProperty("org.springframework.security.AccessDeniedException", "sample/egovSampleError");
+		prop.setProperty("java.lang.Throwable", "sample/egovSampleError");
 
 		Properties statusCode = new Properties();
-		statusCode.setProperty("egovSampleError", "400");
-		statusCode.setProperty("egovSampleError", "500");
+		statusCode.setProperty("sample/egovSampleError", "400");
+		statusCode.setProperty("sample/egovSampleError", "500");
 
 		SimpleMappingExceptionResolver smer = new SimpleMappingExceptionResolver();
-		smer.setDefaultErrorView("egovSampleError");
+		smer.setDefaultErrorView("sample/egovSampleError");
 		smer.setExceptionMappings(prop);
 		smer.setStatusCodes(statusCode);
 		resolvers.add(smer);
