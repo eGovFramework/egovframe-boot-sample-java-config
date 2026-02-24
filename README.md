@@ -39,11 +39,11 @@ __프로젝트 우클릭 > Run As > Spring Boot App__ 을 통해 구동한다.
 
 ### 목록 화면
 
-![4th_new_web4]()
+![list](https://github.com/user-attachments/assets/1139a877-acf0-4acd-9c7c-35ba524089e5)
 
 ### 게시글 등록 화면
 
-![4th_new_web5]()
+![regist](https://github.com/user-attachments/assets/9a3a4540-58db-4a4f-a6e2-7a40f65ad797)
 
 ## 변경 사항
 
@@ -53,4 +53,4 @@ __프로젝트 우클릭 > Run As > Spring Boot App__ 을 통해 구동한다.
 
 #### 2) context-\*.xml -> @Configuration 변환
 
-#### 3) properties 변환(예정) boot 지원
+### 2. [KRDS (Korea Design System)](https://www.krds.go.kr/html/site/index.html) 적용
