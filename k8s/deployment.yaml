@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egovframe-boot-sample
+  labels:
+    app: egovframe-boot-sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egovframe-boot-sample
+  template:
+    metadata:
+      labels:
+        app: egovframe-boot-sample
+    spec:
+      containers:
+        - name: egovframe-boot-sample
+          image: egovframe-boot-sample:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: default
