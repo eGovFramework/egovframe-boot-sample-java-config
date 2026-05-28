@@ -66,7 +66,7 @@ class EgovSampleControllerTestAddTest {
 		// when
 		mockMvc.perform(
 
-				post("/sample/add")
+				post("/addSample.do")
 
 						.param("name", sampleVO.getName())
 
