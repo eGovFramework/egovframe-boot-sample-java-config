@@ -83,18 +83,9 @@ kubectl rollout status deployment/egovframe-boot-sample-java-config
 
 ## 4. 접속
 
-### NodePort (service.yaml 기준)
+### ClusterIP (service.yaml 기준)
 
-```bash
-# minikube 사용 시
-minikube service egovframe-boot-sample-java-config --url
-```
-
-일반 클러스터에서는 NodePort 값(기본 30080)으로 접속합니다.
-
-```
-http://<노드 IP>:30080
-```
+service.yaml은 `type: ClusterIP`로 설정되어 있으며, 클러스터 내부에서 `egovframe-boot-sample-java-config:8080`으로 접근할 수 있습니다.
 
 ### 포트 포워딩 (개발/테스트 용)
 
