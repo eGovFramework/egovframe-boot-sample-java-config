@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: egovframe-boot-sample-java-config
+  labels:
+    app.kubernetes.io/name: egovframe-boot-sample-java-config
+    app.kubernetes.io/part-of: egovframe-sample
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: egovframe-boot-sample-java-config
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

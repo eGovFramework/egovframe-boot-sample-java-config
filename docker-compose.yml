@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    image: egovframe-boot-sample-java-config:${APP_VERSION:-5.0.0}
+    container_name: egov-boot-sample
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
