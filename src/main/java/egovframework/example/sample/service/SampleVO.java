@@ -19,6 +19,8 @@ import org.egovframe.rte.ptl.reactive.validation.EgovNullCheck;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * @Class Name : SampleVO.java
@@ -38,6 +40,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SampleVO extends SampleDefaultVO {
 
 	private static final long serialVersionUID = 1L;
