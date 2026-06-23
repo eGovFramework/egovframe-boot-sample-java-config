@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @Class Name : EgovSampleServiceImpl.java
@@ -35,6 +36,7 @@ import jakarta.annotation.Resource;
  * @  수정일      수정자              수정내용
  * @ ---------   ---------   -------------------------------
  * @ 2009.03.16           최초생성
+ * @ 2026.06.19           [2026년 컨트리뷰션] 문자열 기반 설정 제거
  *
  * @author 개발프레임웍크 실행환경 개발팀
  * @since 2009. 03.16
@@ -45,13 +47,12 @@ import jakarta.annotation.Resource;
  */
 
 @Service("sampleService")
+@RequiredArgsConstructor
 public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements EgovSampleService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovSampleServiceImpl.class);
 
-	/** SampleMapper */
-	@Resource(name = "sampleMapper")
-	private SampleMapper sampleMapper;
+	private final SampleMapper sampleMapper;
 
 	/** ID Generation */
 	@Resource(name = "egovIdGnrService")
