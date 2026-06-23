@@ -23,14 +23,14 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class EgovConfigTransaction {
 
 	@Bean(name="txManager")
-	public DataSourceTransactionManager txManager(@Qualifier("dataSource") DataSource dataSource) {
+	DataSourceTransactionManager txManager(@Qualifier("dataSource") DataSource dataSource) {
 		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
 		dataSourceTransactionManager.setDataSource(dataSource);
 		return dataSourceTransactionManager;
 	}
 
 	@Bean
-	public TransactionInterceptor txAdvice(DataSourceTransactionManager txManager) {
+	TransactionInterceptor txAdvice(DataSourceTransactionManager txManager) {
 		RuleBasedTransactionAttribute txAttribute = new RuleBasedTransactionAttribute();
 		txAttribute.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		txAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
@@ -49,7 +49,7 @@ public class EgovConfigTransaction {
 	}
 
 	@Bean
-	public Advisor txAdvisor(@Qualifier("txManager") DataSourceTransactionManager txManager) {
+	Advisor txAdvisor(@Qualifier("txManager") DataSourceTransactionManager txManager) {
 		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
 		pointcut.setExpression("execution(* egovframework.example.sample..impl.*Impl.*(..))");
 		return new DefaultPointcutAdvisor(pointcut, txAdvice(txManager));

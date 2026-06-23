@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class EgovConfigIdGeneration {
 
 	@Bean
-	public EgovIdGnrStrategyImpl mixPrefixSample() {
+	EgovIdGnrStrategyImpl mixPrefixSample() {
 		EgovIdGnrStrategyImpl egovIdGnrStrategyImpl = new EgovIdGnrStrategyImpl();
 		egovIdGnrStrategyImpl.setPrefix("SAMPLE-");
 		egovIdGnrStrategyImpl.setCipers(5);
@@ -21,7 +21,7 @@ public class EgovConfigIdGeneration {
 	}
 
 	@Bean(destroyMethod="destroy")
-	public EgovTableIdGnrServiceImpl egovIdGnrService(@Qualifier("dataSource") DataSource dataSource) {
+	EgovTableIdGnrServiceImpl egovIdGnrService(@Qualifier("dataSource") DataSource dataSource) {
 		EgovTableIdGnrServiceImpl egovTableIdGnrServiceImpl = new EgovTableIdGnrServiceImpl();
 		egovTableIdGnrServiceImpl.setDataSource(dataSource);
 		egovTableIdGnrServiceImpl.setStrategy(mixPrefixSample());
