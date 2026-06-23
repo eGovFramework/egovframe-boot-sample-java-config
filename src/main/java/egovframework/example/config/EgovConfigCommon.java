@@ -15,17 +15,17 @@ import org.springframework.util.AntPathMatcher;
 public class EgovConfigCommon {
 
 	@Bean
-	public AntPathMatcher antPathMatcher() {
+	AntPathMatcher antPathMatcher() {
 		return new AntPathMatcher();
 	}
 
 	@Bean
-	public DefaultTraceHandler defaultTraceHandler() {
+	DefaultTraceHandler defaultTraceHandler() {
 		return new DefaultTraceHandler();
 	}
 
 	@Bean
-	public ReloadableResourceBundleMessageSource messageSource() {
+	ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
 		reloadableResourceBundleMessageSource.setBasenames(
 				"classpath:/egovframework/message/message-common",
@@ -37,12 +37,12 @@ public class EgovConfigCommon {
 	}
 
 	@Bean
-	public MessageSourceAccessor messageSourceAccessor() {
+	 MessageSourceAccessor messageSourceAccessor() {
 		return new MessageSourceAccessor(this.messageSource());
 	}
 
 	@Bean
-	public DefaultTraceHandleManager traceHandlerService() {
+	DefaultTraceHandleManager traceHandlerService() {
 		DefaultTraceHandleManager defaultTraceHandleManager = new DefaultTraceHandleManager();
 		defaultTraceHandleManager.setReqExpMatcher(antPathMatcher());
 		defaultTraceHandleManager.setPatterns(new String[]{"*"});
@@ -51,7 +51,7 @@ public class EgovConfigCommon {
 	}
 
 	@Bean
-	public LeaveaTrace leaveaTrace() {
+	LeaveaTrace leaveaTrace() {
 		LeaveaTrace leaveaTrace = new LeaveaTrace();
 		leaveaTrace.setTraceHandlerServices(new TraceHandlerService[]{traceHandlerService()});
 		return leaveaTrace;

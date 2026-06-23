@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class EgovConfigProperties {
 
 	@Bean(destroyMethod="destroy")
-	public EgovPropertyServiceImpl propertiesService() {
+	EgovPropertyServiceImpl propertiesService() {
 		Map<String, String> properties = new HashMap<>();
 		properties.put("pageUnit", "10");
 		properties.put("pageSize", "10");

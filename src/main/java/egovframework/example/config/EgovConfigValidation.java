@@ -11,7 +11,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class EgovConfigValidation {
 
     @Bean
-    public Validator getValidator(@Qualifier("messageSource") MessageSource messageSource) {
+    Validator getValidator(@Qualifier("messageSource") MessageSource messageSource) {
         LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
         localValidatorFactoryBean.setValidationMessageSource(messageSource);
         return localValidatorFactoryBean;
