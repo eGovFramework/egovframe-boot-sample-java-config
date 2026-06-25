@@ -37,6 +37,7 @@ import lombok.RequiredArgsConstructor;
  * @ ---------   ---------   -------------------------------
  * @ 2009.03.16           최초생성
  * @ 2026.06.19           [2026년 컨트리뷰션] 문자열 기반 설정 제거
+ * @ 2026.06.25           [2026년 컨트리뷰션] 생성자 주입으로 변경
  *
  * @author 개발프레임웍크 실행환경 개발팀
  * @since 2009. 03.16
@@ -54,9 +55,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 
 	private final SampleMapper sampleMapper;
 
-	/** ID Generation */
-	@Resource(name = "egovIdGnrService")
-	private EgovIdGnrService egovIdGnrService;
+	private final EgovIdGnrService egovIdGnrService;
 
 	/**
 	 * 글을 등록한다.
