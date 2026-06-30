@@ -65,7 +65,7 @@ public class EgovSampleController {
 	private EgovPropertyService propertiesService;
 
 	@GetMapping("/")
-	public String index(@ModelAttribute("sampleVO") SampleVO sampleVO, ModelMap model) throws Exception {
+	public String index(@ModelAttribute SampleVO sampleVO, ModelMap model) throws Exception {
 		return this.selectSampleList(sampleVO, model);
 	}
 
@@ -77,7 +77,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@GetMapping("/egovSampleList.do")
-	public String selectSampleList(@ModelAttribute("sampleVO") SampleVO sampleVO, ModelMap model) throws Exception {
+	public String selectSampleList(@ModelAttribute SampleVO sampleVO, ModelMap model) throws Exception {
 
 		/** EgovPropertyService.sample */
 		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -115,7 +115,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/addSampleView.do")
-	public String addSampleView( @ModelAttribute("sampleVO") SampleVO sampleVO, Model model) throws Exception {
+	public String addSampleView( @ModelAttribute SampleVO sampleVO, Model model) throws Exception {
 
 		model.addAttribute("sampleVO", sampleVO);
 
@@ -130,7 +130,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/addSample.do")
-	public String addSample(@Valid @ModelAttribute("sampleVO") SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
+	public String addSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("sampleVO", sampleVO);
@@ -151,7 +151,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/updateSampleView.do")
-	public String updateSampleView(@ModelAttribute("sampleVO") SampleVO sampleVO, Model model) throws Exception {
+	public String updateSampleView(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {
 
 		SampleVO detail = sampleService.selectSample(sampleVO);
 		detail.setSearchCondition(sampleVO.getSearchCondition());
@@ -171,7 +171,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/updateSample.do")
-	public String updateSample(@Valid @ModelAttribute("sampleVO") SampleVO sampleVO, BindingResult bindingResult,
+	public String updateSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult,
 			Model model, RedirectAttributes redirectAttributes, SessionStatus status) throws Exception {
 
 		if (bindingResult.hasErrors()) {
@@ -197,7 +197,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/deleteSample.do")
-	public String deleteSample(@ModelAttribute("sampleVO") SampleVO sampleVO, RedirectAttributes redirectAttributes, SessionStatus status) throws Exception {
+	public String deleteSample(@ModelAttribute SampleVO sampleVO, RedirectAttributes redirectAttributes, SessionStatus status) throws Exception {
 
 		sampleService.deleteSample(sampleVO);
 		status.setComplete();
