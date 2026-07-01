@@ -31,8 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,16 +53,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class EgovSampleController {
 
 	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+	private final EgovSampleService sampleService;
 
 	/** EgovPropertyService */
-	@Resource(name = "propertiesService")
-	private EgovPropertyService propertiesService;
+	private final EgovPropertyService propertiesService;
 
 	@GetMapping("/")
 	public String index(@ModelAttribute SampleVO sampleVO, ModelMap model) throws Exception {
