@@ -31,8 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleVO;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @  수정일      수정자              수정내용
  * @ ---------   ---------   -------------------------------
  * @ 2009.03.16           최초생성
+ * @ 2026.07.01           [2026년 컨트리뷰션] 불필요한 import 및 ModelAttribute name 속성 제거
  *
  * @author 개발프레임웍크 실행환경 개발팀
  * @since 2009. 03.16
@@ -53,19 +54,18 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class EgovSampleController {
 
 	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+	private final EgovSampleService sampleService;
 
 	/** EgovPropertyService */
-	@Resource(name = "propertiesService")
-	private EgovPropertyService propertiesService;
+	private final EgovPropertyService propertiesService;
 
 	@GetMapping("/")
-	public String index(@ModelAttribute("sampleVO") SampleVO sampleVO, ModelMap model) throws Exception {
+	public String index(@ModelAttribute SampleVO sampleVO, ModelMap model) throws Exception {
 		return this.selectSampleList(sampleVO, model);
 	}
 
@@ -77,7 +77,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@GetMapping("/egovSampleList.do")
-	public String selectSampleList(@ModelAttribute("sampleVO") SampleVO sampleVO, ModelMap model) throws Exception {
+	public String selectSampleList(@ModelAttribute SampleVO sampleVO, ModelMap model) throws Exception {
 
 		/** EgovPropertyService.sample */
 		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -115,7 +115,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/addSampleView.do")
-	public String addSampleView( @ModelAttribute("sampleVO") SampleVO sampleVO, Model model) throws Exception {
+	public String addSampleView( @ModelAttribute SampleVO sampleVO, Model model) throws Exception {
 
 		model.addAttribute("sampleVO", sampleVO);
 
@@ -130,7 +130,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/addSample.do")
-	public String addSample(@Valid @ModelAttribute("sampleVO") SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
+	public String addSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("sampleVO", sampleVO);
@@ -151,7 +151,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/updateSampleView.do")
-	public String updateSampleView(@ModelAttribute("sampleVO") SampleVO sampleVO, Model model) throws Exception {
+	public String updateSampleView(@ModelAttribute SampleVO sampleVO, Model model) throws Exception {
 
 		SampleVO detail = sampleService.selectSample(sampleVO);
 		detail.setSearchCondition(sampleVO.getSearchCondition());
@@ -171,7 +171,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/updateSample.do")
-	public String updateSample(@Valid @ModelAttribute("sampleVO") SampleVO sampleVO, BindingResult bindingResult,
+	public String updateSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult,
 			Model model, RedirectAttributes redirectAttributes, SessionStatus status) throws Exception {
 
 		if (bindingResult.hasErrors()) {
@@ -197,7 +197,7 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@PostMapping("/deleteSample.do")
-	public String deleteSample(@ModelAttribute("sampleVO") SampleVO sampleVO, RedirectAttributes redirectAttributes, SessionStatus status) throws Exception {
+	public String deleteSample(@ModelAttribute SampleVO sampleVO, RedirectAttributes redirectAttributes, SessionStatus status) throws Exception {
 
 		sampleService.deleteSample(sampleVO);
 		status.setComplete();
