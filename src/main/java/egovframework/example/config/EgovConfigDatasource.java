@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 public class EgovConfigDatasource {
 
 	@Bean(name="dataSource")
-	public DataSource dataSource() {
+	DataSource dataSource() {
 	    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 	    return builder.setType(EmbeddedDatabaseType.HSQL).addScript("classpath:/db/sampledb.sql").build();
 	}
