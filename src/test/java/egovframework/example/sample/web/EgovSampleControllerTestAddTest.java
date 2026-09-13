@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.egovframe.rte.fdl.cmmn.exception.BaseRuntimeException;
-import org.egovframe.rte.psl.dataaccess.util.EgovMap;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -89,13 +88,13 @@ class EgovSampleControllerTestAddTest {
 		sampleVO.setFirstIndex(0);
 		sampleVO.setSearchCondition("1");
 		sampleVO.setSearchKeyword(insertVO.getName());
-		final List<?> resultList = egovSampleService.selectSampleList(sampleVO);
-		EgovMap result = (EgovMap) resultList.get(0);
+		final List<SampleVO> resultList = egovSampleService.selectSampleList(sampleVO);
+		SampleVO result = resultList.get(0);
 		final SampleVO resultSampleVO = new SampleVO();
-		resultSampleVO.setName((String) result.get("name"));
-		resultSampleVO.setDescription((String) result.get("description"));
-		resultSampleVO.setUseYn((String) result.get("useYn"));
-		resultSampleVO.setRegUser((String) result.get("regUser"));
+		resultSampleVO.setName(result.getName());
+		resultSampleVO.setDescription(result.getDescription());
+		resultSampleVO.setUseYn(result.getUseYn());
+		resultSampleVO.setRegUser(result.getRegUser());
 
 		if (log.isDebugEnabled()) {
 			log.debug("sampleVO={}", sampleVO);

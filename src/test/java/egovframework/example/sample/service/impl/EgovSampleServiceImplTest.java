@@ -74,7 +74,8 @@ class EgovSampleServiceImplTest {
 	@DisplayName("글 수정 - 정상적으로 updateSample을 호출한다")
 	void updateSample_정상() {
 		// given
-		doNothing().when(sampleMapper).updateSample(sampleVO);
+//		doNothing().when(sampleMapper).updateSample(sampleVO);
+		when(sampleMapper.updateSample(sampleVO)).thenReturn(1);
 
 		// when
 		sut.updateSample(sampleVO);
@@ -87,7 +88,8 @@ class EgovSampleServiceImplTest {
 	@DisplayName("글 삭제 - 정상적으로 deleteSample을 호출한다")
 	void deleteSample_정상() {
 		// given
-		doNothing().when(sampleMapper).deleteSample(sampleVO);
+//		doNothing().when(sampleMapper).deleteSample(sampleVO);
+		when(sampleMapper.deleteSample(sampleVO)).thenReturn(1);
 
 		// when
 		sut.deleteSample(sampleVO);
@@ -126,7 +128,6 @@ class EgovSampleServiceImplTest {
 
 	@Test
 	@DisplayName("글 목록 조회 - 목록을 정상적으로 반환한다")
-	@SuppressWarnings("unchecked")
 	void selectSampleList_정상() {
 		// given
 		SampleVO item1 = new SampleVO();
@@ -137,7 +138,7 @@ class EgovSampleServiceImplTest {
 		when((List<SampleVO>) sampleMapper.selectSampleList(sampleVO)).thenReturn(expected);
 
 		// when
-		List<?> result = sut.selectSampleList(sampleVO);
+		List<SampleVO> result = sut.selectSampleList(sampleVO);
 
 		// then
 		assertNotNull(result);

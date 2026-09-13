@@ -80,6 +80,8 @@
 	<input type="hidden" th:id="searchCondition" th:name="searchCondition" th:value="${sampleVO.searchCondition}" />
 	<input type="hidden" th:id="searchKeyword" th:name="searchKeyword" th:value="${sampleVO.searchKeyword}" />
 	<input type="hidden" th:id="pageIndex" th:name="pageIndex" th:value="${sampleVO.pageIndex}" />
+	<input type="hidden" th:field="*{pageUnit}" />
+	<input type="hidden" th:field="*{pageSize}" />
 
 		<div class="conts-wrap">
 	        <div class="fieldset input-form">

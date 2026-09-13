@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.egovframe.rte.fdl.cmmn.exception.BaseRuntimeException;
-import org.egovframe.rte.psl.dataaccess.util.EgovMap;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -70,9 +69,9 @@ class EgovSampleControllerTestUpdateTest {
 		insertVO.setFirstIndex(0);
 		insertVO.setSearchCondition("1");
 		insertVO.setSearchKeyword(insertVO.getName());
-		final List<?> insertedList = egovSampleService.selectSampleList(insertVO);
-		final EgovMap insertedRow = (EgovMap) insertedList.get(0);
-		final String insertedId = (String) insertedRow.get("id");
+		final List<SampleVO> insertedList = egovSampleService.selectSampleList(insertVO);
+		final SampleVO insertedRow = insertedList.get(0);
+		final String insertedId = insertedRow.getId();
 
 		final String updatedName = "test 수정후 카테고리명 " + now;
 		final String updatedDescription = "test 수정후 설명 " + now;
