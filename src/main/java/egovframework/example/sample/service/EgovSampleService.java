@@ -36,44 +36,44 @@ public interface EgovSampleService {
 
 	/**
 	 * 글을 등록한다.
-	 * @param vo - 등록할 정보가 담긴 SampleVO
+	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
 	 */
-	void insertSample(SampleVO vo);
+	int insertSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 수정한다.
-	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
 	 * @return void형
 	 */
-	void updateSample(SampleVO vo);
+	int updateSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 삭제한다.
-	 * @param vo - 삭제할 정보가 담긴 SampleVO
+	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
 	 * @return void형
 	 */
-	void deleteSample(SampleVO vo);
+	int deleteSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 SampleVO
+	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
 	 */
-	SampleVO selectSample(SampleVO vo);
+	SampleVO selectSample(SampleVO sampleVO);
 
 	/**
 	 * 글 목록을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 VO
+	 * @param sampleVO - 조회할 정보가 담긴 VO
 	 * @return 글 목록
 	 */
-	List<?> selectSampleList(SampleVO vo);
+	List<SampleVO> selectSampleList(SampleVO sampleVO);
 
 	/**
 	 * 글 총 개수를 조회한다.
-	 * @param vo - 조회할 정보가 담긴 VO
+	 * @param sampleVO - 조회할 정보가 담긴 VO
 	 * @return 글 총 개수
 	 */
-	int selectSampleListTotCnt(SampleVO vo);
+	int selectSampleListTotCnt(SampleVO sampleVO);
 
 }

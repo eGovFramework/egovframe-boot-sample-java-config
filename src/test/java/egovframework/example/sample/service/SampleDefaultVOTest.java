@@ -33,8 +33,8 @@ class SampleDefaultVOTest {
 	@DisplayName("기본값 확인 - 페이지 관련 필드는 1 또는 10")
 	void defaultValues_pageFields() {
 		assertThat(vo.getPageIndex()).isEqualTo(1);
-		assertThat(vo.getPageUnit()).isEqualTo(10);
-		assertThat(vo.getPageSize()).isEqualTo(10);
+		assertThat(vo.getPageUnit()).isEqualTo(null);
+		assertThat(vo.getPageSize()).isEqualTo(null);
 		assertThat(vo.getFirstIndex()).isEqualTo(1);
 		assertThat(vo.getLastIndex()).isEqualTo(1);
 		assertThat(vo.getRecordCountPerPage()).isEqualTo(10);

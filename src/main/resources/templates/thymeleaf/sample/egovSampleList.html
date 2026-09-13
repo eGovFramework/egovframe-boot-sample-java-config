@@ -47,6 +47,7 @@
 		<form id="listForm" th:object="${sampleVO}">
 			<input type="hidden" th:id="id" th:name="id" />
 			<input type="hidden" th:id="pageIndex" th:name="pageIndex" th:value="${sampleVO.pageIndex}" />
+			<input type="hidden" th:field="*{pageSize}" />
 
 			<!-- Search Form -->
 			<div class="form-group">
@@ -67,6 +68,12 @@
 						</div>
 					</div>
 					<div class="page-btn-wrap">
+						<label for="pageUnit" class="sr-only">페이지당 표시 건수</label>
+						<select th:field="*{pageUnit}" class="krds-form-select medium" onchange="samplePagination(1)">
+							<option th:if="${!#lists.contains({5, 10, 20, 50, 100}, sampleVO.pageUnit)}"
+								th:value="${sampleVO.pageUnit}" th:text="|${sampleVO.pageUnit}개씩 보기|"></option>
+							<option th:each="unit : ${ {5, 10, 20, 50, 100} }" th:value="${unit}" th:text="|${unit}개씩 보기|"></option>
+						</select>
 						<button type="button" class="krds-btn medium" th:text="#{button.create}" th:onclick="sampleCreate()"></button>
 					</div>
 				</div>
@@ -74,6 +81,9 @@
 		</form>
 
 		<!-- List -->
+		<p class="search-result-count" role="status">
+			검색 결과 <strong th:text="${paginationInfo.totalRecordCount}">0</strong>건
+		</p>
 		<div class="krds-table-wrap">
 			<table class="tbl col data">
 				<colgroup>

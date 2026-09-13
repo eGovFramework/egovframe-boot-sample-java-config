@@ -21,7 +21,6 @@ import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -56,6 +55,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EgovSampleController {
 
+	private static final int MAX_PAGE_UNIT = 100;
+	private static final int MAX_PAGE_SIZE = 100;
+
 	/** EgovSampleService */
 	private final EgovSampleService sampleService;
 
@@ -63,7 +65,7 @@ public class EgovSampleController {
 	private final EgovPropertyService propertiesService;
 
 	@GetMapping("/")
-	public String index(@ModelAttribute SampleVO sampleVO, ModelMap model) {
+	public String index(@ModelAttribute SampleVO sampleVO, Model model) {
 		return this.selectSampleList(sampleVO, model);
 	}
 
@@ -74,11 +76,11 @@ public class EgovSampleController {
 	 * @return "egovSampleList"
 	 */
 	@GetMapping("/egovSampleList.do")
-	public String selectSampleList(@ModelAttribute SampleVO sampleVO, ModelMap model) {
+	public String selectSampleList(@ModelAttribute SampleVO sampleVO, Model model) {
 
 		/** EgovPropertyService.sample */
-		sampleVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		sampleVO.setPageSize(propertiesService.getInt("pageSize"));
+		sampleVO.setPageUnit(resolvePageValue(sampleVO.getPageUnit(), "pageUnit", MAX_PAGE_UNIT));
+		sampleVO.setPageSize(resolvePageValue(sampleVO.getPageSize(), "pageSize", MAX_PAGE_SIZE));
 
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -91,7 +93,7 @@ public class EgovSampleController {
 		sampleVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/** List */
-		List<?> sampleList = sampleService.selectSampleList(sampleVO);
+		List<SampleVO> sampleList = sampleService.selectSampleList(sampleVO);
 		model.addAttribute("resultList", sampleList);
 
 		/** Count */
@@ -125,15 +127,18 @@ public class EgovSampleController {
 	 * @return "forward:/egovSampleList.do"
 	 */
 	@PostMapping("/addSample.do")
-	public String addSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status) {
+	public String addSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes, SessionStatus status) {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("sampleVO", sampleVO);
 			return "sample/egovSampleRegister";
 		}
 
-		sampleService.insertSample(sampleVO);
+		int result = sampleService.insertSample(sampleVO);
+		log.debug("result={}", result);
 		status.setComplete();
+		addPaginationAttributes(sampleVO, redirectAttributes);
 
 		return "redirect:/egovSampleList.do";
 	}
@@ -151,6 +156,8 @@ public class EgovSampleController {
 		detail.setSearchCondition(sampleVO.getSearchCondition());
 		detail.setSearchKeyword(sampleVO.getSearchKeyword());
 		detail.setPageIndex(sampleVO.getPageIndex());
+		detail.setPageUnit(sampleVO.getPageUnit());
+		detail.setPageSize(sampleVO.getPageSize());
 
 		model.addAttribute("sampleVO", detail);
 
@@ -172,12 +179,14 @@ public class EgovSampleController {
 			return "sample/egovSampleRegister";
 		}
 
-		sampleService.updateSample(sampleVO);
+		int result = sampleService.updateSample(sampleVO);
+		log.debug("result={}", result);
 		status.setComplete();
 
 		redirectAttributes.addAttribute("searchCondition", sampleVO.getSearchCondition());
 		redirectAttributes.addAttribute("searchKeyword", sampleVO.getSearchKeyword());
 		redirectAttributes.addAttribute("pageIndex", sampleVO.getPageIndex());
+		addPaginationAttributes(sampleVO, redirectAttributes);
 
 		return "redirect:/egovSampleList.do";
 	}
@@ -191,14 +200,33 @@ public class EgovSampleController {
 	@PostMapping("/deleteSample.do")
 	public String deleteSample(@ModelAttribute SampleVO sampleVO, RedirectAttributes redirectAttributes, SessionStatus status) {
 
-		sampleService.deleteSample(sampleVO);
+		int result = sampleService.deleteSample(sampleVO);
+		log.debug("result={}", result);
 		status.setComplete();
 
 		redirectAttributes.addAttribute("searchCondition", sampleVO.getSearchCondition());
 		redirectAttributes.addAttribute("searchKeyword", sampleVO.getSearchKeyword());
 		redirectAttributes.addAttribute("pageIndex", sampleVO.getPageIndex());
+		addPaginationAttributes(sampleVO, redirectAttributes);
 
 		return "redirect:/egovSampleList.do";
+	}
+
+	private int resolvePageValue(Integer value, String property, int maximum) {
+		if (value != null && value > 0 && value <= maximum) {
+			return value;
+		}
+		// 요청값뿐 아니라 서버 기본값도 안전한 범위로 제한한다.
+		return Math.max(1, Math.min(propertiesService.getInt(property), maximum));
+	}
+
+	private void addPaginationAttributes(SampleVO sampleVO, RedirectAttributes redirectAttributes) {
+		if (sampleVO.getPageUnit() != null) {
+			redirectAttributes.addAttribute("pageUnit", sampleVO.getPageUnit());
+		}
+		if (sampleVO.getPageSize() != null) {
+			redirectAttributes.addAttribute("pageSize", sampleVO.getPageSize());
+		}
 	}
 
 }

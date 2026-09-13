@@ -58,10 +58,10 @@ public class SampleDefaultVO implements Serializable {
 	private int pageIndex = 1;
 
 	/** 페이지개수 */
-	private int pageUnit = 10;
+	private Integer pageUnit;
 
 	/** 페이지사이즈 */
-	private int pageSize = 10;
+	private Integer pageSize;
 
 	/** firstIndex */
 	private int firstIndex = 1;

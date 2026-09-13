@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version 1.0
  * @see
  */
-@Service("sampleService")
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements EgovSampleService {
@@ -57,54 +57,52 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 
 	/**
 	 * 글을 등록한다.
-	 * @param vo - 등록할 정보가 담긴 SampleVO
+	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
 	 */
 	@Override
-	public void insertSample(SampleVO vo) {
-		log.debug(vo.toString());
+	public int insertSample(SampleVO sampleVO) {
+		log.debug("id={}", sampleVO.getId());
 
 		/** ID Generation Service */
-		String id;
 		try {
-			id = egovIdGnrService.getNextStringId();
+			sampleVO.setId(egovIdGnrService.getNextStringId());
 		} catch (FdlException e) {
 			throw new BaseRuntimeException(e);
 		}
-		vo.setId(id);
-		log.debug(vo.toString());
+		log.debug("id={}", sampleVO.getId());
 
-		sampleMapper.insertSample(vo);
+		return sampleMapper.insertSample(sampleVO);
 	}
 
 	/**
 	 * 글을 수정한다.
-	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
 	 * @return void형
 	 */
 	@Override
-	public void updateSample(SampleVO vo) {
-		sampleMapper.updateSample(vo);
+	public int updateSample(SampleVO sampleVO) {
+		return sampleMapper.updateSample(sampleVO);
 	}
 
 	/**
 	 * 글을 삭제한다.
-	 * @param vo - 삭제할 정보가 담긴 SampleVO
+	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
 	 * @return void형
 	 */
 	@Override
-	public void deleteSample(SampleVO vo) {
-		sampleMapper.deleteSample(vo);
+	public int deleteSample(SampleVO sampleVO) {
+		return sampleMapper.deleteSample(sampleVO);
 	}
 
 	/**
 	 * 글을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 SampleVO
+	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
 	 */
 	@Override
-	public SampleVO selectSample(SampleVO vo) {
-		SampleVO resultVO = sampleMapper.selectSample(vo);
+	public SampleVO selectSample(SampleVO sampleVO) {
+		SampleVO resultVO = sampleMapper.selectSample(sampleVO);
 		if (resultVO == null) {
 			throw new BaseRuntimeException(processException("info.nodata.msg"));
 		}
@@ -113,22 +111,22 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 
 	/**
 	 * 글 목록을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 VO
+	 * @param sampleVO - 조회할 정보가 담긴 VO
 	 * @return 글 목록
 	 */
 	@Override
-	public List<?> selectSampleList(SampleVO vo) {
-		return sampleMapper.selectSampleList(vo);
+	public List<SampleVO> selectSampleList(SampleVO sampleVO) {
+		return sampleMapper.selectSampleList(sampleVO);
 	}
 
 	/**
 	 * 글 총 개수를 조회한다.
-	 * @param vo - 조회할 정보가 담긴 VO
+	 * @param sampleVO - 조회할 정보가 담긴 VO
 	 * @return 글 총 개수
 	 */
 	@Override
-	public int selectSampleListTotCnt(SampleVO vo) {
-		return sampleMapper.selectSampleListTotCnt(vo);
+	public int selectSampleListTotCnt(SampleVO sampleVO) {
+		return sampleMapper.selectSampleListTotCnt(sampleVO);
 	}
 
 }

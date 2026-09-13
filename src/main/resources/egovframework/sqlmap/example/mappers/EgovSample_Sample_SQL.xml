@@ -2,16 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.sample.service.impl.SampleMapper">
 
-	<resultMap id="sample" type="egovframework.example.sample.service.SampleVO">
-		<result property="id" column="id"/>
-		<result property="name" column="name"/>
-		<result property="description" column="description"/>
-		<result property="useYn" column="use_yn"/>
-		<result property="regUser" column="reg_user"/>
-	</resultMap>
-
-	<insert id="insertSample" parameterType="SampleVO">
-
+	<insert id="insertSample" parameterType="egovframework.example.sample.service.SampleVO">
+<![CDATA[
 			INSERT INTO SAMPLE
 				( ID
 				  , NAME
@@ -23,71 +15,77 @@
 				  , #{description}
 				  , #{useYn}
 				  , #{regUser} )
-
+]]>
 	</insert>
 
-	<update id="updateSample">
-
+	<update id="updateSample" parameterType="egovframework.example.sample.service.SampleVO">
+<![CDATA[
 			UPDATE SAMPLE
-			SET ID=#{id}
-				, NAME=#{name}
+			SET NAME=#{name}
 				, DESCRIPTION=#{description}
 				, USE_YN=#{useYn}
 				  WHERE ID=#{id}
-
+]]>
 	</update>
 
-	<delete id="deleteSample">
-
+	<delete id="deleteSample" parameterType="egovframework.example.sample.service.SampleVO">
+<![CDATA[
 			DELETE FROM SAMPLE
 			WHERE ID=#{id}
-
+]]>
 	</delete>
 
-	<select id="selectSample" resultMap="sample">
-
+	<select id="selectSample" parameterType="egovframework.example.sample.service.SampleVO" resultType="egovframework.example.sample.service.SampleVO">
+<![CDATA[
 			SELECT
 				ID, NAME, DESCRIPTION, USE_YN, REG_USER
 			FROM SAMPLE
 			WHERE ID=#{id}
-
+]]>
 	</select>
 
-	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
+	<sql id="sampleFromWhere">
+<![CDATA[
+			FROM SAMPLE
+			WHERE 1=1
+]]>
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+<![CDATA[
+						AND	ID LIKE '%' || #{searchKeyword} || '%'
+]]>
+					</when>
+		            <when test="searchCondition == 1">
+<![CDATA[
+						AND	NAME LIKE '%' || #{searchKeyword} || '%'
+]]>
+					</when>
+				</choose>
+			</if>
+	</sql>
 
+	<select id="selectSampleList" parameterType="egovframework.example.sample.service.SampleVO" resultType="egovframework.example.sample.service.SampleVO" timeout="30">
+<![CDATA[
 			SELECT
 				ID, NAME, DESCRIPTION, USE_YN, REG_USER
-			FROM SAMPLE
-			WHERE 1=1
-			<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	ID LIKE '%' || #{searchKeyword} || '%'
-					</when>
-		            <when test="searchCondition == 1">
-						AND	NAME LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>
+]]>
+
+		<include refid="sampleFromWhere" />
+
+<![CDATA[
 			ORDER BY ID DESC
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+]]>
 	</select>
 
-	<select id="selectSampleListTotCnt" parameterType="searchVO" resultType="int">
-
+	<select id="selectSampleListTotCnt" parameterType="egovframework.example.sample.service.SampleVO" resultType="int">
+<![CDATA[
 			SELECT COUNT(*) totcnt
-			FROM SAMPLE
-			WHERE 1=1
-			<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND ID LIKE '%' || #{searchKeyword} || '%'
-					</when>
-		            <when test="searchCondition == 1">
-						AND	NAME LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>
+]]>
+
+		<include refid="sampleFromWhere" />
+
 	</select>
 
 </mapper>
