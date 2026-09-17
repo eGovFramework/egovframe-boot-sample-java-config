@@ -19,52 +19,47 @@
     <script th:inline="javascript" defer>
         $(document).ready(function () {
             // 초기 글자 수 설정
-            $('#textCount').text($('#description').val().length);
-
+            updateTextCount();
             // 입력할 때마다 글자 수 갱신
-            $('#description').on('input', function () {
-                $('#textCount').text($(this).val().length);
-            });
+            $('#description').on('input', updateTextCount);
         });
+
+        function updateTextCount() {
+            $('#textCount').text($('#description').val().length);
+        }
 
         function sampleList() {
             $('#detailForm').attr('method', 'get').attr('action', [[@{/egovSampleList.do}]]).submit();
         }
 
-            function sampleAdd() {
-                if (confirm(/*[[#{add.confirm}]]*/ '등록하시겠습니까?')) {
-                    let frm = document.detailForm;
-                    if (!validateSampleVO(frm)) {
-                        return;
-                    } else {
-                        $('#detailForm').attr('method', 'post').attr('action', [[@{/addSample.do}]]).submit();
-                    }
-                    }
+        function sampleAdd() {
+            if (confirm(/*[[#{add.confirm}]]*/ '등록하시겠습니까?')) {
+                if (!validateSampleVO(document.detailForm)) {
+                    return;
                 }
+                $('#detailForm').attr('method', 'post').attr('action', [[@{/addSample.do}]]).submit();
+            }
+        }
 
-                function sampleUpdate() {
-                    if (confirm(/*[[#{modify.confirm}]]*/ '수정하시겠습니까?')) {
-                        let frm = document.detailForm;
-                        if (!validateSampleVO(frm)) {
-                            return;
-                        } else {
-                            $('#detailForm').attr('method', 'post').attr('action', [[@{/updateSample.do}]]).submit();
-                        }
-                        }
-                    }
+        function sampleUpdate() {
+            if (confirm(/*[[#{modify.confirm}]]*/ '수정하시겠습니까?')) {
+                if (!validateSampleVO(document.detailForm)) {
+                    return;
+                }
+                $('#detailForm').attr('method', 'post').attr('action', [[@{/updateSample.do}]]).submit();
+            }
+        }
 
-                    function sampleDelete() {
-                        if (confirm(/*[[#{delete.confirm}]]*/ '삭제하시겠습니까?')) {
-                            $('#detailForm').attr('method', 'post').attr('action', [[@{/deleteSample.do}]]).submit();
-                        }
-                        }
+        function sampleDelete() {
+            if (confirm(/*[[#{delete.confirm}]]*/ '삭제하시겠습니까?')) {
+                $('#detailForm').attr('method', 'post').attr('action', [[@{/deleteSample.do}]]).submit();
+            }
+        }
 
-                        function sampleReset() {
-                            $('form').each(function () {
-                                this.reset();
-                                $('#textCount').text(0);
-                            });
-                        }
+        function sampleReset() {
+            document.detailForm.reset();
+            updateTextCount();
+        }
     </script>
 </head>
 
