@@ -1,7 +1,7 @@
 package egovframework.example.sample.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MvcResult;
  * 행 번호가 페이지당 건수를 따라가는지 확인한다.
  *
  * @author wantaek
- * @since 2026-09-09
+ * @since 2026.09.09
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,8 +37,12 @@ class EgovSampleControllerTestSelectListRowNumberTest {
 
 	private static final int PAGE_INDEX = 2;
 
-	/** 목록 No 칸. 이름·설명 칸에는 숫자만 들어가는 값이 없어 이 칸만 잡힌다. */
-	private static final Pattern ROW_NUMBER = Pattern.compile("<td class=\"text-center\">(\\d+)</td>");
+	/** 구조화 목록(표형, PC) 의 No 칸 */
+	private static final Pattern TABLE_ROW_NUMBER = Pattern.compile("<td class=\"list-no\">(\\d+)</td>");
+
+	/** 구조화 목록(기본형, 모바일) 항목의 No 영역 */
+	private static final Pattern CARD_ROW_NUMBER = Pattern
+			.compile("<span class=\"list-no\"><span class=\"sr-only\">No</span><span>(\\d+)</span></span>");
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -68,7 +72,7 @@ class EgovSampleControllerTestSelectListRowNumberTest {
 	void test_행번호_페이지당건수() throws BaseRuntimeException, Exception {
 		// given
 		final MvcResult mvcResult = mockMvc
-				.perform(get("/egovSampleList.do").param("pageIndex", String.valueOf(PAGE_INDEX)))
+				.perform(post("/egovSampleList.do").param("pageIndex", String.valueOf(PAGE_INDEX)))
 				.andExpect(status().isOk())
 				.andReturn();
 
@@ -86,9 +90,12 @@ class EgovSampleControllerTestSelectListRowNumberTest {
 		final int expected = paginationInfo.getTotalRecordCount() + 1
 				- ((PAGE_INDEX - 1) * paginationInfo.getRecordCountPerPage() + 1);
 
-		final Matcher matcher = ROW_NUMBER.matcher(content);
-		assertThat(matcher.find()).isTrue();
-		assertThat(Integer.parseInt(matcher.group(1))).isEqualTo(expected);
+		// PC(표형) · 모바일(기본형) 목록 모두 같은 번호로 시작한다.
+		for (final Pattern rowNumber : new Pattern[] { TABLE_ROW_NUMBER, CARD_ROW_NUMBER }) {
+			final Matcher matcher = rowNumber.matcher(content);
+			assertThat(matcher.find()).isTrue();
+			assertThat(Integer.parseInt(matcher.group(1))).isEqualTo(expected);
+		}
 	}
 
 }

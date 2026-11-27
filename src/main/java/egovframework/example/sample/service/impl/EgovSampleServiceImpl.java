@@ -29,22 +29,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Class Name : EgovSampleServiceImpl.java
- * @Description : Sample Business Implement Class
- * @Modification Information
- * @
- * @  수정일      수정자              수정내용
- * @ ---------   ---------   -------------------------------
- * @ 2009.03.16                최초생성
- * @ 2026.06.19                [2026년 컨트리뷰션] 문자열 기반 설정 제거
- * @ 2026.06.25                [2026년 컨트리뷰션] 생성자 주입으로 변경
- * @ 2026.07.04  정찬영          [2026년 컨트리뷰션] 미사용 import 제거 및 @Slf4j로 로거 선언 통일
- *   2026.07.16  이백행          [2026년 컨트리뷰션] 불필요한 예외 제거
+ * 게시판 Service 구현 (ID 생성, 대상 글이 없으면 예외)
  *
- * @author 개발프레임웍크 실행환경 개발팀
- * @since 2009. 03.16
+ * @Modification Information
+ *  수정일      수정자  수정내용
+ *  ----------  ------  ----------------------------------------
+ *  2009.03.16          최초생성
+ *  2026.06.19          [2026년 컨트리뷰션] 문자열 기반 설정 제거
+ *  2026.06.25          [2026년 컨트리뷰션] 생성자 주입으로 변경
+ *  2026.07.04  정찬영  [2026년 컨트리뷰션] 미사용 import 제거 및 @Slf4j로 로거 선언 통일
+ *  2026.07.16  이백행  [2026년 컨트리뷰션] 불필요한 예외 제거
+ *
+ * @author 개발프레임워크 실행환경 개발팀
+ * @since 2009.03.16
  * @version 1.0
- * @see
  */
 @Service
 @RequiredArgsConstructor
@@ -55,16 +53,11 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 
 	private final EgovIdGnrService egovIdGnrService;
 
-	/**
-	 * 글을 등록한다.
-	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
-	 * @return 등록 결과
-	 */
 	@Override
 	public int insertSample(SampleVO sampleVO) {
 		log.debug("id={}", sampleVO.getId());
 
-		/** ID Generation Service */
+		// ID 생성 (IDS 테이블)
 		try {
 			sampleVO.setId(egovIdGnrService.getNextStringId());
 		} catch (FdlException e) {
@@ -75,31 +68,24 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 		return sampleMapper.insertSample(sampleVO);
 	}
 
-	/**
-	 * 글을 수정한다.
-	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
-	 * @return void형
-	 */
 	@Override
 	public int updateSample(SampleVO sampleVO) {
-		return sampleMapper.updateSample(sampleVO);
+		int result = sampleMapper.updateSample(sampleVO);
+		if (result == 0) {
+			throw new BaseRuntimeException(processException("info.nodata.msg"));
+		}
+		return result;
 	}
 
-	/**
-	 * 글을 삭제한다.
-	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
-	 * @return void형
-	 */
 	@Override
 	public int deleteSample(SampleVO sampleVO) {
-		return sampleMapper.deleteSample(sampleVO);
+		int result = sampleMapper.deleteSample(sampleVO);
+		if (result == 0) {
+			throw new BaseRuntimeException(processException("info.nodata.msg"));
+		}
+		return result;
 	}
 
-	/**
-	 * 글을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
-	 * @return 조회한 글
-	 */
 	@Override
 	public SampleVO selectSample(SampleVO sampleVO) {
 		SampleVO resultVO = sampleMapper.selectSample(sampleVO);
@@ -109,21 +95,11 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 		return resultVO;
 	}
 
-	/**
-	 * 글 목록을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
-	 * @return 글 목록
-	 */
 	@Override
 	public List<SampleVO> selectSampleList(SampleVO sampleVO) {
 		return sampleMapper.selectSampleList(sampleVO);
 	}
 
-	/**
-	 * 글 총 개수를 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
-	 * @return 글 총 개수
-	 */
 	@Override
 	public int selectSampleListTotCnt(SampleVO sampleVO) {
 		return sampleMapper.selectSampleListTotCnt(sampleVO);

@@ -77,14 +77,12 @@ class EgovSampleControllerTestSelenium {
 		sleep();
 		javascriptExecutor.executeScript("sampleAdd();");
 
-		// Switch to the alert
+		// 확인 대화상자로 전환
 		Alert alert = driver.switchTo().alert();
 
-		// Accept the alert (click "Yes" or "OK")
+		// [확인] 클릭
 		alert.accept();
 
-		// or Dismiss the alert (click "No" or "Cancel")
-		// alert.dismiss();
 	}
 
 	private void sleep() {

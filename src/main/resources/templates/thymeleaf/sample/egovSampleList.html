@@ -1,3 +1,4 @@
+<!--/* 게시판 목록 화면 */-->
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title th:text="#{title.sample}"></title>
 
-	<!-- KRDS CSS -->
+	<!--/* KRDS 스타일 */-->
 	<link rel="stylesheet" type="text/css" th:href="@{/css/component/output.css}"/>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/egovframe.css}"/>
 	<script th:inline="javascript" th:src="@{/js/jquery.min.js}"></script>
@@ -14,7 +15,7 @@
 		function sampleSearch() {
             if (notNullCheck($('#searchKeyword').val())) {
 				$('#pageIndex').val(1);
-				$('#listForm').attr('method', 'get').attr('action', [[@{/egovSampleList.do}]]).submit();
+				$('#listForm').attr('method', 'post').attr('action', [[@{/egovSampleList.do}]]).submit();
             } else {
             	alert(/*[[#{search.error}]]*/'검색어를 입력해주세요.');
             }
@@ -22,7 +23,7 @@
 
 		function samplePagination(pageIndex) {
         	$('#pageIndex').val(pageIndex);
-        	$('#listForm').attr('method', 'get').attr('action', [[@{/egovSampleList.do}]]).submit();
+        	$('#listForm').attr('method', 'post').attr('action', [[@{/egovSampleList.do}]]).submit();
         }
 
         function sampleCreate() {
@@ -40,7 +41,7 @@
 <body>
 <div id="container" class="inner">
 
-	<!-- Page Title -->
+	<!--/* 타이틀 */-->
 	<h2 class="heading-large" th:text="#{list.sample}"></h2>
 
 	<div id="content_pop">
@@ -49,7 +50,7 @@
 			<input type="hidden" th:id="pageIndex" th:name="pageIndex" th:value="${sampleVO.pageIndex}" />
 			<input type="hidden" th:field="*{pageSize}" />
 
-			<!-- Search Form -->
+			<!--/* 검색 */-->
 			<div class="form-group">
 				<div class="search-wrap">
 					<div class="search-body">
@@ -68,11 +69,11 @@
 						</div>
 					</div>
 					<div class="page-btn-wrap">
-						<label for="pageUnit" class="sr-only">페이지당 표시 건수</label>
-						<select th:field="*{pageUnit}" class="krds-form-select medium" onchange="samplePagination(1)">
+						<label for="pageUnit" class="sr-only" th:text="#{page.unit.label}"></label>
+						<select th:field="*{pageUnit}" class="krds-form-select medium page-unit-select" onchange="samplePagination(1)">
 							<option th:if="${!#lists.contains({5, 10, 20, 50, 100}, sampleVO.pageUnit)}"
-								th:value="${sampleVO.pageUnit}" th:text="|${sampleVO.pageUnit}개씩 보기|"></option>
-							<option th:each="unit : ${ {5, 10, 20, 50, 100} }" th:value="${unit}" th:text="|${unit}개씩 보기|"></option>
+								th:value="${sampleVO.pageUnit}" th:text="#{page.unit.option(${sampleVO.pageUnit})}"></option>
+							<option th:each="unit : ${ {5, 10, 20, 50, 100} }" th:value="${unit}" th:text="#{page.unit.option(${unit})}"></option>
 						</select>
 						<button type="button" class="krds-btn medium" th:text="#{button.create}" th:onclick="sampleCreate()"></button>
 					</div>
@@ -80,52 +81,81 @@
 			</div>
 		</form>
 
-		<!-- List -->
-		<p class="search-result-count" role="status">
-			검색 결과 <strong th:text="${paginationInfo.totalRecordCount}">0</strong>건
-		</p>
-		<div class="krds-table-wrap">
-			<table class="tbl col data">
-				<colgroup>
-					<col style="width: 10%;">
-					<col style="width: 20%;">
-					<col style="width: 20%;">
-					<col style="width: 30%;">
-					<col style="width: 10%;">
-					<col style="width: 10%;">
-				</colgroup>
-				<thead>
-					<tr>
-						<th scope="col" class="text-center">No</th>
-						<th scope="col" class="text-center"><span th:text="#{title.sample.id}"></span></th>
-						<th scope="col" class="text-center"><span th:text="#{title.sample.name}"></span></th>
-						<th scope="col" class="text-center"><span th:text="#{title.sample.description}"></span></th>
-						<th scope="col" class="text-center"><span th:text="#{title.sample.useYn}"></span></th>
-						<th scope="col" class="text-center"><span th:text="#{title.sample.regUser}"></span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="result, iterStat : ${resultList}">
-						<td class="text-center" th:text="${paginationInfo.totalRecordCount + 1 - ((sampleVO.pageIndex - 1) * sampleVO.recordCountPerPage + iterStat.count)}"></td>
-						<td class="text-center">
-							<a href="#" th:onclick="sampleDetail([[${result.id}]])" th:text="${result.id}"></a>
-						</td>
-						<td class="text-center" th:text="${result.name}"></td>
-						<td class="text-center" th:text="${result.description}"></td>
-						<td class="text-center">
-							<span th:if="${result.useYn == 'Y'}" th:text="#{input.yes}"></span>
-							<span th:if="${result.useYn == 'N'}" th:text="#{input.no}"></span>
-						</td>
-						<td class="text-center" th:text="${result.regUser}"></td>
-					</tr>
-					<tr th:if="${resultList == null or resultList.isEmpty()}">
-						<td class="text-center" colspan="6" th:text="#{info.nodata.msg}"></td>
-					</tr>
-				</tbody>
-			</table>
+		<!--/* 목록 */-->
+		<p class="search-result-count" role="status" th:utext="#{search.result.count(${paginationInfo.totalRecordCount})}"></p>
+		<!--/* KRDS 구조화 목록(표형) : PC 화면 */-->
+		<div class="krds-structured-list-table sample-list-table" th:unless="${resultList == null or resultList.isEmpty()}">
+			<div class="krds-table-wrap">
+				<table class="tbl col data">
+					<caption th:text="#{title.sample.caption}"></caption>
+					<colgroup>
+						<col style="width: 8%;">
+						<col style="width: 16%;">
+						<col style="width: 22%;">
+						<col>
+						<col style="width: 10%;">
+						<col style="width: 12%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">No</th>
+							<th scope="col" th:text="#{title.sample.id}"></th>
+							<th scope="col" th:text="#{title.sample.name}"></th>
+							<th scope="col" th:text="#{title.sample.description}"></th>
+							<th scope="col" th:text="#{title.sample.useYn}"></th>
+							<th scope="col" th:text="#{title.sample.regUser}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="result, iterStat : ${resultList}">
+							<td class="list-no" th:text="${paginationInfo.totalRecordCount + 1 - ((sampleVO.pageIndex - 1) * sampleVO.recordCountPerPage + iterStat.count)}"></td>
+							<td th:text="${result.id}"></td>
+							<td class="text-left"><a href="#" th:onclick="sampleDetail([[${result.id}]])" th:text="${result.name}"></a></td>
+							<td class="text-left" th:text="${result.description}"></td>
+							<td>
+								<span th:if="${result.useYn == 'Y'}" th:text="#{input.yes}"></span>
+								<span th:if="${result.useYn == 'N'}" th:text="#{input.no}"></span>
+							</td>
+							<td th:text="${result.regUser}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
+		<!--/* KRDS 구조화 목록(기본) : 모바일 화면 */-->
+		<ul class="krds-structured-list type-full sample-list" th:unless="${resultList == null or resultList.isEmpty()}">
+			<li class="structured-item" th:each="result, iterStat : ${resultList}">
+				<div class="in">
+					<div class="card-top">
+						<span class="list-no"><span class="sr-only">No</span><span th:text="${paginationInfo.totalRecordCount + 1 - ((sampleVO.pageIndex - 1) * sampleVO.recordCountPerPage + iterStat.count)}"></span></span>
+					</div>
+					<div class="card-body">
+						<a href="#" class="c-text" th:onclick="sampleDetail([[${result.id}]])">
+							<p class="c-date">
+								<strong class="key" th:text="#{title.sample.id}"></strong>
+								<span class="value" th:text="${result.id}"></span>
+							</p>
+							<p class="c-tit"><span class="span" th:text="${result.name}"></span></p>
+							<p class="c-txt" th:text="${result.description}"></p>
+							<p class="c-date">
+								<strong class="key" th:text="#{title.sample.useYn}"></strong>
+								<span class="value">
+									<span th:if="${result.useYn == 'Y'}" th:text="#{input.yes}"></span>
+									<span th:if="${result.useYn == 'N'}" th:text="#{input.no}"></span>
+								</span>
+							</p>
+							<p class="c-date">
+								<strong class="key" th:text="#{title.sample.regUser}"></strong>
+								<span class="value" th:text="${result.regUser}"></span>
+							</p>
+						</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<p class="sample-list-empty" th:if="${resultList == null or resultList.isEmpty()}" th:text="#{info.nodata.msg}"></p>
 
-		<!-- Pagination -->
+		<!--/* 페이지네이션 */-->
 		<div id="paging" class="krds-pagination w-page" th:utext="${#egovKrdsPaginationRenderer.renderPagination(paginationInfo, 'samplePagination')}"></div>
 
 	</div>

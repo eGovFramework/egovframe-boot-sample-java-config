@@ -7,6 +7,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.egovframe.rte.fdl.cmmn.aspect.ExceptionTransfer;
 import org.egovframe.rte.fdl.cmmn.exception.BaseRuntimeException;
 
+/**
+ * 서비스 예외를 ExceptionTransfer 로 전달하는 Aspect
+ */
 @Aspect
 public class EgovAopExceptionTransfer {
 

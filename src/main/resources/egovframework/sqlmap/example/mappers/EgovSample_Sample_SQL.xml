@@ -51,12 +51,12 @@
 ]]>
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
-		            <when test="searchCondition == 0">
+		            <when test="searchCondition == '0'.toString()">
 <![CDATA[
 						AND	ID LIKE '%' || #{searchKeyword} || '%'
 ]]>
 					</when>
-		            <when test="searchCondition == 1">
+		            <when test="searchCondition == '1'.toString()">
 <![CDATA[
 						AND	NAME LIKE '%' || #{searchKeyword} || '%'
 ]]>

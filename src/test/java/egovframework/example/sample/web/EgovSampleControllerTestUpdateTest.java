@@ -18,7 +18,10 @@ package egovframework.example.sample.web;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
@@ -87,7 +90,8 @@ class EgovSampleControllerTestUpdateTest {
 		)
 				.andDo(print())
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrlPattern("/egovSampleList.do*"));
+				.andExpect(redirectedUrl("/"))
+				.andExpect(flash().attribute("sampleVO", hasProperty("pageIndex", is(1))));
 
 		// then
 		final SampleVO queryVO = new SampleVO();

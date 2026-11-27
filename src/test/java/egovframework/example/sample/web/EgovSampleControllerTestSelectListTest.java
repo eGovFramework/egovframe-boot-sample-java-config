@@ -17,6 +17,7 @@ package egovframework.example.sample.web;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -50,7 +51,7 @@ class EgovSampleControllerTestSelectListTest {
 
 	@Test
 	void test_목록조회_기본() throws BaseRuntimeException, Exception {
-		mockMvc.perform(get("/egovSampleList.do"))
+		mockMvc.perform(post("/egovSampleList.do"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name("sample/egovSampleList"))
@@ -61,7 +62,7 @@ class EgovSampleControllerTestSelectListTest {
 	@Test
 	void test_목록조회_검색조건_이름() throws BaseRuntimeException, Exception {
 		mockMvc.perform(
-				get("/egovSampleList.do")
+				post("/egovSampleList.do")
 						.param("searchCondition", "1")
 						.param("searchKeyword", "테스트")
 						.param("pageIndex", "1")
@@ -76,7 +77,7 @@ class EgovSampleControllerTestSelectListTest {
 	@Test
 	void test_목록조회_현재페이지_히든필드_유지() throws BaseRuntimeException, Exception {
 		mockMvc.perform(
-				get("/egovSampleList.do")
+				post("/egovSampleList.do")
 						.param("pageIndex", "2")
 		)
 				.andDo(print())

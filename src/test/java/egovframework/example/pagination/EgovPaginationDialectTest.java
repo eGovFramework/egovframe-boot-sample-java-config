@@ -16,7 +16,7 @@ import org.thymeleaf.expression.IExpressionObjectFactory;
  * EgovPaginationDialect 단위 테스트
  *
  * @author 이백행
- * @since 2026-05-28
+ * @since 2026.05.28
  */
 class EgovPaginationDialectTest {
 

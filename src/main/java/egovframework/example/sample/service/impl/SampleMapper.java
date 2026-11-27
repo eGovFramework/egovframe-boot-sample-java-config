@@ -22,63 +22,60 @@ import org.egovframe.rte.psl.dataaccess.mapper.EgovMapper;
 import egovframework.example.sample.service.SampleVO;
 
 /**
- * sample에 관한 데이터처리 매퍼 클래스
+ * 게시판 데이터 처리 Mapper
  *
- * @author  표준프레임워크센터
+ * @Modification Information
+ *  수정일      수정자              수정내용
+ *  ----------  ------------------  ----------------------------------------
+ *  2014.01.24  표준프레임워크센터  최초 생성
+ *  2026.06.19  이백행              [2026년 컨트리뷰션] 문자열 기반 설정 제거
+ *  2026.07.16  이백행              [2026년 컨트리뷰션] 불필요한 예외 제거
+ *
+ * @author 표준프레임워크센터
  * @since 2014.01.24
  * @version 1.0
- * @see <pre>
- *  == 개정이력(Modification Information) ==
- *
- *          수정일          수정자           수정내용
- *  ----------------    ------------    ---------------------------
- *   2014.01.24  표준프레임워크센터 최초 생성
- *   2026.06.19  이백행          [2026년 컨트리뷰션] 문자열 기반 설정 제거
- *   2026.07.16  이백행          [2026년 컨트리뷰션] 불필요한 예외 제거
- *
- * </pre>
  */
 @EgovMapper
 public interface SampleMapper {
 
 	/**
 	 * 글을 등록한다.
-	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
+	 * @param sampleVO 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
 	 */
 	int insertSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 수정한다.
-	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
-	 * @return void형
+	 * @param sampleVO 수정할 정보가 담긴 SampleVO
+	 * @return 처리 건수
 	 */
 	int updateSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 삭제한다.
-	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
-	 * @return void형
+	 * @param sampleVO 삭제할 정보가 담긴 SampleVO
+	 * @return 처리 건수
 	 */
 	int deleteSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
+	 * @param sampleVO 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
 	 */
 	SampleVO selectSample(SampleVO sampleVO);
 
 	/**
 	 * 글 목록을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
+	 * @param sampleVO 조회할 정보가 담긴 VO
 	 * @return 글 목록
 	 */
 	List<SampleVO> selectSampleList(SampleVO sampleVO);
 
 	/**
 	 * 글 총 개수를 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
+	 * @param sampleVO 조회할 정보가 담긴 VO
 	 * @return 글 총 개수
 	 */
 	int selectSampleListTotCnt(SampleVO sampleVO);

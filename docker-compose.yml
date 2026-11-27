@@ -1,8 +1,20 @@
+# egovframe-boot-sample 로컬 실행 (Docker Compose)
+# Dockerfile 이 멀티 스테이지로 JAR 를 직접 빌드하므로 `mvn package` 없이 `docker compose up -d --build` 로 실행합니다.
+# 헬스체크는 Dockerfile 의 HEALTHCHECK 를 사용합니다.
+# 접속 URL : http://localhost:8080/
+
 services:
   app:
-    build: .
-    image: egovframe-boot-sample-java-config:${APP_VERSION:-5.0.0}
-    container_name: egov-boot-sample
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: egovframe-boot-sample:${APP_VERSION:-5.1.0}
+    container_name: egovframe-boot-sample
     ports:
       - "8080:8080"
+    environment:
+      # JVM 옵션
+      JAVA_OPTS: ${JAVA_OPTS:--Xms256m -Xmx512m -XX:+ExitOnOutOfMemoryError}
+      # TLS를 프록시(로드밸런서)에서 종료하는 운영 환경은 true 로 기동
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
     restart: unless-stopped

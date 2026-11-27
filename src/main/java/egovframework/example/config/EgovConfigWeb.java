@@ -5,14 +5,17 @@ import java.util.Properties;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -23,6 +26,9 @@ import org.thymeleaf.templatemode.TemplateMode;
 import egovframework.example.pagination.EgovKrdsPaginationRenderer;
 import egovframework.example.pagination.EgovPaginationDialect;
 
+/**
+ * Web MVC 설정 (Thymeleaf, 정적 리소스, 보안 헤더 필터, 로케일, 예외 처리)
+ */
 @Configuration
 @Import({
 		EgovConfigAspect.class,
@@ -58,7 +64,7 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setEnableSpringELCompiler(true);
-		// add custom tag
+		// 페이지네이션 Dialect (#egovKrdsPaginationRenderer)
 		templateEngine.addDialect(new EgovPaginationDialect(egovKrdsPaginationRenderer));
 		return templateEngine;
 	}
@@ -89,6 +95,14 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	}
 
 	@Bean
+	FilterRegistrationBean<EgovSecurityHeaderFilter> securityHeaderFilter() {
+		FilterRegistrationBean<EgovSecurityHeaderFilter> registration = new FilterRegistrationBean<>(new EgovSecurityHeaderFilter());
+		registration.addUrlPatterns("/*");
+		registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return registration;
+	}
+
+	@Bean
 	SessionLocaleResolver localeResolver() {
 		return new SessionLocaleResolver();
 	}
@@ -97,6 +111,8 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 	LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 		interceptor.setParamName("language");
+		// 잘못된 로케일 값(?language=..%2f 등)은 500 에러 대신 무시한다.
+		interceptor.setIgnoreInvalidLocale(true);
 		return interceptor;
 	}
 
@@ -121,6 +137,10 @@ public class EgovConfigWeb implements WebMvcConfigurer, ApplicationContextAware 
 		smer.setDefaultErrorView("sample/egovSampleError");
 		smer.setExceptionMappings(prop);
 		smer.setStatusCodes(statusCode);
+		// Spring MVC 표준 예외는 DefaultHandlerExceptionResolver 가 먼저 처리해 HTTP 표준 상태코드로 응답한다.
+		// (허용되지 않은 메서드 405 + Allow 헤더, 없는 URL 404, 파라미터 타입 오류 400)
+		// 그 외 예외만 SimpleMappingExceptionResolver 가 공통 에러 화면(500)으로 처리한다.
+		resolvers.add(new DefaultHandlerExceptionResolver());
 		resolvers.add(smer);
 	}
 

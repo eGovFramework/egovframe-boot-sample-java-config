@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * ID 생성 서비스 설정 (IDS 테이블, SAMPLE- 접두어)
+ */
 @Configuration
 public class EgovConfigIdGeneration {
 

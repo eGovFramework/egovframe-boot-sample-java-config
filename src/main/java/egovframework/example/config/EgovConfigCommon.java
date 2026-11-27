@@ -11,6 +11,9 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.util.AntPathMatcher;
 
+/**
+ * 공통 설정 (메시지, Trace)
+ */
 @Configuration
 public class EgovConfigCommon {
 

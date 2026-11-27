@@ -18,60 +18,58 @@ package egovframework.example.sample.service;
 import java.util.List;
 
 /**
- * @Class Name : EgovSampleService.java
- * @Description : EgovSampleService Class
- * @Modification Information
- * @
- * @  수정일      수정자              수정내용
- * @ ---------   ---------   -------------------------------
- * @ 2009.03.16                최초생성
- *   2026.07.16  이백행          [2026년 컨트리뷰션] 불필요한 예외 제거
+ * 게시판 Service
  *
- * @author 개발프레임웍크 실행환경 개발팀
- * @since 2009. 03.16
+ * @Modification Information
+ *  수정일      수정자  수정내용
+ *  ----------  ------  ----------------------------------------
+ *  2009.03.16          최초생성
+ *  2026.07.16  이백행  [2026년 컨트리뷰션] 불필요한 예외 제거
+ *
+ * @author 개발프레임워크 실행환경 개발팀
+ * @since 2009.03.16
  * @version 1.0
- * @see
  */
 public interface EgovSampleService {
 
 	/**
 	 * 글을 등록한다.
-	 * @param sampleVO - 등록할 정보가 담긴 SampleVO
+	 * @param sampleVO 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
 	 */
 	int insertSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 수정한다.
-	 * @param sampleVO - 수정할 정보가 담긴 SampleVO
-	 * @return void형
+	 * @param sampleVO 수정할 정보가 담긴 SampleVO
+	 * @return 처리 건수
 	 */
 	int updateSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 삭제한다.
-	 * @param sampleVO - 삭제할 정보가 담긴 SampleVO
-	 * @return void형
+	 * @param sampleVO 삭제할 정보가 담긴 SampleVO
+	 * @return 처리 건수
 	 */
 	int deleteSample(SampleVO sampleVO);
 
 	/**
 	 * 글을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 SampleVO
+	 * @param sampleVO 조회할 정보가 담긴 SampleVO
 	 * @return 조회한 글
 	 */
 	SampleVO selectSample(SampleVO sampleVO);
 
 	/**
 	 * 글 목록을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
+	 * @param sampleVO 조회할 정보가 담긴 VO
 	 * @return 글 목록
 	 */
 	List<SampleVO> selectSampleList(SampleVO sampleVO);
 
 	/**
 	 * 글 총 개수를 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
+	 * @param sampleVO 조회할 정보가 담긴 VO
 	 * @return 글 총 개수
 	 */
 	int selectSampleListTotCnt(SampleVO sampleVO);

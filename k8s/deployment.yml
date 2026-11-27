@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egovframe-boot-sample
+  labels:
+    app.kubernetes.io/name: egovframe-boot-sample
+    app.kubernetes.io/part-of: egovframe-sample
+spec:
+  # 내장 HSQLDB(인메모리)를 사용하므로 Pod 간 데이터가 공유되지 않음. 외부 DB 연동 전까지 1개로 유지
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: egovframe-boot-sample
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: egovframe-boot-sample
+        app.kubernetes.io/part-of: egovframe-sample
+    spec:
+      # Dockerfile 의 실행 계정(UID/GID 1000)과 동일
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: app
+          # Replace with your registry/tag, e.g. ghcr.io/<org>/egovframe-boot-sample:5.1.0
+          image: egovframe-boot-sample:5.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            # JVM 옵션 : 컨테이너 메모리 limit 기준으로 힙 크기 결정
+            - name: JAVA_OPTS
+              value: "-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"
+            # TLS를 Ingress/로드밸런서에서 종료하는 경우 "true" 로 변경
+            - name: SESSION_COOKIE_SECURE
+              value: "false"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            # 쓰기는 /tmp(emptyDir) 만 사용
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

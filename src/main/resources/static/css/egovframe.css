@@ -1,4 +1,4 @@
-/* main Layout */
+/* 레이아웃 */
 
 .layout{
     min-height: calc(100vh - 277px);
@@ -15,7 +15,7 @@
     width:100%;
 }
 
-/* lnb(sideMenu) */
+/* 좌측 메뉴(LNB) */
 .krds-side-navigation{
     flex-shrink: 0;
     width: 24.8rem;
@@ -23,7 +23,7 @@
     border: none;
 }
 
-/* Headeer */
+/* 헤더 */
 #krds-header{
     border-bottom: 0.1rem solid var(--krds-color-light-gray-20);
 }
@@ -77,12 +77,56 @@
     flex-wrap:wrap;
 }
 
-/* Pagination */
+/* 페이지네이션 */
 .krds-pagination .page-navi.disabled {
 	color: #8a949e
 }
+/* 페이지네이션 반응형 (EgovKrdsPaginationRenderer)
+   PC : 최대 9칸 / 태블릿(1023px 이하) : 축약형 1 … 5 6 7 … 12 / 모바일(767px 이하) : 이전 · 1 … 6/12 … 12 · 다음 */
+.krds-pagination .page-links.page-mobile,
+.krds-pagination .page-links .page-link.page-narrow {
+    display: none;
+}
+@media (max-width: 1023px) {
+    /* KRDS 기본 규칙(6~8번째 링크 숨김)은 현재 · 마지막 페이지를 가릴 수 있어 해제하고, 렌더러가 붙인 클래스로 표시 */
+    .krds-pagination .page-links .page-link:nth-child(n) {
+        display: inline-flex;
+    }
+    .krds-pagination .page-links .page-link.page-wide {
+        display: none;
+    }
+}
+@media (max-width: 767px) {
+    .krds-pagination {
+        flex-wrap: nowrap;
+        gap: var(--krds-gap-3);
+    }
+    .krds-pagination .page-links {
+        display: none;
+    }
+    /* 처음 · 끝 페이지 바로가기 + 현재/전체 */
+    .krds-pagination .page-links.page-mobile {
+        display: flex;
+        gap: var(--krds-gap-2);
+    }
+    .krds-pagination .page-navi.next {
+        order: 3;
+    }
+    .krds-pagination .page-summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.2rem;
+        padding: 0 var(--krds-padding-2);
+        color: var(--krds-light-color-text-subtle);
+        white-space: nowrap;
+    }
+    .krds-pagination .page-summary strong {
+        color: var(--krds-light-color-text-basic);
+        font-weight: var(--krds-font-weight-bold);
+    }
+}
 
-/* Search Wrap */
+/* 검색 */
 .search-wrap{
     display: flex;
     gap: 1rem;
@@ -107,12 +151,25 @@
     text-wrap: nowrap;
 }
 
-/* btn wrap*/
+/* 버튼 영역 */
 .page-btn-wrap{
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    /*margin-top: var(--krds-number-7);*/
+}
+/* 페이지당 건수 셀렉트 : 가장 긴 옵션("100개씩 보기", "Show 100 items")이 잘리지 않는 폭 */
+.page-btn-wrap .page-unit-select{
+    min-width: calc(7.5em + 6.2rem);
+}
+/* 모바일(767px 이하) : 검색 영역 / 버튼 영역을 두 줄로 배치 */
+@media (max-width: 767px){
+    .search-wrap{
+        flex-wrap: wrap;
+    }
+    .search-wrap .search-body,
+    .search-wrap .page-btn-wrap{
+        flex-basis: 100%;
+    }
 }
 .page-btn-wrap .btn-wrap{
     display: flex;
@@ -120,7 +177,7 @@
     width:auto;
 }
 
-/* input-form */
+/* 입력 폼 */
 .input-form{
     border: 1px solid;
     border-radius: var(--krds-number-6);
@@ -128,7 +185,7 @@
     margin: var(--krds-number-9) 0;
 }
 
-/* dd */
+/* 정의 목록(dl) */
 .def-list-wrap .def-list {
     display: flex;
     flex-wrap: wrap;
@@ -148,15 +205,54 @@
     width: calc(100% - (18rem + var(--krds-gap-7)));
 }
 
-/* table */
-.krds-table-wrap .tbl.data tbody td {
+/* 구조화 목록 : PC 는 표형(.sample-list-table), 모바일(KRDS 기준 767px 이하)은 기본형(.sample-list) */
+.sample-list-table .tbl.data th,
+.sample-list-table .tbl.data td{
+    text-align: center;
     word-break: break-word;
 }
-.krds-table-wrap .tbl.data .text-center, .krds-table-wrap .tbl.data .text-center a{
+.sample-list-table .tbl.data td.text-left{
+    text-align: left;
+}
+.sample-list{
+    display: none;
+}
+@media (max-width: 767px){
+    .sample-list-table{
+        display: none;
+    }
+    .sample-list{
+        display: grid;
+    }
+}
+.sample-list .card-top{
+    display: flex;
+    align-items: center;
+    gap: var(--krds-gap-3);
+}
+.sample-list .list-no{
+    color: var(--krds-light-color-text-subtle);
+    font-weight: var(--krds-typo-font-weight-bold);
+}
+.sample-list .card-body .c-txt{
+    word-break: break-word;
+}
+.sample-list-empty{
+    padding: var(--krds-padding-8);
+    border: 1px solid var(--krds-light-color-border-gray-light);
+    border-radius: var(--krds-number-6);
     text-align: center;
 }
 
-/* title*/
+/* 타이틀 */
 .heading-large{
     margin-bottom: 1.5rem;
+}
+
+/* 서버 검증 오류 목록 */
+.form-error-list{
+    margin-bottom: 1.6rem;
+    padding-left: 2rem;
+    list-style: disc;
+    color: var(--krds-light-color-text-danger, #d50136);
 }

@@ -10,13 +10,13 @@
         <Logger name="java.sql" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        <Logger name="egovframework" level="DEBUG" additivity="false">
+        <Logger name="egovframework" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        <Logger name="org.egovframe" level="DEBUG" additivity="false">
+        <Logger name="org.egovframe" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-          <!-- log SQL with timing information, post execution -->
+          <!-- SQL 실행 시간 로그 -->
         <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>

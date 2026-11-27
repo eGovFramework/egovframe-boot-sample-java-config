@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * EgovAopExceptionTransfer 단위 테스트
  *
  * @author 이백행
- * @since 2025-05-28
+ * @since 2025.05.28
  */
 class EgovAopExceptionTransferTest {
 

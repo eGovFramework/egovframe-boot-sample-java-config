@@ -26,8 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * 넘지 않는지 확인한다. 넘으면 입력값이 INSERT/UPDATE 단계에서 잘림 예외로 떨어진다.
  *
  * @author wantaek
- * @since 2026-09-09
- *
+ * @since 2026.09.09
  */
 
 @SpringBootTest

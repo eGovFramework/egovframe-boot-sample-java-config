@@ -73,7 +73,6 @@ class EgovSampleServiceImplTest {
 	@DisplayName("글 수정 - 정상적으로 updateSample을 호출한다")
 	void updateSample_정상() {
 		// given
-//		doNothing().when(sampleMapper).updateSample(sampleVO);
 		when(sampleMapper.updateSample(sampleVO)).thenReturn(1);
 
 		// when
@@ -87,7 +86,6 @@ class EgovSampleServiceImplTest {
 	@DisplayName("글 삭제 - 정상적으로 deleteSample을 호출한다")
 	void deleteSample_정상() {
 		// given
-//		doNothing().when(sampleMapper).deleteSample(sampleVO);
 		when(sampleMapper.deleteSample(sampleVO)).thenReturn(1);
 
 		// when

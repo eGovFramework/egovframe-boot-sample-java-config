@@ -14,6 +14,9 @@ import egovframework.example.exception.EgovAopExceptionTransfer;
 import egovframework.example.exception.EgovSampleExcepHndlr;
 import egovframework.example.exception.EgovSampleOthersExcepHndlr;
 
+/**
+ * AOP 설정 (서비스 예외 후처리)
+ */
 @Configuration
 @EnableAspectJAutoProxy
 public class EgovConfigAspect {

@@ -1,7 +1,6 @@
 package egovframework.example.sample.web;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,8 +15,7 @@ import org.springframework.util.StringUtils;
 /**
  * [게시판] 컨텍스트 패스 하위에 배포했을 때 화면이 만드는 폼 액션 URL 검증
  *
- * @since 2026-09-09
- *
+ * @since 2026.09.09
  */
 
 @SpringBootTest
@@ -31,7 +29,7 @@ class EgovSampleControllerTestContextPathTest {
 
 	@Test
 	void test_목록화면_폼액션에_컨텍스트패스가_붙는다() throws Exception {
-		final String html = render(get(CONTEXT_PATH + "/egovSampleList.do").contextPath(CONTEXT_PATH));
+		final String html = render(post(CONTEXT_PATH + "/egovSampleList.do").contextPath(CONTEXT_PATH));
 
 		assertContextPath(html, "/egovSampleList.do");
 		assertContextPath(html, "/addSampleView.do");

@@ -20,10 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * [게시판][EgovSampleController.add] Controller 단위 테스트
- * 
- * @author 이백행
- * @since 2024-09-19
  *
+ * @author 이백행
+ * @since 2024.09.19
  */
 
 @SpringBootTest
@@ -35,9 +34,6 @@ class EgovSampleControllerTestAddTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	/**
-	 * 
-	 */
 	@Autowired
 	private EgovSampleService egovSampleService;
 
@@ -111,7 +107,6 @@ class EgovSampleControllerTestAddTest {
 	}
 
 	private void asserts(final SampleVO sampleVO, final SampleVO resultSampleVO) {
-//		assertEquals(sampleVO.getId(), resultSampleVO.getId(), "글을 등록한다. getId");
 		assertEquals(sampleVO.getName(), resultSampleVO.getName(), "글을 등록한다. 카테고리명");
 		assertEquals(sampleVO.getDescription(), resultSampleVO.getDescription(), "글을 등록한다. 설명");
 		assertEquals(sampleVO.getUseYn(), resultSampleVO.getUseYn(), "글을 등록한다. 카테사용여부고리명");

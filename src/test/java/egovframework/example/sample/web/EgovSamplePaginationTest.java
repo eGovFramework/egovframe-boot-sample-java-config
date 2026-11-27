@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.egovframe.rte.fdl.cmmn.exception.BaseRuntimeException;
@@ -34,20 +35,42 @@ class EgovSamplePaginationTest {
 	@ParameterizedTest
 	@ValueSource(strings = { "0", "-1", "101", "2147483647" })
 	void invalidPageSizesUseDefaults(String value) throws BaseRuntimeException, Exception {
-		for (String path : new String[] { "/", "/egovSampleList.do" }) {
-			var result = mockMvc.perform(get(path).param("pageUnit", value).param("pageSize", value))
-					.andExpect(status().isOk()).andReturn();
-			SampleVO criteria = (SampleVO) result.getModelAndView().getModel().get("sampleVO");
-			assertThat(criteria.getPageUnit()).isEqualTo(10);
-			assertThat(criteria.getPageSize()).isEqualTo(10);
-		}
+		// 목록 조회(/egovSampleList.do)는 POST 전용
+		var result = mockMvc.perform(post("/egovSampleList.do").param("pageUnit", value).param("pageSize", value))
+				.andExpect(status().isOk()).andReturn();
+		SampleVO criteria = (SampleVO) result.getModelAndView().getModel().get("sampleVO");
+		assertThat(criteria.getPageUnit()).isEqualTo(10);
+		assertThat(criteria.getPageSize()).isEqualTo(10);
+	}
+
+	@Test
+	void indexIgnoresQueryStringAndUsesFlashAttribute() throws BaseRuntimeException, Exception {
+		// "/" 는 쿼리스트링을 바인딩하지 않는다
+		var result = mockMvc.perform(get("/").param("pageUnit", "5").param("pageSize", "3").param("pageIndex", "2"))
+				.andExpect(status().isOk()).andReturn();
+		SampleVO criteria = (SampleVO) result.getModelAndView().getModel().get("sampleVO");
+		assertThat(criteria.getPageUnit()).isEqualTo(10);
+		assertThat(criteria.getPageSize()).isEqualTo(10);
+		assertThat(criteria.getPageIndex()).isEqualTo(1);
+
+		// 등록/수정/삭제 후 리다이렉트로 전달된 Flash Attribute 조회조건은 사용한다
+		SampleVO flashVO = new SampleVO();
+		flashVO.setPageIndex(2);
+		flashVO.setPageUnit(5);
+		flashVO.setPageSize(3);
+		result = mockMvc.perform(get("/").flashAttr("sampleVO", flashVO)).andExpect(status().isOk())
+				.andExpect(content().string(containsString("name=\"pageIndex\" value=\"2\"")))
+				.andExpect(content().string(containsString("value=\"5\" selected=\"selected\""))).andReturn();
+		criteria = (SampleVO) result.getModelAndView().getModel().get("sampleVO");
+		assertThat(criteria.getFirstIndex()).isEqualTo(5);
+		assertThat(criteria.getPageSize()).isEqualTo(3);
 	}
 
 	@Test
 	void customPageSizesAreRenderedAndUsedForNextPage() throws BaseRuntimeException, Exception {
 		var result = mockMvc
 				.perform(
-						get("/egovSampleList.do").param("pageIndex", "2").param("pageUnit", "5").param("pageSize", "3"))
+						post("/egovSampleList.do").param("pageIndex", "2").param("pageUnit", "5").param("pageSize", "3"))
 				.andExpect(status().isOk()).andExpect(content().string(containsString("value=\"5\" selected=\"selected\"")))
 				.andExpect(content().string(containsString("name=\"pageSize\" value=\"3\""))).andReturn();
 		SampleVO criteria = (SampleVO) result.getModelAndView().getModel().get("sampleVO");
@@ -75,8 +98,10 @@ class EgovSamplePaginationTest {
 					.perform(post(path).param("id", sample.getId()).param("name", sample.getName())
 							.param("description", sample.getDescription()).param("useYn", "Y")
 							.param("regUser", "tester").param("pageUnit", "5").param("pageSize", "3"))
-					.andExpect(status().is3xxRedirection()).andReturn();
-			assertThat(result.getResponse().getRedirectedUrl()).contains("pageUnit=5", "pageSize=3");
+					.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/")).andReturn();
+			SampleVO flashVO = (SampleVO) result.getFlashMap().get("sampleVO");
+			assertThat(flashVO.getPageUnit()).isEqualTo(5);
+			assertThat(flashVO.getPageSize()).isEqualTo(3);
 		}
 	}
 }

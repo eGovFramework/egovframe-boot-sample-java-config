@@ -8,6 +8,9 @@ import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 
+/**
+ * Thymeleaf 페이지네이션 Dialect (#egovKrdsPaginationRenderer)
+ */
 public class EgovPaginationDialect extends AbstractDialect implements IExpressionObjectDialect {
 
 	private final EgovKrdsPaginationRenderer egovKrdsPaginationRenderer;

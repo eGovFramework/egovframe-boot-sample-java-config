@@ -19,6 +19,9 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+/**
+ * 트랜잭션 설정
+ */
 @Configuration
 public class EgovConfigTransaction {
 

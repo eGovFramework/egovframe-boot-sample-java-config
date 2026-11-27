@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * Bean Validation 설정
+ */
 @Configuration
 public class EgovConfigValidation {
 

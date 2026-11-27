@@ -35,20 +35,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Class Name : EgovSampleController.java
- * @Description : EgovSample Controller Class
- * @Modification Information
- * @
- * @  수정일      수정자              수정내용
- * @ ---------   ---------   -------------------------------
- * @ 2009.03.16                최초생성
- * @ 2026.07.01  이백행          [2026년 컨트리뷰션] 불필요한 import 및 ModelAttribute name 속성 제거
- *   2026.07.16  이백행          [2026년 컨트리뷰션] 불필요한 예외 제거
+ * 게시판 Controller (목록 · 등록 · 수정 · 삭제)
  *
- * @author 개발프레임웍크 실행환경 개발팀
- * @since 2009. 03.16
+ * @Modification Information
+ *  수정일      수정자  수정내용
+ *  ----------  ------  ----------------------------------------
+ *  2009.03.16          최초생성
+ *  2026.07.01  이백행  [2026년 컨트리뷰션] 불필요한 import 및 ModelAttribute name 속성 제거
+ *  2026.07.16  이백행  [2026년 컨트리뷰션] 불필요한 예외 제거
+ *
+ * @author 개발프레임워크 실행환경 개발팀
+ * @since 2009.03.16
  * @version 1.0
- * @see
  */
 @Controller
 @RequiredArgsConstructor
@@ -58,31 +56,39 @@ public class EgovSampleController {
 	private static final int MAX_PAGE_UNIT = 100;
 	private static final int MAX_PAGE_SIZE = 100;
 
-	/** EgovSampleService */
 	private final EgovSampleService sampleService;
 
-	/** EgovPropertyService */
 	private final EgovPropertyService propertiesService;
 
+	/**
+	 * 목록 화면 진입점(유일한 GET URL).
+	 * 쿼리스트링은 바인딩하지 않고, 등록/수정/삭제 후 Flash Attribute 로 전달된 조회조건만 사용한다.
+	 * @return "egovSampleList"
+	 */
 	@GetMapping("/")
-	public String index(@ModelAttribute SampleVO sampleVO, Model model) {
+	public String index(Model model) {
+		SampleVO sampleVO = model.getAttribute("sampleVO") instanceof SampleVO flashVO ? flashVO : new SampleVO();
+		model.addAttribute("sampleVO", sampleVO);
 		return this.selectSampleList(sampleVO, model);
 	}
 
 	/**
-	 * 글 목록을 조회한다. (pageing)
-	 * @param sampleVO - 조회할 정보가 담긴 SampleDefaultVO
-	 * @param model
+	 * 글 목록을 조회한다. (페이징)
+	 * @param sampleVO 조회할 정보가 담긴 SampleVO
 	 * @return "egovSampleList"
 	 */
-	@GetMapping("/egovSampleList.do")
+	@PostMapping("/egovSampleList.do")
 	public String selectSampleList(@ModelAttribute SampleVO sampleVO, Model model) {
 
-		/** EgovPropertyService.sample */
+		// 페이징 단위 · 페이지 번호 개수 (기본값 : EgovPropertyService)
 		sampleVO.setPageUnit(resolvePageValue(sampleVO.getPageUnit(), "pageUnit", MAX_PAGE_UNIT));
 		sampleVO.setPageSize(resolvePageValue(sampleVO.getPageSize(), "pageSize", MAX_PAGE_SIZE));
 
-		/** pageing setting */
+		// 전체 건수 → 현재 페이지 보정
+		int totCnt = sampleService.selectSampleListTotCnt(sampleVO);
+		sampleVO.setPageIndex(resolvePageIndex(sampleVO.getPageIndex(), totCnt, sampleVO.getPageUnit()));
+
+		// 페이징 정보
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(sampleVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(sampleVO.getPageUnit());
@@ -92,15 +98,11 @@ public class EgovSampleController {
 		sampleVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		sampleVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		/** List */
+		// 목록
 		List<SampleVO> sampleList = sampleService.selectSampleList(sampleVO);
 		model.addAttribute("resultList", sampleList);
 
-		/** Count */
-		int totCnt = sampleService.selectSampleListTotCnt(sampleVO);
 		paginationInfo.setTotalRecordCount(totCnt);
-
-		/** Pagination */
 		model.addAttribute("paginationInfo", paginationInfo);
 
 		return "sample/egovSampleList";
@@ -108,8 +110,7 @@ public class EgovSampleController {
 
 	/**
 	 * 글 등록 화면을 조회한다.
-	 * @param sampleVO - 목록 조회조건 정보가 담긴 VO
-	 * @param model
+	 * @param sampleVO 목록 조회조건 정보가 담긴 VO
 	 * @return "egovSampleRegister"
 	 */
 	@PostMapping("/addSampleView.do")
@@ -122,9 +123,8 @@ public class EgovSampleController {
 
 	/**
 	 * 글을 등록한다.
-	 * @param sampleVO - 등록할 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
+	 * @param sampleVO 등록할 정보가 담긴 VO
+	 * @return "redirect:/" (GET 은 "/" 만 허용하므로 "/" 로 리다이렉트, 조회조건은 Flash Attribute 로 전달)
 	 */
 	@PostMapping("/addSample.do")
 	public String addSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult, Model model,
@@ -138,15 +138,14 @@ public class EgovSampleController {
 		int result = sampleService.insertSample(sampleVO);
 		log.debug("result={}", result);
 		status.setComplete();
-		addPaginationAttributes(sampleVO, redirectAttributes);
+		addListCondition(sampleVO, false, redirectAttributes);
 
-		return "redirect:/egovSampleList.do";
+		return "redirect:/";
 	}
 
 	/**
-	 * 글 수정화면을 조회한다.
-	 * @param sampleVO - 수정할 글 정보가 담긴 VO
-	 * @param model
+	 * 글 수정 화면을 조회한다.
+	 * @param sampleVO 수정할 글 정보가 담긴 VO
 	 * @return "egovSampleRegister"
 	 */
 	@PostMapping("/updateSampleView.do")
@@ -166,9 +165,8 @@ public class EgovSampleController {
 
 	/**
 	 * 글을 수정한다.
-	 * @param sampleVO - 수정할 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
+	 * @param sampleVO 수정할 정보가 담긴 VO
+	 * @return "redirect:/" (GET 은 "/" 만 허용하므로 "/" 로 리다이렉트, 조회조건은 Flash Attribute 로 전달)
 	 */
 	@PostMapping("/updateSample.do")
 	public String updateSample(@Valid @ModelAttribute SampleVO sampleVO, BindingResult bindingResult,
@@ -182,20 +180,15 @@ public class EgovSampleController {
 		int result = sampleService.updateSample(sampleVO);
 		log.debug("result={}", result);
 		status.setComplete();
+		addListCondition(sampleVO, true, redirectAttributes);
 
-		redirectAttributes.addAttribute("searchCondition", sampleVO.getSearchCondition());
-		redirectAttributes.addAttribute("searchKeyword", sampleVO.getSearchKeyword());
-		redirectAttributes.addAttribute("pageIndex", sampleVO.getPageIndex());
-		addPaginationAttributes(sampleVO, redirectAttributes);
-
-		return "redirect:/egovSampleList.do";
+		return "redirect:/";
 	}
 
 	/**
 	 * 글을 삭제한다.
-	 * @param sampleVO - 삭제할 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
+	 * @param sampleVO 삭제할 정보가 담긴 VO
+	 * @return "redirect:/" (GET 은 "/" 만 허용하므로 "/" 로 리다이렉트, 조회조건은 Flash Attribute 로 전달)
 	 */
 	@PostMapping("/deleteSample.do")
 	public String deleteSample(@ModelAttribute SampleVO sampleVO, RedirectAttributes redirectAttributes, SessionStatus status) {
@@ -203,13 +196,9 @@ public class EgovSampleController {
 		int result = sampleService.deleteSample(sampleVO);
 		log.debug("result={}", result);
 		status.setComplete();
+		addListCondition(sampleVO, true, redirectAttributes);
 
-		redirectAttributes.addAttribute("searchCondition", sampleVO.getSearchCondition());
-		redirectAttributes.addAttribute("searchKeyword", sampleVO.getSearchKeyword());
-		redirectAttributes.addAttribute("pageIndex", sampleVO.getPageIndex());
-		addPaginationAttributes(sampleVO, redirectAttributes);
-
-		return "redirect:/egovSampleList.do";
+		return "redirect:/";
 	}
 
 	private int resolvePageValue(Integer value, String property, int maximum) {
@@ -220,13 +209,28 @@ public class EgovSampleController {
 		return Math.max(1, Math.min(propertiesService.getInt(property), maximum));
 	}
 
-	private void addPaginationAttributes(SampleVO sampleVO, RedirectAttributes redirectAttributes) {
-		if (sampleVO.getPageUnit() != null) {
-			redirectAttributes.addAttribute("pageUnit", sampleVO.getPageUnit());
+	private int resolvePageIndex(int pageIndex, int totalCount, int pageUnit) {
+		// 0, 음수, 마지막 페이지를 넘는 값은 DB 오류(음수 OFFSET, int overflow)가 나지 않도록 1 ~ 마지막 페이지로 보정한다.
+		int lastPage = Math.max(1, (totalCount + pageUnit - 1) / pageUnit);
+		return Math.max(1, Math.min(pageIndex, lastPage));
+	}
+
+	/**
+	 * 목록 조회조건을 Flash Attribute 로 전달한다.
+	 * GET 은 "/" 만 허용하므로 조회조건을 쿼리스트링(/?pageUnit=...)으로 넘기지 않고 세션 Flash 로 넘긴다.
+	 * @param sampleVO 요청에 담긴 조회조건
+	 * @param keepSearch 검색조건과 현재 페이지까지 유지할지 여부 (false 면 페이징 단위만 유지)
+	 */
+	private void addListCondition(SampleVO sampleVO, boolean keepSearch, RedirectAttributes redirectAttributes) {
+		SampleVO listVO = new SampleVO();
+		if (keepSearch) {
+			listVO.setSearchCondition(sampleVO.getSearchCondition());
+			listVO.setSearchKeyword(sampleVO.getSearchKeyword());
+			listVO.setPageIndex(sampleVO.getPageIndex());
 		}
-		if (sampleVO.getPageSize() != null) {
-			redirectAttributes.addAttribute("pageSize", sampleVO.getPageSize());
-		}
+		listVO.setPageUnit(sampleVO.getPageUnit());
+		listVO.setPageSize(sampleVO.getPageSize());
+		redirectAttributes.addFlashAttribute("sampleVO", listVO);
 	}
 
 }

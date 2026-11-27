@@ -15,10 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * [게시판][EgovSampleServiceImpl.insertSample] ServiceImpl 단위 테스트
- * 
- * @author 이백행
- * @since 2024-09-19
  *
+ * @author 이백행
+ * @since 2024.09.19
  */
 
 @SpringBootTest
@@ -27,9 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class EgovSampleServiceImplTestInsertSampleTest {
 
-	/**
-	 * 
-	 */
 	@Autowired
 	private EgovSampleService egovSampleService;
 

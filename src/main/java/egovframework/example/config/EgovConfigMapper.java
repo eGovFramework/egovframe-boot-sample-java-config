@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.egovframe.rte.psl.dataaccess.mapper.EgovMapper;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -13,8 +14,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+/**
+ * MyBatis 설정
+ */
 @Configuration
-@MapperScan(basePackages="egovframework.example.sample.service.impl")
+@MapperScan(basePackages="egovframework.example.**.service.impl", annotationClass=EgovMapper.class)
 public class EgovConfigMapper {
 
 	@Bean(name = "sqlSession") // DAO 방식을 활용할 경우 EgovAbstractMapper 가 찾는 Bean Name

@@ -1,3 +1,4 @@
+<!--/* 게시판 등록 · 수정 화면 */-->
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,14 +7,14 @@
     <title th:if="${not #strings.isEmpty(sampleVO.id)}" th:text="|Sample #{button.modify}|"></title>
     <title th:unless="${not #strings.isEmpty(sampleVO.id)}" th:text="|Sample #{button.create}|"></title>
 
-    <!-- KRDS CSS -->
+    <!--/* KRDS 스타일 */-->
     <link rel="stylesheet" type="text/css" th:href="@{/css/component/output.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/egovframe.css}">
     <script th:inline="javascript" th:src="@{/js/jquery.min.js}"></script>
     <script th:inline="javascript" th:src="@{/js/component/ui-script.js}" defer></script>
     <script th:inline="javascript" th:src="@{/js/egovframework/common.js}" defer></script>
 
-    <!--For Custom Validation-->
+    <!--/* 입력값 검증 스크립트 */-->
     <script th:inline="javascript" th:src="@{/js/egovframework/EgovValidation.js}" defer></script>
 
     <script th:inline="javascript" defer>
@@ -29,23 +30,24 @@
         }
 
         function sampleList() {
-            $('#detailForm').attr('method', 'get').attr('action', [[@{/egovSampleList.do}]]).submit();
+            $('#detailForm').attr('method', 'post').attr('action', [[@{/egovSampleList.do}]]).submit();
         }
 
+        // 입력값 검증을 먼저 하고, 통과한 경우에만 등록 · 수정 여부를 묻는다.
         function sampleAdd() {
+            if (!validateSampleVO(document.detailForm)) {
+                return;
+            }
             if (confirm(/*[[#{add.confirm}]]*/ '등록하시겠습니까?')) {
-                if (!validateSampleVO(document.detailForm)) {
-                    return;
-                }
                 $('#detailForm').attr('method', 'post').attr('action', [[@{/addSample.do}]]).submit();
             }
         }
 
         function sampleUpdate() {
+            if (!validateSampleVO(document.detailForm)) {
+                return;
+            }
             if (confirm(/*[[#{modify.confirm}]]*/ '수정하시겠습니까?')) {
-                if (!validateSampleVO(document.detailForm)) {
-                    return;
-                }
                 $('#detailForm').attr('method', 'post').attr('action', [[@{/updateSample.do}]]).submit();
             }
         }
@@ -66,7 +68,7 @@
 <body>
 <div id="container" class="inner">
 
-    <!-- Page Title -->
+    <!--/* 타이틀 */-->
     <h2 class="heading-large">
         <span th:if="${not #strings.isEmpty(sampleVO.id)}" th:text="#{button.modify}"></span>
         <span th:unless="${not #strings.isEmpty(sampleVO.id)}" th:text="#{button.create}"></span>
@@ -78,6 +80,11 @@
 	<input type="hidden" th:id="pageIndex" th:name="pageIndex" th:value="${sampleVO.pageIndex}" />
 	<input type="hidden" th:field="*{pageUnit}" />
 	<input type="hidden" th:field="*{pageSize}" />
+
+	<!--/* 서버 검증 오류 */-->
+	<ul class="form-error-list" role="alert" th:if="${#fields.hasErrors('*')}">
+		<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+	</ul>
 
         <div class="conts-wrap">
             <div class="fieldset input-form">
@@ -146,6 +153,7 @@
                                th:readonly="readonly"
                                th:if="${not #strings.isEmpty(sampleVO.id)}">
                         <input type="text" id="regUser" name="regUser" class="krds-input" maxlength="10"
+                               th:value="${sampleVO.regUser}"
                                th:placeholder="#{confirm.required.user}"
                                th:if="${#strings.isEmpty(sampleVO.id)}">
                     </div>
@@ -153,7 +161,7 @@
 
             </div>
 
-            <!-- Action Buttons -->
+            <!--/* 버튼 */-->
             <div class="page-btn-wrap">
                 <div class="btn-wrap">
                     <button type="button" class="krds-btn medium secondary" th:text="#{button.list}"
